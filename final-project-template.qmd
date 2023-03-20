@@ -9,6 +9,7 @@ format: pdf
 ```{r}
 library(dplyr)
 library(readr)
+library(lubridate)
 ```
 
 
@@ -29,7 +30,10 @@ sub_df <-
   select('Date', 'Subways: Total Estimated Ridership', 'Subways: % of Comparable Pre-Pandemic Day') %>%
   na.omit %>%
   filter(!grepl("2023$", Date),
-         !grepl("2020$", Date))
+         !grepl("2020$", Date)) %>%
+  mutate("Date" = mdy(Date),
+         "Day of Week" = weekdays(Date)) %>%
+  select('Day of Week', 'Date', 'Subways: Total Estimated Ridership', 'Subways: % of Comparable Pre-Pandemic Day')
 sub_df
 ```
 
@@ -40,8 +44,15 @@ bus_df <-
   select('Date', 'Buses: Total Estimated Ridership', 'Buses: % of Comparable Pre-Pandemic Day') %>%
   na.omit() %>%
   filter(!grepl("2023$", Date),
-         !grepl("2020$", Date))
+         !grepl("2020$", Date)) %>%
+  mutate("Date" = mdy(Date),
+         "Day of Week" = weekdays(Date)) %>%
+  select('Day of Week', 'Date', 'Buses: Total Estimated Ridership', 'Buses: % of Comparable Pre-Pandemic Day')
 bus_df
+
+
+
+
 ```
 
 
