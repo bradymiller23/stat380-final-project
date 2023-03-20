@@ -4,10 +4,11 @@ format: pdf
 ---
 
 
+##### Loading libraries and reading in data
+
 ```{r}
 library(dplyr)
 library(readr)
-library(readxl)
 ```
 
 
@@ -17,4 +18,33 @@ df <- read_csv(url)
 
 head(df)
 ```
+
+
+##### Creating variable specific data frames
+
+```{r}
+# subways data frame 
+sub_df <-
+  df %>%
+  select('Date', 'Subways: Total Estimated Ridership', 'Subways: % of Comparable Pre-Pandemic Day') %>%
+  na.omit %>%
+  filter(!grepl("2023$", Date),
+         !grepl("2020$", Date))
+sub_df
+```
+
+```{r}
+# buses data frame
+bus_df <-
+  df %>%
+  select('Date', 'Buses: Total Estimated Ridership', 'Buses: % of Comparable Pre-Pandemic Day') %>%
+  na.omit() %>%
+  filter(!grepl("2023$", Date),
+         !grepl("2020$", Date))
+bus_df
+```
+
+
+
+
 
