@@ -4,18 +4,19 @@ format: pdf
 ---
 
 
-##### Loading libraries and reading in data
+##### Loading libraries and reading in data for subways and buses
 
 ```{r}
 library(dplyr)
 library(readr)
 library(lubridate)
+library(readxl)
 ```
 
 
 ```{r}
-url <- "MTA_Daily_Ridership_Data__Beginning_2020.csv"
-df <- read_csv(url)
+url1 <- "MTA_Daily_Ridership_Data__Beginning_2020.csv"
+df <- read_csv(url1)
 
 head(df)
 ```
@@ -50,11 +51,48 @@ bus_df <-
   select('Day of Week', 'Date', 'Buses: Total Estimated Ridership', 'Buses: % of Comparable Pre-Pandemic Day')
 bus_df
 
+```
 
 
+##### Reading in data for weather
+
+
+```{r}
+url2 <- "weather_nyc_2021_2022.xlsx"
+weather_df <- read_excel(url2)
+
+
+head(weather_df)
+```
+
+
+##### Data wrangling weather data frame
+
+
+```{r}
+weather_df <-
+  weather_df %>%
+  select('datetime', 'tempmax', 'tempmin', 'temp', 'precip', 'snow', 'snowdepth', 'windspeed', 'conditions', 'icon')
+weather_df
 
 ```
 
+
+##### Joining the weather data frame with both the bus and subway data frame
+
+```{r}
+sub_df <-
+  sub_df %>%
+  full_join(weather_df, by = c("Date" = "datetime"))
+sub_df
+```
+
+```{r}
+bus_df <-
+  bus_df %>%
+  full_join(weather_df, by = c("Date" = "datetime"))
+bus_df
+```
 
 
 
