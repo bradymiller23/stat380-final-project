@@ -1,0 +1,20 @@
+---
+title: "final-project-template"
+format: pdf
+---
+
+
+```{r}
+library(dplyr)
+library(readr)
+library(readxl)
+```
+
+
+```{r}
+url <- "MTA_Daily_Ridership_Data__Beginning_2020.csv"
+df <- read_csv(url)
+
+head(df)
+```
+
