@@ -1,5 +1,5 @@
 ---
-title: "final-project-template"
+title: "Final Project Preliminary Presentation"
 format: pdf
 ---
 
@@ -8,9 +8,12 @@ format: pdf
 
 ```{r}
 library(dplyr)
+library(tidyr)
 library(readr)
 library(lubridate)
 library(readxl)
+library(ggplot2)
+library(knitr)
 ```
 
 
@@ -18,7 +21,7 @@ library(readxl)
 url1 <- "MTA_Daily_Ridership_Data__Beginning_2020.csv"
 df <- read_csv(url1)
 
-head(df)
+colnames(df) %>% kable()
 ```
 
 
@@ -28,28 +31,40 @@ head(df)
 # subways data frame 
 sub_df <-
   df %>%
-  select('Date', 'Subways: Total Estimated Ridership', 'Subways: % of Comparable Pre-Pandemic Day') %>%
+  # selecting relevant variables
+  select('Date', 'Subways: Total Estimated Ridership', 
+         'Subways: % of Comparable Pre-Pandemic Day') %>%
   na.omit %>%
+  # filtering out any dates in the years 2020 and 2023
   filter(!grepl("2023$", Date),
          !grepl("2020$", Date)) %>%
+  # mutating date to convert is from a "char" data type
+  # creating a new variable that assigns each date their proper day of the week
   mutate("Date" = mdy(Date),
          "Day of Week" = weekdays(Date)) %>%
-  select('Day of Week', 'Date', 'Subways: Total Estimated Ridership', 'Subways: % of Comparable Pre-Pandemic Day')
-sub_df
+  select('Day of Week', 'Date', 'Subways: Total Estimated Ridership',
+         'Subways: % of Comparable Pre-Pandemic Day')
+colnames(sub_df) %>% kable()
 ```
 
 ```{r}
 # buses data frame
 bus_df <-
   df %>%
-  select('Date', 'Buses: Total Estimated Ridership', 'Buses: % of Comparable Pre-Pandemic Day') %>%
+  # selecting relevant variables
+  select('Date', 'Buses: Total Estimated Ridership', 
+         'Buses: % of Comparable Pre-Pandemic Day') %>%
   na.omit() %>%
+  # filtering out any dates in the years 2020 and 2023
   filter(!grepl("2023$", Date),
          !grepl("2020$", Date)) %>%
+  # mutating date to convert is from a "char" data type
+  # creating a new variable that assigns each date their proper day of the week
   mutate("Date" = mdy(Date),
          "Day of Week" = weekdays(Date)) %>%
-  select('Day of Week', 'Date', 'Buses: Total Estimated Ridership', 'Buses: % of Comparable Pre-Pandemic Day')
-bus_df
+  select('Day of Week', 'Date', 'Buses: Total Estimated Ridership', 
+         'Buses: % of Comparable Pre-Pandemic Day')
+colnames(bus_df) %>% kable()
 
 ```
 
@@ -61,8 +76,7 @@ bus_df
 url2 <- "weather_nyc_2021_2022.xlsx"
 weather_df <- read_excel(url2)
 
-
-head(weather_df)
+colnames(weather_df) %>% kable()
 ```
 
 
@@ -72,28 +86,139 @@ head(weather_df)
 ```{r}
 weather_df <-
   weather_df %>%
-  select('datetime', 'tempmax', 'tempmin', 'temp', 'precip', 'snow', 'snowdepth', 'windspeed', 'conditions', 'icon')
-weather_df
+  select('datetime', 'tempmax', 'tempmin', 'temp', 'precip', 'snow', 
+         'snowdepth', 'windspeed', 'conditions', 'icon')
+colnames(weather_df) %>% kable()
 
 ```
 
 
 ##### Joining the weather data frame with both the bus and subway data frame
 
+
 ```{r}
 sub_df <-
   sub_df %>%
-  full_join(weather_df, by = c("Date" = "datetime"))
-sub_df
+  # joining by the 'date' and 'datetime' variables
+  full_join(weather_df, by = c("Date" = "datetime")) %>%
+    mutate(Date = as.Date(Date))
+head(sub_df)
 ```
 
 ```{r}
 bus_df <-
   bus_df %>%
-  full_join(weather_df, by = c("Date" = "datetime"))
-bus_df
+  # joining by the 'date' and 'datetime' variables
+  full_join(weather_df, by = c("Date" = "datetime")) %>%
+  mutate(Date = as.Date(Date))
+head(bus_df)
+```
+
+
+## EDA
+
+
+### Average Ridership by Day of Week
+
+
+##### Subways
+
+
+```{r}
+avg_sub <-
+  sub_df %>%
+  group_by(`Day of Week`) %>%
+  summarize("Avg Subway Ridership" = mean(`Subways: Total Estimated Ridership`)) %>%
+  arrange(desc(`Avg Subway Ridership`))
+
+```
+
+
+##### Buses
+
+
+```{r}
+avg_bus <-
+  bus_df %>%
+  group_by(`Day of Week`) %>%
+  summarize("Avg Bus Ridership" = mean(`Buses: Total Estimated Ridership`)) %>%
+  arrange(desc(`Avg Bus Ridership`))
+
+```
+
+###### Joining both dataframes
+
+```{r}
+joint_avg <-
+  avg_sub %>%
+  full_join(avg_bus) %>%
+  rename("Buses" = `Avg Bus Ridership`, "Subways" = `Avg Subway Ridership`) %>%
+  pivot_longer(!`Day of Week`,
+               names_to = "Category",
+               values_to = "Average Ridership")
+
+day_order <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", 
+               "Saturday", "Sunday")
+joint_avg$`Day of Week` <- factor(joint_avg$`Day of Week`, levels = day_order)
+
+ggplot(joint_avg) +
+  geom_bar(aes(x = `Average Ridership`, y = `Day of Week`,
+               fill = `Day of Week`), stat = "identity") +
+  facet_wrap("Category")
+
 ```
 
 
 
+### Total Ridership by Day of Week
+
+
+##### Subways
+
+
+```{r}
+total_sub <-
+  sub_df %>%
+  group_by(`Day of Week`) %>%
+  summarize("Total Subway Ridership" = sum(`Subways: Total Estimated Ridership`)) %>%
+  arrange(desc(`Total Subway Ridership`))
+
+```
+
+
+##### Buses
+
+
+```{r}
+total_bus <-
+  bus_df %>%
+  group_by(`Day of Week`) %>%
+  summarize("Total Bus Ridership" = sum(`Buses: Total Estimated Ridership`)) %>%
+  arrange(desc(`Total Bus Ridership`))
+
+```
+
+
+###### Joining both dataframes
+
+
+```{r}
+joint_total <-
+  total_sub %>%
+  full_join(total_bus) %>%
+  rename("Buses" = `Total Bus Ridership`, "Subways" = `Total Subway Ridership`) %>%
+  pivot_longer(!`Day of Week`,
+               names_to = "Category",
+               values_to = "Total Ridership")
+
+day_order <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", 
+               "Saturday", "Sunday")
+joint_total$`Day of Week` <- factor(joint_total$`Day of Week`, levels = day_order)
+
+
+ggplot(joint_total) +
+  geom_bar(aes(x = `Total Ridership`, y = `Day of Week`,
+               fill = `Day of Week`), stat = "identity") +
+  facet_wrap("Category")
+```
 
