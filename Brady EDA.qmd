@@ -4,107 +4,6 @@ format: html
 ---
 
 
-### Starter code
-
----
-title: "final-project-template"
-format: pdf
----
-
-
-##### Loading libraries and reading in data for subways and buses
-
-```{r}
-library(dplyr)
-library(readr)
-library(lubridate) 
-library(readxl)
-```
-
-
-```{r}
-url1 <- "MTA_Daily_Ridership_Data__Beginning_2020.csv"
-df <- read_csv(url1)
-
-head(df)
-```
-
-
-##### Creating variable specific data frames
-
-```{r}
-# subways data frame 
-sub_df <-
-  df %>%
-  select('Date', 'Subways: Total Estimated Ridership', 'Subways: % of Comparable Pre-Pandemic Day') %>%
-  na.omit %>%
-  filter(!grepl("2023$", Date),
-         !grepl("2020$", Date)) %>%
-  mutate("Date" = mdy(Date),
-         "Day of Week" = weekdays(Date)) %>%
-  select('Day of Week', 'Date', 'Subways: Total Estimated Ridership', 'Subways: % of Comparable Pre-Pandemic Day')
-sub_df
-```
-
-```{r}
-# buses data frame
-bus_df <-
-  df %>%
-  select('Date', 'Buses: Total Estimated Ridership', 'Buses: % of Comparable Pre-Pandemic Day') %>%
-  na.omit() %>%
-  filter(!grepl("2023$", Date),
-         !grepl("2020$", Date)) %>%
-  mutate("Date" = mdy(Date),
-         "Day of Week" = weekdays(Date)) %>%
-  select('Day of Week', 'Date', 'Buses: Total Estimated Ridership', 'Buses: % of Comparable Pre-Pandemic Day')
-bus_df
-
-```
-
-
-##### Reading in data for weather
-
-
-```{r}
-url2 <- "weather_nyc_2021_2022.xlsx"
-weather_df <- read_excel(url2)
-
-
-head(weather_df)
-```
-
-
-##### Data wrangling weather data frame
-
-
-```{r}
-weather_df <-
-  weather_df %>%
-  select('datetime', 'tempmax', 'tempmin', 'temp', 'precip', 'snow', 'snowdepth', 'windspeed', 'conditions', 'icon')
-weather_df
-
-```
-
-
-##### Joining the weather data frame with both the bus and subway data frame
-
-```{r}
-sub_df <-
-  sub_df %>%
-  full_join(weather_df, by = c("Date" = "datetime"))
-sub_df
-```
-
-```{r}
-bus_df <-
-  bus_df %>%
-  full_join(weather_df, by = c("Date" = "datetime"))
-bus_df
-```
-
-
-
-
 ### Brady EDA
 
 ```{r}
@@ -174,7 +73,7 @@ TransportByIcon
 TransportByIcon %>%
   group_by(icon, TransportationType) %>%
   ggplot() +
-  geom_bar(aes(x = icon, y = Daily, color = icon), stat = 'identity') +
+  geom_bar(aes(x = icon, y = Daily, fill = icon), stat = 'identity') +
   facet_wrap(~TransportationType,scales = 'free_y') + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   ylab('Daily Ridership') +
@@ -186,7 +85,7 @@ TransportByIcon %>%
 TransportByIcon %>%
   group_by(icon, TransportationType) %>%
   ggplot() +
-  geom_bar(aes(x = TransportationType, y = Daily, color = TransportationType), stat = 'identity') +
+  geom_bar(aes(x = TransportationType, y = Daily, fill = TransportationType), stat = 'identity') +
   facet_wrap(~icon, scales = 'free_y') + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   ylab('Daily Ridership') +
@@ -198,7 +97,7 @@ TransportByIcon %>%
   filter(TransportationType == 'Buses'| TransportationType == 'Subway') %>%
   group_by(icon, TransportationType) %>%
   ggplot() +
-  geom_bar(aes(x = TransportationType, y = Daily, color = TransportationType), stat = 'identity') +
+  geom_bar(aes(x = TransportationType, y = Daily, fill = TransportationType), stat = 'identity') +
   facet_wrap(~icon) + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
   ylab('Daily Ridership') +
