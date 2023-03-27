@@ -6,7 +6,7 @@ format: pdf
 
 ##### Loading libraries and reading in data for subways and buses
 
-```{r}
+```{r, message=FALSE}
 library(dplyr)
 library(tidyr)
 library(readr)
@@ -17,7 +17,7 @@ library(knitr)
 ```
 
 
-```{r}
+```{r, message = FALSE}
 url1 <- "MTA_Daily_Ridership_Data__Beginning_2020.csv"
 df <- read_csv(url1)
 
@@ -164,6 +164,7 @@ joint_avg$`Day of Week` <- factor(joint_avg$`Day of Week`, levels = day_order)
 ggplot(joint_avg) +
   geom_bar(aes(x = `Average Ridership`, y = `Day of Week`,
                fill = `Day of Week`), stat = "identity") +
+  ggtitle("Average Ridership by Day of the Week") +
   facet_wrap("Category")
 
 ```
@@ -219,6 +220,137 @@ joint_total$`Day of Week` <- factor(joint_total$`Day of Week`, levels = day_orde
 ggplot(joint_total) +
   geom_bar(aes(x = `Total Ridership`, y = `Day of Week`,
                fill = `Day of Week`), stat = "identity") +
+  ggtitle("Total Ridership by Day of the Week") +
   facet_wrap("Category")
+```
+
+##### Data Wrangling
+
+```{r}
+# making all the NA values ' '
+weather_df$conditions <- ifelse(is.na(weather_df$conditions), "", weather_df$conditions) 
+weather_df$icon <- ifelse(is.na(weather_df$icon), "", weather_df$icon)
+
+# getting rid of 2020 and 2023 dates as we don't want to include those
+df <- df %>%
+    filter(!grepl("2023$", Date),
+         !grepl("2020$", Date))
+
+# changing column names for simplicity
+colnames(df) <- c('Date', 'Subway', 'Subway%', 'Buses', 'Buses%', 'LIRR', 'LIRR%', 'Metro-North', 'Metro-North%', 'AARide', 'AARide%', 'Bridges&Tunnels', 'Bridges&Tunnels%', 'SIRR', 'SIRR%')
+
+# mutating format of date so it can be joined
+weather_df <- weather_df %>% 
+  mutate(datetime = ymd(datetime)) %>% 
+  mutate(datetime = format(datetime, "%m/%d/%Y"))
+
+# joining weather and transportation df
+combined <- weather_df %>%
+  full_join(df, by = c('datetime' = 'Date'))
+```
+
+
+```{r}
+# creating table that has Subway ridership per day by icon
+SubwayByIcon <- combined %>%
+  select(icon, Subway, datetime) %>%
+  group_by(icon) %>%
+  summarize(RidershipPerIcon = sum(Subway)/n())
+```
+
+
+```{r}
+# creating new table that has transportation type so now we can group by type
+TransportByIcon <- combined %>%
+  select(datetime, Subway, Buses, LIRR, 'Metro-North', AARide, 'Bridges&Tunnels', SIRR, icon) %>%
+  pivot_longer(cols = c('Subway', 'Buses', 'LIRR', 'Metro-North', 'AARide', 'Bridges&Tunnels', 'SIRR'), names_to = 'TransportationType', values_to = 'DailyRidership') %>%
+  group_by(icon,TransportationType) %>%
+  na.omit() %>%
+  summarize(Daily = sum(DailyRidership)/n())
+
+```
+
+### Bus and Subway Ridership by Weather Condition
+
+```{r}
+# just doing buses vs subways as they are the most popular so we can see diff better
+TransportByIcon %>%
+  filter(TransportationType == 'Buses'| TransportationType == 'Subway') %>%
+  group_by(icon, TransportationType) %>%
+  ggplot() +
+  geom_bar(aes(x = TransportationType, y = Daily, fill = TransportationType), stat = 'identity') +
+  facet_wrap(~icon) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  ylab('Daily Ridership') +
+  ggtitle('Bus & Subway Daily Ridership for each Weather Condition')
+```
+
+### Subway and Bus Daily Ridership Boxplot
+
+```{r}
+longTable <- combined %>%
+  select(datetime, Subway, Buses, snowdepth, tempmax, tempmin, temp, precip, snow, windspeed, conditions, icon) %>%
+  pivot_longer(cols = c('Subway', 'Buses'), names_to = 'TransportationType', values_to = 'DailyRidership')
+
+
+
+# on a clear day, what transportation method is used most (not considering Subway)
+longTable %>%
+  select(DailyRidership, TransportationType, conditions) %>%
+  filter(TransportationType %in% c('Buses', 'Subway')) %>%
+  filter(conditions == 'Clear') %>%
+  ggplot() +
+  geom_boxplot(aes(x = DailyRidership, y = TransportationType)) +
+  ggtitle("Subway vs. Bus Daily Ridership")
+```
+
+### Ridership for Subways and Buses over the Years
+
+```{r}
+ggplot() +
+  geom_line(data = sub_df, aes(x = Date, y = `Subways: Total Estimated Ridership`, color = "Subway Ridership")) +
+  geom_line(data = bus_df, aes(x = Date, y = `Buses: Total Estimated Ridership`, color = "Bus Ridership")) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "Daily Ridership for Subways and Buses",
+       x = "Date",
+       y = "Total Estimated Ridership",
+       color = "Transportation") +
+  theme_minimal()
+
+```
+
+### Ridership by Temperature and Day of the Week
+
+```{r}
+bus_df$temperature <- cut(sub_df$temp, 
+                          breaks = c(-Inf, 40, 55, 70, 80, Inf),
+                          labels = c("Cold", "Cool", "Mild", "Warm", "Hot"))
+
+day_order <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+bus_df$`Day of Week` <- factor(bus_df$`Day of Week`, levels = day_order)
+
+
+sub_df$temperature <- cut(sub_df$temp, 
+                          breaks = c(-Inf, 40, 55, 70, 80, Inf),
+                          labels = c("Cold", "Cool", "Mild", "Warm", "Hot"))
+
+sub_df$`Day of Week` <- factor(sub_df$`Day of Week`, levels = day_order)
+
+#MAIN PLOTS
+
+ggplot(bus_df, aes(x = `Day of Week`, y = `Buses: Total Estimated Ridership`, fill = temperature)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  scale_fill_brewer(palette = "RdYlBu", direction = -1) +
+  labs(x = "Day of the week", y = "Ridership", fill = "Temperature") +
+  ggtitle("Bus Ridership by Temperature and Day of the Week") +
+  theme_minimal(base_size = 10)
+
+
+ggplot(sub_df, aes(x = `Day of Week`, y = `Subways: Total Estimated Ridership`, fill = temperature)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  scale_fill_brewer(palette = "RdYlBu", direction = -1) +
+  labs(x = "Day of the week", y = "Ridership", fill = "Temperature") +
+  ggtitle("Subway Ridership by Temperature and Day of the Week") +
+  theme_minimal(base_size = 10)
 ```
 
