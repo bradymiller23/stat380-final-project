@@ -1,0 +1,251 @@
+---
+title: "Brady EDA"
+format: html
+---
+
+
+### Starter code
+
+---
+title: "final-project-template"
+format: pdf
+---
+
+
+##### Loading libraries and reading in data for subways and buses
+
+```{r}
+library(dplyr)
+library(readr)
+library(lubridate) 
+library(readxl)
+```
+
+
+```{r}
+url1 <- "MTA_Daily_Ridership_Data__Beginning_2020.csv"
+df <- read_csv(url1)
+
+head(df)
+```
+
+
+##### Creating variable specific data frames
+
+```{r}
+# subways data frame 
+sub_df <-
+  df %>%
+  select('Date', 'Subways: Total Estimated Ridership', 'Subways: % of Comparable Pre-Pandemic Day') %>%
+  na.omit %>%
+  filter(!grepl("2023$", Date),
+         !grepl("2020$", Date)) %>%
+  mutate("Date" = mdy(Date),
+         "Day of Week" = weekdays(Date)) %>%
+  select('Day of Week', 'Date', 'Subways: Total Estimated Ridership', 'Subways: % of Comparable Pre-Pandemic Day')
+sub_df
+```
+
+```{r}
+# buses data frame
+bus_df <-
+  df %>%
+  select('Date', 'Buses: Total Estimated Ridership', 'Buses: % of Comparable Pre-Pandemic Day') %>%
+  na.omit() %>%
+  filter(!grepl("2023$", Date),
+         !grepl("2020$", Date)) %>%
+  mutate("Date" = mdy(Date),
+         "Day of Week" = weekdays(Date)) %>%
+  select('Day of Week', 'Date', 'Buses: Total Estimated Ridership', 'Buses: % of Comparable Pre-Pandemic Day')
+bus_df
+
+```
+
+
+##### Reading in data for weather
+
+
+```{r}
+url2 <- "weather_nyc_2021_2022.xlsx"
+weather_df <- read_excel(url2)
+
+
+head(weather_df)
+```
+
+
+##### Data wrangling weather data frame
+
+
+```{r}
+weather_df <-
+  weather_df %>%
+  select('datetime', 'tempmax', 'tempmin', 'temp', 'precip', 'snow', 'snowdepth', 'windspeed', 'conditions', 'icon')
+weather_df
+
+```
+
+
+##### Joining the weather data frame with both the bus and subway data frame
+
+```{r}
+sub_df <-
+  sub_df %>%
+  full_join(weather_df, by = c("Date" = "datetime"))
+sub_df
+```
+
+```{r}
+bus_df <-
+  bus_df %>%
+  full_join(weather_df, by = c("Date" = "datetime"))
+bus_df
+```
+
+
+
+
+### Brady EDA
+
+```{r}
+library(lubridate)
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r}
+# making all the NA values ' '
+weather_df$conditions <- ifelse(is.na(weather_df$conditions), "", weather_df$conditions) 
+weather_df$icon <- ifelse(is.na(weather_df$icon), "", weather_df$icon)
+```
+
+
+```{r}
+# getting rid of 2020 and 2023 dates as we don't want to include those
+df <- df %>%
+    filter(!grepl("2023$", Date),
+         !grepl("2020$", Date))
+```
+
+```{r}
+# changing column names for simplicity
+colnames(df) <- c('Date', 'Subway', 'Subway%', 'Buses', 'Buses%', 'LIRR', 'LIRR%', 'Metro-North', 'Metro-North%', 'AARide', 'AARide%', 'Bridges&Tunnels', 'Bridges&Tunnels%', 'SIRR', 'SIRR%')
+```
+
+```{r}
+# mutating format of date so it can be joined
+weather_df <- weather_df %>% 
+  mutate(datetime = ymd(datetime)) %>% 
+  mutate(datetime = format(datetime, "%m/%d/%Y"))
+```
+
+```{r}
+# joining weather and transportation df
+combined <- weather_df %>%
+  full_join(df, by = c('datetime' = 'Date'))
+```
+
+
+```{r}
+# creating table that has Subway ridership per day by icon
+SubwayByIcon <- combined %>%
+  select(icon, Subway, datetime) %>%
+  group_by(icon) %>%
+  summarize(RidershipPerIcon = sum(Subway)/n())
+```
+
+
+```{r}
+# creating new table that has transportation type so now we can group by type
+TransportByIcon <- combined %>%
+  select(datetime, Subway, Buses, LIRR, 'Metro-North', AARide, 'Bridges&Tunnels', SIRR, icon) %>%
+  pivot_longer(cols = c('Subway', 'Buses', 'LIRR', 'Metro-North', 'AARide', 'Bridges&Tunnels', 'SIRR'), names_to = 'TransportationType', values_to = 'DailyRidership') %>%
+  group_by(icon,TransportationType) %>%
+  na.omit() %>%
+  summarize(Daily = sum(DailyRidership)/n())
+
+TransportByIcon
+```
+
+
+
+```{r}
+# seeeing distribution of ridership for each weather event for a given transportation method
+TransportByIcon %>%
+  group_by(icon, TransportationType) %>%
+  ggplot() +
+  geom_bar(aes(x = icon, y = Daily, color = icon), stat = 'identity') +
+  facet_wrap(~TransportationType,scales = 'free_y') + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ylab('Daily Ridership') +
+  xlab('Weather')
+```
+
+```{r}
+# seeeing distribution of transportation type for each icon/weather condition
+TransportByIcon %>%
+  group_by(icon, TransportationType) %>%
+  ggplot() +
+  geom_bar(aes(x = TransportationType, y = Daily, color = TransportationType), stat = 'identity') +
+  facet_wrap(~icon, scales = 'free_y') + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ylab('Daily Ridership') +
+  ggtitle('Daily Ridership for Every Weather Condition Broken Down by Transportation Type')
+```
+```{r}
+# just doing buses vs subways as they are the most popular so we can see diff better
+TransportByIcon %>%
+  filter(TransportationType == 'Buses'| TransportationType == 'Subway') %>%
+  group_by(icon, TransportationType) %>%
+  ggplot() +
+  geom_bar(aes(x = TransportationType, y = Daily, color = TransportationType), stat = 'identity') +
+  facet_wrap(~icon) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  ylab('Daily Ridership') +
+  ggtitle('Bus & Subway Daily Ridership for each Weather Condition')
+```
+
+
+```{r}
+# seeing how ridership changes when snow depth is > 1
+snow <- combined %>%
+  filter(snowdepth > 1) %>%
+  select(datetime, Subway, Buses, LIRR, 'Metro-North', AARide, 'Bridges&Tunnels', 'SIRR', snowdepth) %>%
+  pivot_longer(cols = c('Subway', 'Buses', 'LIRR', 'Metro-North', 'AARide', 'Bridges&Tunnels', 'SIRR'), names_to = 'TransportationType', values_to = 'DailyRidership') %>%
+  mutate(DailyRidership = DailyRidership/1000000)
+  
+snow %>%
+  filter(TransportationType %in% c('Subway','Buses', 'LIRR', 'Bridges&Tunnels')) %>%
+  ggplot() + 
+  geom_point(aes(x = snowdepth, y = DailyRidership, color = TransportationType)) +
+  xlab('Snow Depth(in.)') + 
+  ylab('Daily Ridership (in millions)') + 
+  labs(color = "Transportation Type") +
+  ggtitle('Effect of Snow Depth on Daily Ridership')
+```
+
+
+
+```{r}
+longTable <- combined %>%
+  select(datetime, Subway, Buses, LIRR, 'Metro-North', AARide, 'Bridges&Tunnels', 'SIRR', snowdepth, tempmax, tempmin, temp, precip, snow, windspeed, conditions, icon) %>%
+  pivot_longer(cols = c('Subway', 'Buses', 'LIRR', 'Metro-North', 'AARide', 'Bridges&Tunnels', 'SIRR'), names_to = 'TransportationType', values_to = 'DailyRidership')
+
+
+
+# on a clear day, what transportation method is used most (not considering Subway)
+longTable %>%
+  select(DailyRidership, TransportationType, conditions) %>%
+  filter(TransportationType %in% c('SIRR', 'AARide', 'Metro-North','Buses', 'LIRR', 'Bridges&Tunnels')) %>%
+  filter(conditions == 'Clear') %>%
+  ggplot() +
+  geom_boxplot(aes(x = DailyRidership, y = TransportationType))
+```
+
+```{r}
+longTable %>%
+  filter(TransportationType == 'Subway') %>%
+  ggplot() + 
+  geom_point(aes(x = datetime, y = DailyRidership)) + 
+  ggtitle('Subway Daily Ridership From 2021-2023')
+```
