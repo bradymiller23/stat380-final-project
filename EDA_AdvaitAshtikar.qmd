@@ -1,0 +1,235 @@
+---
+title: "Investigating traffic patterns of public transportation in NYC influenced by different conditions"
+author: "Advait Ashtikar"
+format: pdf
+editor: visual
+---
+
+### Loading libraries and reading in data for subways and buses
+
+```{r}
+library(dplyr)
+library(readr)
+library(lubridate)
+library(readxl)
+library(ggplot2)
+library(tidyr)
+library(scales)
+library(prophet)
+```
+
+```{r}
+url1 <- "MTA_Daily_Ridership_Data__Beginning_2020.csv"
+df <- read_csv(url1)
+
+head(df)
+```
+
+### Creating variable specific data frames
+
+```{r}
+# subways data frame 
+sub_df <-
+  df %>%
+  select('Date', 'Subways: Total Estimated Ridership', 'Subways: % of Comparable Pre-Pandemic Day') %>%
+  na.omit %>%
+  filter(!grepl("2023$", Date),
+         !grepl("2020$", Date)) %>%
+  mutate("Date" = mdy(Date),
+         "Day of Week" = weekdays(Date)) %>%
+  select('Day of Week', 'Date', 'Subways: Total Estimated Ridership', 'Subways: % of Comparable Pre-Pandemic Day')
+sub_df
+```
+
+```{r}
+# buses data frame
+bus_df <-
+  df %>%
+  select('Date', 'Buses: Total Estimated Ridership', 'Buses: % of Comparable Pre-Pandemic Day') %>%
+  na.omit() %>%
+  filter(!grepl("2023$", Date),
+         !grepl("2020$", Date)) %>%
+  mutate("Date" = mdy(Date),
+         "Day of Week" = weekdays(Date)) %>%
+  select('Day of Week', 'Date', 'Buses: Total Estimated Ridership', 'Buses: % of Comparable Pre-Pandemic Day')
+bus_df
+
+```
+
+### Reading in data for weather
+
+```{r}
+url2 <- "weather_nyc_2021_2022.xlsx"
+weather_df <- read_excel(url2)
+
+
+head(weather_df)
+```
+
+### Data wrangling weather data frame
+
+```{r}
+weather_df <-
+  weather_df %>%
+  select('datetime', 'tempmax', 'tempmin', 'temp', 'precip', 'snow', 'snowdepth', 'windspeed', 'conditions', 'icon')
+weather_df
+
+```
+
+### Joining the weather data frame with both the bus and subway data frame
+
+```{r}
+sub_df <-
+  sub_df %>%
+  full_join(weather_df, by = c("Date" = "datetime"))
+sub_df
+```
+
+```{r}
+bus_df <-
+  bus_df %>%
+  full_join(weather_df, by = c("Date" = "datetime"))
+bus_df
+```
+
+### EDA
+
+Summary statistics for the datasets
+
+```{r}
+summary(sub_df)
+summary(bus_df)
+```
+
+Correlation between variables
+
+```{r}
+cor(sub_df %>%
+      select(-c('Day of Week', 'Date', 'conditions', 'icon')))
+cor(bus_df %>%
+      select(-c('Day of Week', 'Date', 'conditions', 'icon')))
+```
+
+Visualizations:
+
+1.  Ridership trends over time
+
+```{r}
+ggplot() +
+  geom_line(data = sub_df, aes(x = Date, y = `Subways: Total Estimated Ridership`, color = "Subway Ridership")) +
+  geom_line(data = bus_df, aes(x = Date, y = `Buses: Total Estimated Ridership`, color = "Bus Ridership")) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "Daily Ridership for Subways and Buses",
+       x = "Date",
+       y = "Total Estimated Ridership",
+       color = "Transportation") +
+  theme_minimal()
+
+```
+
+2.  Ridership by day of the week
+
+```{r}
+sub_df_agg <- sub_df %>% group_by(`Day of Week`) %>% summarise(`Subways: Total Estimated Ridership` = mean(`Subways: Total Estimated Ridership`))
+bus_df_agg <- bus_df %>% group_by(`Day of Week`) %>% summarise(`Buses: Total Estimated Ridership` = mean(`Buses: Total Estimated Ridership`))
+
+ridership_agg <- full_join(sub_df_agg, bus_df_agg, by = "Day of Week") %>% gather(key = "Transportation", value = "Ridership", -`Day of Week`)
+
+ggplot(data = ridership_agg, aes(x = `Day of Week`, y = Ridership, fill = Transportation)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Average Ridership by Day of the Week",
+       x = "Day of the Week",
+       y = "Average Ridership",
+       fill = "Transportation") +
+  theme_minimal()
+
+```
+
+3.  Scatterplot of ridership against temperature
+
+```{r}
+ggplot(sub_df, aes(x = temp, y = `Subways: Total Estimated Ridership`, color = `Subways: % of Comparable Pre-Pandemic Day`)) +
+  geom_point() +
+  scale_color_gradient(low = "red", high = "blue") +
+  labs(title = "Subway Ridership vs. Temperature",
+       x = "Temperature (°F)",
+       y = "Total Estimated Ridership",
+       color = "Percentage of\nPre-Pandemic Ridership") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(bus_df, aes(x = temp, y = `Buses: Total Estimated Ridership`, color = `Buses: % of Comparable Pre-Pandemic Day`)) +
+  geom_point() +
+  scale_color_gradient(low = "red", high = "blue") +
+  labs(title = "Bus Ridership vs. Temperature",
+       x = "Temperature (°F)",
+       y = "Total Estimated Ridership",
+       color = "Percentage of\nPre-Pandemic Ridership") +
+  theme_minimal()
+```
+
+4.  Boxplot of ridership by day of the week
+
+```{r}
+ggplot(sub_df, aes(x = `Day of Week`, y = `Subways: Total Estimated Ridership`, fill = `Day of Week`)) +
+  geom_boxplot() +
+  labs(title = "Subway Ridership by Day of the Week",
+       x = "Day of the Week",
+       y = "Total Estimated Ridership") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(bus_df, aes(x = `Day of Week`, y = `Buses: Total Estimated Ridership`, fill = `Day of Week`)) +
+  geom_boxplot() +
+  labs(title = "Bus Ridership by Day of the Week",
+       x = "Day of the Week",
+       y = "Total Estimated Ridership") +
+  theme_minimal()
+
+```
+
+5.  Ridership vs Precipitation
+
+```{r}
+ggplot(sub_df, aes(x = precip, y = `Subways: Total Estimated Ridership`, color = `Subways: % of Comparable Pre-Pandemic Day`)) +
+  geom_point() +
+  scale_color_gradient(low = "red", high = "blue") +
+  labs(title = "Subway Ridership vs. Precipitation",
+       x = "Precipitation (inches)",
+       y = "Total Estimated Ridership",
+       color = "Percentage of\nPre-Pandemic Ridership") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(bus_df, aes(x = precip, y = `Buses: Total Estimated Ridership`, color = `Buses: % of Comparable Pre-Pandemic Day`)) +
+  geom_point() +
+  scale_color_gradient(low = "red", high = "blue") +
+  labs(title = "Bus Ridership vs. Precipitation",
+       x = "Precipitation (inches)",
+       y = "Total Estimated Ridership",
+       color = "Percentage of\nPre-Pandemic Ridership") +
+  theme_minimal()
+```
+
+6.  Histogram of ridership distribution
+
+```{r}
+ggplot(sub_df, aes(x = `Subways: Total Estimated Ridership`)) +
+  geom_histogram(binwidth = 50000, fill = "steelblue", color = "black") +
+  labs(title = "Distribution of Subway Ridership",
+       x = "Total Estimated Ridership",
+       y = "Frequency") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(bus_df, aes(x = `Buses: Total Estimated Ridership`)) +
+  geom_histogram(binwidth = 10000, fill = "steelblue", color = "black") +
+  labs(title = "Distribution of Bus Ridership",
+       x = "Total Estimated Ridership",
+       y = "Frequency") +
+  theme_minimal()
+```
