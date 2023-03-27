@@ -352,5 +352,5 @@ ggplot(sub_df, aes(x = `Day of Week`, y = `Subways: Total Estimated Ridership`, 
   labs(x = "Day of the week", y = "Ridership", fill = "Temperature") +
   ggtitle("Subway Ridership by Temperature and Day of the Week") +
   theme_minimal(base_size = 10)
-```
+``` 
 
