@@ -1,0 +1,349 @@
+---
+title: "final-project-template"
+format: pdf
+---
+
+
+```{r}
+library(dplyr)
+library(readr)
+library(readxl)
+library(lubridate)
+library(gridExtra)
+library(ggplot2)
+```
+
+
+```{r}
+url <- "/Users/greenerpartners/Downloads/MTA_Daily_Ridership_Data__Beginning_2020.csv"
+df <- read_csv(url)
+
+head(df)
+```
+
+
+
+
+##### Creating variable specific data frames
+
+```{r}
+# subways data frame 
+sub_df <-
+  df %>%
+  select('Date', 'Subways: Total Estimated Ridership', 'Subways: % of Comparable Pre-Pandemic Day') %>%
+  na.omit %>%
+  filter(!grepl("2023$", Date),
+         !grepl("2020$", Date)) %>%
+  mutate("Date" = mdy(Date),
+         "Day of Week" = weekdays(Date)) %>%
+  select('Day of Week', 'Date', 'Subways: Total Estimated Ridership', 'Subways: % of Comparable Pre-Pandemic Day')
+sub_df
+```
+
+```{r}
+# buses data frame
+bus_df <-
+  df %>%
+  select('Date', 'Buses: Total Estimated Ridership', 'Buses: % of Comparable Pre-Pandemic Day') %>%
+  na.omit() %>%
+  filter(!grepl("2023$", Date),
+         !grepl("2020$", Date)) %>%
+  mutate("Date" = mdy(Date),
+         "Day of Week" = weekdays(Date)) %>%
+  select('Day of Week', 'Date', 'Buses: Total Estimated Ridership', 'Buses: % of Comparable Pre-Pandemic Day')
+bus_df
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+```{r}
+
+##### Reading in data for weather
+
+
+url2 <- "/Users/greenerpartners/Downloads/weather_nyc_2021_2022.xlsx"
+weather_df <- read_excel(url2)
+head(weather_df)
+```
+
+
+##### Data wrangling weather data frame
+
+
+```{r}
+weather_df <-
+  weather_df %>%
+  select('datetime', 'tempmax', 'tempmin', 'temp', 'precip', 'snow', 'snowdepth', 'windspeed', 'conditions', 'icon')
+weather_df
+```
+
+
+##### Joining the weather data frame with both the bus and subway data frame
+
+```{r}
+sub_df <-
+  sub_df %>%
+  full_join(weather_df, by = c("Date" = "datetime"))
+sub_df
+```
+
+```{r}
+bus_df <-
+  bus_df %>%
+  full_join(weather_df, by = c("Date" = "datetime"))
+bus_df
+```
+
+    
+    
+```{r}
+
+```
+
+
+
+
+```{r}
+#Everything commented out - don't need anymore
+
+#bus_df <- 
+ # bus_df %>%
+  #rename("Day" = "Day of Week",
+         #"Ridership" = "Buses: Total Estimated Ridership") 
+
+#ggplot(bus_df, aes(x = Day, y = Ridership, fill = temperature)) +
+ # geom_bar(position = "dodge", stat = "identity") +
+#  scale_fill_brewer(palette = "RdYlBu", direction = -1) +
+ # labs(x = "Day of the week", y = "Ridership", fill = "Temperature") +
+#  ggtitle("Bus Ridership by Temperature and Day of the Week") +
+ # theme_minimal()
+
+#sub_df <- 
+ # sub_df %>%
+  #rename("Day" = "Day of Week",
+         #"Ridership" = "Subways: Total Estimated Ridership")
+
+#ggplot(sub_df, aes(x = Day, y = Ridership, fill = temperature)) +
+ # geom_bar(position = "dodge", stat = "identity") +
+#  scale_fill_brewer(palette = "RdYlBu", direction = -1) +
+ # labs(x = "Day of the week", y = "Ridership", fill = "Temperature") +
+#  ggtitle("Subway Ridership by Temperature and Day of the Week") +
+ # theme_minimal()
+
+
+
+
+
+bus_df$temperature <- cut(sub_df$temp, 
+                          breaks = c(-Inf, 40, 55, 70, 80, Inf),
+                          labels = c("Cold", "Cool", "Mild", "Warm", "Hot"))
+
+day_order <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+bus_df$`Day of Week` <- factor(bus_df$`Day of Week`, levels = day_order)
+
+
+sub_df$temperature <- cut(sub_df$temp, 
+                          breaks = c(-Inf, 40, 55, 70, 80, Inf),
+                          labels = c("Cold", "Cool", "Mild", "Warm", "Hot"))
+
+sub_df$`Day of Week` <- factor(sub_df$`Day of Week`, levels = day_order)
+
+#MAIN PLOTS
+
+ggplot(bus_df, aes(x = `Day of Week`, y = `Buses: Total Estimated Ridership`, fill = temperature)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  scale_fill_brewer(palette = "RdYlBu", direction = -1) +
+  labs(x = "Day of the week", y = "Ridership", fill = "Temperature") +
+  ggtitle("Bus Ridership by Temperature and Day of the Week") +
+  theme_minimal()
+
+
+ggplot(sub_df, aes(x = `Day of Week`, y = `Subways: Total Estimated Ridership`, fill = temperature)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  scale_fill_brewer(palette = "RdYlBu", direction = -1) +
+  labs(x = "Day of the week", y = "Ridership", fill = "Temperature") +
+  ggtitle("Subway Ridership by Temperature and Day of the Week") +
+  theme_minimal()
+
+
+#To put them side-by-side
+#grid.arrange(bus_plot, sub_plot, ncol = 2)
+
+
+# Other Potential plots
+
+ggplot(data=bus_df, aes(x=temperature, y= `Buses: Total Estimated Ridership`, fill=`Day of Week`)) +
+    geom_bar(stat="identity") +
+    labs(x = "Temperature", y = "Ridership", fill = "Day of the Week") +
+    ggtitle("Bus Ridership by Temperature and Day of the Week") +
+    theme_minimal()
+
+
+ggplot(data=sub_df, aes(x=temperature, y=`Subways: Total Estimated Ridership`, fill=`Day of Week`)) +
+    geom_bar(stat="identity") +
+    labs(x = "Temperature", y = "Ridership", fill = "Day of the week") +
+    ggtitle("Subway Ridership by Temperature and Day of the Week") +
+    theme_minimal()
+
+
+ggplot(data=bus_df, aes(x=icon, y=`Buses: Total Estimated Ridership`, fill=`Day of Week`)) +
+    geom_bar(stat="identity", position=position_dodge()) +
+    labs(x = "Weather Conditions", y = "Ridership", fill = "Day of the Week") +
+    ggtitle("Bus Ridership by Temperature and Day of the Week") +
+    theme_minimal()
+
+
+ggplot(data=sub_df, aes(x=icon, y=`Subways: Total Estimated Ridership`, fill=`Day of Week`)) +
+    geom_bar(stat="identity", position=position_dodge()) +
+    labs(x = "Weather Conditions", y = "Ridership", fill = "Day of the Week") +
+    ggtitle("Subway Ridership by Temperature and Day of the Week") +
+    theme_minimal()
+```
+
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+
+```{r}
+
+```
+
+
+
+```{r}
+
+```
+
+
+
+```{r}
+
+```
+
+
+
+```{r}
+
+```
+
+
+
+
+```{r}
+
+```
+
+
+
+```{r}
+
+```
+
+
+
+```{r}
+
+```
+
+
+
+```{r}
+
+```
+
+
+
+```{r}
+
+```
+
+
+
+```{r}
+
+```
+
+
+
+```{r}
+
+```
+
+
+
+```{r}
+
+```
+
+
+
+```{r}
+
+```
+
+
+
+```{r}
+
+```
+
+
+
+
+
+```{r}
+
+```
+
+
+
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+
+
+
+```{r}
+
+```
+
+
+
+
+
+```{r}
+
+```

@@ -1,0 +1,208 @@
+---
+title: "Alvaro's EDA"
+author: "Alvaro Tapia"
+title-block-banner: true
+title-block-style: default
+toc: true
+format: html
+#format: pdf
+---
+
+### Creating EDA
+
+
+##### Loading libraries and reading in data for subways and buses
+
+```{R}
+library(dplyr)
+library(readr)
+library(tidyr)
+library(knitr)
+library(readxl)
+library(lubridate)
+library(gridExtra)
+library(ggplot2)
+```
+
+
+```{R}
+url1 <- "MTA_Daily_Ridership_Data__Beginning_2020.csv"
+df <- read_csv(url1)
+```
+
+
+##### Creating variable specific data frames
+
+```{R}
+# subways data frame 
+sub_df <-
+  df %>%
+  select('Date', 'Subways: Total Estimated Ridership', 'Subways: % of Comparable Pre-Pandemic Day') %>%
+  na.omit %>%
+  filter(!grepl("2023$", Date),
+         !grepl("2020$", Date)) %>%
+  mutate("Date" = mdy(Date),
+         "Day of Week" = weekdays(Date)) %>%
+  select('Day of Week', 'Date', 'Subways: Total Estimated Ridership', 'Subways: % of Comparable Pre-Pandemic Day')
+sub_df
+```
+
+```{R}
+# buses data frame
+bus_df <-
+  df %>%
+  select('Date', 'Buses: Total Estimated Ridership', 'Buses: % of Comparable Pre-Pandemic Day') %>%
+  na.omit() %>%
+  filter(!grepl("2023$", Date),
+         !grepl("2020$", Date)) %>%
+  mutate("Date" = mdy(Date),
+         "Day of Week" = weekdays(Date)) %>%
+  select('Day of Week', 'Date', 'Buses: Total Estimated Ridership', 'Buses: % of Comparable Pre-Pandemic Day')
+bus_df
+```
+
+```{R}
+##### Reading in data for weather
+weather_url <- "weather_nyc_2021_2022.xlsx"
+weather_df <- read_excel(weather_url)
+head(weather_df)
+```
+
+##### Reading in data for weather
+
+
+```{R}
+url2 <- "weather_nyc_2021_2022.xlsx"
+weather_df <- read_excel(url2)
+head(weather_df)
+```
+
+##### Data wrangling weather data frame
+
+
+```{R}
+weather_df <-
+  weather_df %>%
+  select('datetime', 'tempmax', 'tempmin', 'temp', 'precip', 'snow', 'snowdepth', 'windspeed', 'conditions', 'icon')
+head(weather_df)
+```
+
+
+##### Joining the weather data frame with both the bus and subway data frame
+
+```{R}
+sub_df <-
+  sub_df %>%
+  full_join(weather_df, by = c("Date" = "datetime"))
+sub_df
+```
+
+```{R}
+bus_df <-
+  bus_df %>%
+  full_join(weather_df, by = c("Date" = "datetime"))
+bus_df
+```
+
+
+### ALVARO EDA
+
+Doing an all time estimated ridership for buses and subways
+
+
+```{R}
+ggplot() +
+  geom_line(data = sub_df, aes(x = Date, y = `Subways: Total Estimated Ridership`), color = "steelblue", size = 1) +
+  geom_line(data = bus_df, aes(x = Date, y = `Buses: Total Estimated Ridership`), color = "darkorange", size = 1) +
+  scale_y_continuous(labels = scales::comma, expand = c(0, 0, 0.05, 0)) +
+  labs(title = "Ridership for Subways and Buses",
+       subtitle = "Comparison of estimated ridership for subways and buses",
+       x = "Date",
+       y = "Total Estimated Ridership") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 18, face = "bold"),
+        plot.subtitle = element_text(size = 14),
+        axis.title = element_text(size = 14),
+        axis.text = element_text(size = 12),
+        legend.title = element_blank(),
+        legend.text = element_text(size = 10),
+        plot.caption = element_text(hjust = 1, size = 10, color = "gray50"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank())
+```
+
+Since we have already done the correlation between temperature and precipitation, I'll be doing for snow and snowdepth.
+
+For subway and bus ridership vs. snow and also creating a trend line:
+
+```{R}
+#Subway vs. snow
+ggplot(data = sub_df, aes(x = snow, y = `Subways: Total Estimated Ridership`)) +
+  geom_point(color = "black", alpha = 0.5, size = 2) +
+  scale_color_gradient(low = "red", high = "green") +
+  labs(title = "Subway Ridership vs Snow",
+       x = "Snow (in inches)",
+       y = "Total Estimated Ridership") +
+  theme_minimal(base_size = 14) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 18),
+        axis.title = element_text(face = "bold", size = 16),
+        axis.text = element_text(size = 14)) +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+```{R}
+#Buses vs. snow
+ggplot(data = bus_df, aes(x = snow, y = `Buses: Total Estimated Ridership`)) +
+  geom_point(color = "black", alpha = 0.5, size = 2) +
+  scale_color_gradient(low = "red", high = "green") +
+  labs(title = "Buses Ridership vs Snow",
+       x = "Snow (in inches)",
+       y = "Total Estimated Ridership") +
+  theme_minimal(base_size = 14) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 18),
+        axis.title = element_text(face = "bold", size = 16),
+        axis.text = element_text(size = 14)) +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+For subway and bus ridership vs. snowdepth:
+
+```{R}
+#Subway
+ggplot(data = sub_df, aes(x = snowdepth, y = `Subways: Total Estimated Ridership`)) +
+  geom_point(color = "#0072B2", size = 2) +
+  labs(title = "Subway Ridership vs Snow Depth",
+       x = "Snow Depth (in inches)",
+       y = "Total Estimated Ridership") +
+  theme_minimal(base_size = 14) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 18),
+        axis.title = element_text(face = "bold", size = 16),
+        axis.text = element_text(size = 14),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        axis.line = element_line(colour = "#333333")) +
+  scale_y_continuous(labels = scales::comma) +
+  expand_limits(y = 0)
+```
+
+```{R}
+#Bus
+ggplot(data = bus_df, aes(x = snowdepth, y = `Buses: Total Estimated Ridership`)) +
+  geom_point(color = "#0072B2", size = 2) +
+  labs(title = "Buses Ridership vs Snow Depth",
+       x = "Snow Depth (in inches)",
+       y = "Total Estimated Ridership") +
+  theme_minimal(base_size = 14) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 18),
+        axis.title = element_text(face = "bold", size = 16),
+        axis.text = element_text(size = 14),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        axis.line = element_line(colour = "#333333")) +
+  scale_y_continuous(labels = scales::comma) +
+  expand_limits(y = 0)
+```
