@@ -3,6 +3,8 @@ title: "final project"
 format: pdf
 ---
 
+##### Loading the libraries
+
 ```{r, message=FALSE}
 library(dplyr)
 library(tidyr)
@@ -12,6 +14,8 @@ library(readxl)
 library(ggplot2)
 library(knitr)
 ```
+
+##### Reading in the data and doing general data wrangling
 
 
 ```{r, message = FALSE}
@@ -93,6 +97,55 @@ bus_df <-
 ```
 
 
+
+
+#### Using K-FOld Cross Validation to split the data
+
+```{R}
+k <- 5 
+
+make_folds <- function(sub_df, k){
+  folds <- sample(1:k, nrow(sub_df), replace = T)
+
+  df_folds <- list()
+
+  for (i in 1:k){
+    
+    df_folds[[i]] <- list()
+    
+    df_folds[[i]]$train = sub_df[which(folds != i), ]
+    
+    df_folds[[i]]$test = sub_df[which(folds == i), ]
+  }
+  return(df_folds)
+}
+```
+
+```{R}
+cv_mspe <- function(formula, df_folds){
+  kfold_mspe <- c()
+  
+  for (i in 1:length(df_folds)){
+    
+    model <- lm(formula, df_folds[[i]]$train)
+    
+    y_hat <- predict(model, df_folds[[i]]$test)
+    
+    kfold_mspe[i] <- mean((y_hat - df_folds[[i]]$test$medv)^2)
+  }
+  return(mean(kfold_mspe))
+}
+```
+
+```{R}
+df_folds <- make_folds(df, 5)
+df_folds[[1]]$test
+```
+
+```{R}
+# replace medv with our response
+cv_mspe(medv ~ ., df_folds)
+```
 
 
 
