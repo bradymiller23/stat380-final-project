@@ -162,32 +162,40 @@ make_folds <- function(sub_df, k){
 }
 ```
 
+
 ```{R}
+# a lot of the following code does not work due to us not having a model as of typing this
+
 cv_mspe <- function(formula, df_folds){
   kfold_mspe <- c()
   
   for (i in 1:length(df_folds)){
-    
+    # change model to fit our project
     model <- lm(formula, df_folds[[i]]$train)
-    
+    # change model again
     y_hat <- predict(model, df_folds[[i]]$test)
-    
+    # change the response from 'medv' to our response
     kfold_mspe[i] <- mean((y_hat - df_folds[[i]]$test$medv)^2)
   }
   return(mean(kfold_mspe))
 }
 ```
 
+
 ```{R}
+# calling the make_folds() function
 df_folds <- make_folds(df, 5)
+
+# you can specify the particular fold as well as the training/testing data
+# just change the index from any number between 1 and k
 df_folds[[1]]$test
 ```
+
 
 ```{R}
 # replace medv with our response
 cv_mspe(medv ~ ., df_folds)
 ```
-
 
 
 
