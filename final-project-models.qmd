@@ -140,7 +140,7 @@ order = 'hclust', type = 'upper')
 
 
 
-#### Using K-FOld Cross Validation to split the data
+#### Using K-Fold Cross Validation to split the data
 
 ```{R}
 k <- 5 
