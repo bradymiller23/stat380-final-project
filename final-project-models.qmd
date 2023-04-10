@@ -95,6 +95,46 @@ bus_df <-
 
 
 
+### Creation of corrplots to determine if there is any correlation 
+
+```{r}
+df_busCorr <- bus_df %>%
+  select(`Buses: Total Estimated Ridership`, temp, precip, snowdepth, windspeed) %>%
+  cor()
+# creating corrplot
+corrplot(df_busCorr, method = 'color', tl.cex = 0.9, tl.col = 'black',
+order = 'hclust', type = 'upper')
+
+
+
+df_busCorr2 <- bus_df %>%
+  select(`Buses: Total Estimated Ridership`, tempmin, tempmax, temp, precip, snowdepth, snow, windspeed) %>%
+  cor()
+# creating corrplot
+corrplot(df_busCorr2, method = 'color', tl.cex = 0.9, tl.col = 'black',
+order = 'hclust', type = 'upper')
+```
+
+
+```{r}
+df_subCorr <- sub_df %>%
+  select(`Subways: Total Estimated Ridership`, temp, precip, snowdepth, windspeed) %>%
+  cor()
+# creating corrplot
+corrplot(df_subCorr, method = 'color', tl.cex = 0.9, tl.col = 'black',
+order = 'hclust', type = 'upper')
+
+
+
+df_subCorr2 <- sub_df %>%
+  select(`Subways: Total Estimated Ridership`, tempmin, tempmax, temp, precip, snowdepth, snow, windspeed) %>%
+  cor()
+# creating corrplot
+corrplot(df_subCorr2, method = 'color', tl.cex = 0.9, tl.col = 'black',
+order = 'hclust', type = 'upper')
+
+```
+
 
 
 
