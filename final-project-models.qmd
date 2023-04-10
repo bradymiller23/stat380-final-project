@@ -119,7 +119,7 @@ order = 'hclust', type = 'upper')
 ```{r}
 df_subCorr <- sub_df %>%
   select(`Subways: Total Estimated Ridership`, temp, precip, snowdepth, windspeed) %>%
-  cor()
+  cor() 
 # creating corrplot
 corrplot(df_subCorr, method = 'color', tl.cex = 0.9, tl.col = 'black',
 order = 'hclust', type = 'upper')
