@@ -3,4 +3,101 @@ title: "final project"
 format: pdf
 ---
 
+```{r, message=FALSE}
+library(dplyr)
+library(tidyr)
+library(readr)
+library(lubridate)
+library(readxl)
+library(ggplot2)
+library(knitr)
+```
+
+
+```{r, message = FALSE}
+url1 <- "MTA_Daily_Ridership_Data__Beginning_2020.csv"
+df <- read_csv(url1)
+
+```
+
+
+```{r}
+url2 <- "weather_nyc_2021_2022.xlsx"
+weather_df <- read_excel(url2)
+```
+
+
+```{r}
+weather_df <-
+  weather_df %>%
+  select('datetime', 'tempmax', 'tempmin', 'temp', 'precip', 'snow', 
+         'snowdepth', 'windspeed', 'conditions', 'icon')
+```
+
+
+```{r}
+# subways data frame 
+sub_df <-
+  df %>%
+  # selecting relevant variables
+  select('Date', 'Subways: Total Estimated Ridership', 
+         'Subways: % of Comparable Pre-Pandemic Day') %>%
+  na.omit %>%
+  # filtering out any dates in the years 2020 and 2023
+  filter(!grepl("2023$", Date),
+         !grepl("2020$", Date)) %>%
+  # mutating date to convert is from a "char" data type
+  # creating a new variable that assigns each date their proper day of the week
+  mutate("Date" = mdy(Date),
+         "Day of Week" = weekdays(Date)) %>%
+  select('Day of Week', 'Date', 'Subways: Total Estimated Ridership',
+         'Subways: % of Comparable Pre-Pandemic Day')
+
+
+# joining the weather and subway data frames
+sub_df <-
+  sub_df %>%
+  # joining by the 'date' and 'datetime' variables
+  full_join(weather_df, by = c("Date" = "datetime")) %>%
+    mutate(Date = as.Date(Date))
+
+```
+
+
+```{r}
+# buses data frame
+bus_df <-
+  df %>%
+  # selecting relevant variables
+  select('Date', 'Buses: Total Estimated Ridership', 
+         'Buses: % of Comparable Pre-Pandemic Day') %>%
+  na.omit() %>%
+  # filtering out any dates in the years 2020 and 2023
+  filter(!grepl("2023$", Date),
+         !grepl("2020$", Date)) %>%
+  # mutating date to convert is from a "char" data type
+  # creating a new variable that assigns each date their proper day of the week
+  mutate("Date" = mdy(Date),
+         "Day of Week" = weekdays(Date)) %>%
+  select('Day of Week', 'Date', 'Buses: Total Estimated Ridership', 
+         'Buses: % of Comparable Pre-Pandemic Day')
+
+
+# joining the weather and bus data frames
+bus_df <-
+  bus_df %>%
+  # joining by the 'date' and 'datetime' variables
+  full_join(weather_df, by = c("Date" = "datetime")) %>%
+  mutate(Date = as.Date(Date))
+
+```
+
+
+
+
+
+
+
+
+
 
