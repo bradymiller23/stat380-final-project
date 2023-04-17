@@ -309,8 +309,8 @@ bus_new <- bus_df %>%
 ```{R}
 k <- 5 
 
-# making folds for sub
-make_folds <- function(sub_df, k){
+# making folds for subways
+make_folds_sub <- function(sub_new, k){
   folds <- sample(1:k, nrow(sub_new), replace = T)
   df_folds <- list()
   for (i in 1:k){
@@ -320,11 +320,7 @@ make_folds <- function(sub_df, k){
   }
   return(df_folds)
 }
-```
-
-
-```{R}
-# a lot of the following code does not work due to us not having a model as of typing this
+make_folds_sub(sub_new, 5)
 
 cv_mspe <- function(formula, df_folds){
   kfold_mspe <- c()
@@ -334,9 +330,47 @@ cv_mspe <- function(formula, df_folds){
     # change model again
     y_hat <- predict(model, df_folds[[i]]$test)
     # change the response from 'medv' to our response
-    kfold_mspe[i] <- mean((y_hat - df_folds[[i]]$test$medv)^2)
+    kfold_mspe[i] <- sqrt(mean((y_hat - df_folds[[i]]$test$`Subways: Total Estimated Ridership`)^2))
   }
   return(mean(kfold_mspe))
+}
+
+cv_mspe(lm(`Subways: Total Estimated Ridership` ~ ., data = sub_new), df_folds)
+```
+
+
+```{R}
+# a lot of the following code does not work due to us not having a model as of typing this
+
+
+# making folds for buses
+make_folds_bus <- function(bus_new, k){
+  folds <- sample(1:k, nrow(bus_new), replace = T)
+  df_folds <- list()
+  for (i in 1:k){
+    df_folds[[i]] <- list()
+    df_folds[[i]]$train = bus_new[which(folds != i), ]
+    df_folds[[i]]$test = bus_new[which(folds == i), ]
+  }
+  return(df_folds)
+}
+
+
+cv_mspe <- function(formula, df_folds){
+  kfold_mspe <- c()
+  for (i in 1:length(df_folds)){
+    # change model to fit our project
+    model <- lm(formula, df_folds[[i]]$train)
+    # change model again
+    y_hat <- predict(model, df_folds[[i]]$test)
+    # change the response from 'medv' to our response
+    kfold_mspe[i] <- sqrt(mean((y_hat - df_folds[[i]]$test$`Subways: Total Estimated Ridership`)^2))
+  }
+  return(mean(kfold_mspe))
+}
+
+rmse <- function(y, yhat) {
+  sqrt(mean((y - yhat)^2))
 }
 ```
 
