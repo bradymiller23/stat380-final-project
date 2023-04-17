@@ -383,7 +383,7 @@ plot(lasso)
 
 lasso_coef <- coef(lasso, s = "lambda.1se")
 selected_vars <- rownames(lasso_coef)[which(abs(lasso_coef) > 0)][-1] # exclude the intercept term
-lasso_coef
+lasso_coef 
 
 lasso_model <- lm(y ~ X[, selected_vars])
 broom::tidy(lasso_model)
