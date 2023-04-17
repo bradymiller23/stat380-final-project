@@ -148,3 +148,245 @@ longTable %>%
   geom_point(aes(x = datetime, y = DailyRidership)) + 
   ggtitle('Subway Daily Ridership From 2021-2023')
 ```
+
+
+
+
+
+
+### New Stuff
+
+---
+title: "final project"
+format: pdf
+---
+
+##### Loading the libraries
+
+```{r, message=FALSE}
+library(dplyr)
+library(tidyr)
+library(readr)
+library(lubridate)
+library(readxl)
+library(ggplot2)
+library(knitr)
+```
+
+##### Reading in the data and doing general data wrangling
+
+
+```{r, message = FALSE}
+url1 <- "MTA_Daily_Ridership_Data__Beginning_2020.csv"
+df <- read_csv(url1)
+
+```
+
+
+```{r}
+url2 <- "weather_nyc_2021_2022.xlsx"
+weather_df <- read_excel(url2)
+```
+
+
+```{r}
+weather_df <-
+  weather_df %>%
+  select('datetime', 'tempmax', 'tempmin', 'temp', 'precip', 'snow', 
+         'snowdepth', 'windspeed', 'conditions', 'icon')
+```
+
+
+```{r}
+# subways data frame 
+sub_df <-
+  df %>%
+  # selecting relevant variables
+  select('Date', 'Subways: Total Estimated Ridership', 
+         'Subways: % of Comparable Pre-Pandemic Day') %>%
+  na.omit %>%
+  # filtering out any dates in the years 2020 and 2023
+  filter(!grepl("2023$", Date),
+         !grepl("2020$", Date)) %>%
+  # mutating date to convert is from a "char" data type
+  # creating a new variable that assigns each date their proper day of the week
+  mutate("Date" = mdy(Date),
+         "Day of Week" = weekdays(Date)) %>%
+  select('Day of Week', 'Date', 'Subways: Total Estimated Ridership',
+         'Subways: % of Comparable Pre-Pandemic Day')
+
+
+# joining the weather and subway data frames
+sub_df <-
+  sub_df %>%
+  # joining by the 'date' and 'datetime' variables
+  full_join(weather_df, by = c("Date" = "datetime")) %>%
+    mutate(Date = as.Date(Date))
+
+```
+
+
+```{r}
+# buses data frame
+bus_df <-
+  df %>%
+  # selecting relevant variables
+  select('Date', 'Buses: Total Estimated Ridership', 
+         'Buses: % of Comparable Pre-Pandemic Day') %>%
+  na.omit() %>%
+  # filtering out any dates in the years 2020 and 2023
+  filter(!grepl("2023$", Date),
+         !grepl("2020$", Date)) %>%
+  # mutating date to convert is from a "char" data type
+  # creating a new variable that assigns each date their proper day of the week
+  mutate("Date" = mdy(Date),
+         "Day of Week" = weekdays(Date)) %>%
+  select('Day of Week', 'Date', 'Buses: Total Estimated Ridership', 
+         'Buses: % of Comparable Pre-Pandemic Day')
+
+
+# joining the weather and bus data frames
+bus_df <-
+  bus_df %>%
+  # joining by the 'date' and 'datetime' variables
+  full_join(weather_df, by = c("Date" = "datetime")) %>%
+  mutate(Date = as.Date(Date))
+
+```
+
+
+=======
+### Creation of corrplots to determine if there is any correlation 
+
+```{r}
+df_busCorr <- bus_df %>%
+  select(`Buses: Total Estimated Ridership`, temp, precip, snowdepth, windspeed) %>%
+  cor()
+# creating corrplot
+corrplot(df_busCorr, method = 'color', tl.cex = 0.9, tl.col = 'black',
+order = 'hclust', type = 'upper')
+
+
+
+df_busCorr2 <- bus_df %>%
+  select(`Buses: Total Estimated Ridership`, tempmin, tempmax, temp, precip, snowdepth, snow, windspeed) %>%
+  cor()
+# creating corrplot
+corrplot(df_busCorr2, method = 'color', tl.cex = 0.9, tl.col = 'black',
+order = 'hclust', type = 'upper')
+```
+
+
+```{r}
+df_subCorr <- sub_df %>%
+  select(`Subways: Total Estimated Ridership`, temp, precip, snowdepth, windspeed) %>%
+  cor() 
+# creating corrplot
+corrplot(df_subCorr, method = 'color', tl.cex = 0.9, tl.col = 'black',
+order = 'hclust', type = 'upper')
+
+
+
+df_subCorr2 <- sub_df %>%
+  select(`Subways: Total Estimated Ridership`, tempmin, tempmax, temp, precip, snowdepth, snow, windspeed) %>%
+  cor()
+# creating corrplot
+corrplot(df_subCorr2, method = 'color', tl.cex = 0.9, tl.col = 'black',
+order = 'hclust', type = 'upper')
+
+```
+
+
+
+#### Using K-FOld Cross Validation to split the data
+
+```{R}
+k <- 5 
+
+make_folds <- function(sub_df, k){
+  folds <- sample(1:k, nrow(sub_df), replace = T)
+
+  df_folds <- list()
+
+  for (i in 1:k){
+    
+    df_folds[[i]] <- list()
+    
+    df_folds[[i]]$train = sub_df[which(folds != i), ]
+    
+    df_folds[[i]]$test = sub_df[which(folds == i), ]
+  }
+  return(df_folds)
+}
+```
+
+```{R}
+cv_mspe <- function(formula, df_folds){
+  kfold_mspe <- c()
+  
+  for (i in 1:length(df_folds)){
+    
+    model <- lm(formula, df_folds[[i]]$train)
+    
+    y_hat <- predict(model, df_folds[[i]]$test)
+    
+    kfold_mspe[i] <- mean((y_hat - df_folds[[i]]$test$medv)^2)
+  }
+  return(mean(kfold_mspe))
+}
+```
+
+```{R}
+df_folds <- make_folds(df, 5)
+df_folds[[1]]$test
+```
+
+```{R}
+# replace medv with our response
+cv_mspe(medv ~ ., df_folds)
+```
+
+
+
+
+```{r}
+null_model <- lm(`Subways: Total Estimated Ridership` ~ 1, sub_df)
+full_model <- lm(`Subways: Total Estimated Ridership` ~ ., sub_df)
+
+library(caret)
+selected_model <- step(full_model, direction = "both", scope=formula(full_model))
+
+
+
+forward_model <- step(null_model, direction = "forward", scope=formula(full_model))
+
+backward_model <- step(full_model, direction = "backward", scope=formula(null_model))
+
+
+
+#lasso
+X <- model.matrix(full_model)[, -1]
+head(X)
+
+all_cols <- 1:ncol(X)
+drop_scale <- c(4)
+include_scale <- all_cols[-drop_scale]
+
+for (i in include_scale){ X[, i] <- scale(X[, i]) }
+head(X)
+
+y <- sub_df$`Subways: Total Estimated Ridership`
+
+lasso <- cv.glmnet(X, y, alpha = 1)
+
+plot(lasso)
+
+lasso_coef <- coef(lasso, s = "lambda.1se")
+selected_vars <- rownames(lasso_coef)[which(abs(lasso_coef) > 0)][-1] # exclude the intercept term
+lasso_coef
+
+lasso_model <- lm(y ~ X[, selected_vars])
+broom::tidy(lasso_model)
+
+```
+
