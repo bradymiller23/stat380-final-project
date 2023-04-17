@@ -116,7 +116,31 @@ sub_df$`Day of Week` <- factor(sub_df$`Day of Week`, levels = day_order)
 ```
 
 =======
-### Creation of corrplots to determine if there is any correlation 
+### Creation of corrplots  
+
+
+###### Correlation plots with full model
+```{r}
+#Corrplot with variables we think we want to use
+df_subCorr <- sub_df %>%
+  select(`Subways: Total Estimated Ridership`, temp, precip, snowdepth, windspeed) %>%
+  cor() 
+# creating corrplot
+corrplot(df_subCorr, method = 'color', tl.cex = 0.9, tl.col = 'black',
+order = 'hclust', type = 'upper')
+
+
+#Corrplot with all numeric variables
+df_subCorr2 <- sub_df %>%
+  select(`Subways: Total Estimated Ridership`, tempmin, tempmax, temp, precip, snowdepth, snow, windspeed) %>%
+  cor()
+# creating corrplot
+corrplot(df_subCorr2, method = 'color', tl.cex = 0.9, tl.col = 'black',
+order = 'hclust', type = 'upper')
+
+```
+
+###### Correlation plots with reduced amount of variables
 
 ```{r}
 #Corrplot with variables we think we want to use
@@ -138,29 +162,13 @@ order = 'hclust', type = 'upper')
 ```
 
 
-```{r}
-#Corrplot with variables we think we want to use
-df_subCorr <- sub_df %>%
-  select(`Subways: Total Estimated Ridership`, temp, precip, snowdepth, windspeed) %>%
-  cor() 
-# creating corrplot
-corrplot(df_subCorr, method = 'color', tl.cex = 0.9, tl.col = 'black',
-order = 'hclust', type = 'upper')
-
-
-#Corrplot with all numeric variables
-df_subCorr2 <- sub_df %>%
-  select(`Subways: Total Estimated Ridership`, tempmin, tempmax, temp, precip, snowdepth, snow, windspeed) %>%
-  cor()
-# creating corrplot
-corrplot(df_subCorr2, method = 'color', tl.cex = 0.9, tl.col = 'black',
-order = 'hclust', type = 'upper')
-
-```
 
 
 
 
+## Variance Inflation Factor (iteration 1)
+
+###### Subways
 ```{r}
 #VIF
 library(car)
@@ -171,11 +179,17 @@ vif_sub_df <-
   select(-Date,
          -conditions)
 
+
 full_model_sub2 <- lm(`Subways: Total Estimated Ridership` ~ ., data = vif_sub_df)
 
+
 vif(full_model_sub2) %>% knitr::kable(caption = "Subways")
+```
 
 
+###### Buses
+
+```{r}
 vif_bus_df <-  
   bus_df %>%
   select(-Date,
@@ -188,6 +202,10 @@ vif(full_model_bus2) %>% knitr::kable(caption = "Buses")
 
 We can see here that the differetn temp variables are heavily influenced by each other. They have vif values above 5 so there is multicollinearity. We will pick temp(cont) or temperature(cat). We will look at temp(cont) for now
 
+
+## VIF (iteration 2)
+
+###### Subways
 ```{r}
 #Removinf date, conditions, and only leaving temp(cont.)
 vif_sub_df2 <-  
@@ -196,49 +214,74 @@ vif_sub_df2 <-
          -conditions,
          -tempmin,
          -tempmax,
-         -temperature)
+         -temperature, 
+         -icon,
+         -snow, 
+         -precip,
+         -windspeed)
 
 full_model_sub3 <- lm(`Subways: Total Estimated Ridership` ~ ., data = vif_sub_df2)
-
+summary(full_model_sub3)
 vif(full_model_sub3) %>% knitr::kable(caption = "Subways")
+```
 
 
 
+###### Buses
+```{r}
 vif_bus_df2 <-  
   bus_df %>%
   select(-Date,
          -conditions,
          -tempmin,
          -tempmax,
-         -temperature)
+         -temperature,
+         -icon,
+         -snow)
 
 full_model_bus3 <- lm(`Buses: Total Estimated Ridership` ~ ., data = vif_bus_df2)
-
+summary(full_model_bus3)
 vif(full_model_bus3) %>% knitr::kable(caption = "Buses")
-
 ```
 
 We can see all values are below 5 for both subways and buses. This indicates there is no multicollinearity.
 
-#VARIABLE SELECTION
 
+# VARIABLE SELECTION
+
+```r
+# removing temp (continuous) and conditions (similar to icon, icon is better)
+sub_df3 <-  
+ sub_df %>%
+  select(-conditions,
+         -temp)
+
+# building full model without the variables temperature (continuous) and conditions (DOESN"T WORK WELL)
+full_model_sub <- lm(`Subways: Total Estimated Ridership` ~ ., data = sub_df3)
+summary(full_model_sub)
+
+
+sub_df3_train <- sub_df3[-test_ind, ]
+sub_df3_test <- sub_df3[test_ind, ]
+
+# creating linear regression model for bus ridership
+lm_fit <- lm(`Subways: Total Estimated Ridership` ~  ., data = sub_df3_train)
+
+
+# making predictions based on the model
+lm_predictions <- predict(lm_fit, newdata = sub_df3_test)
+lm_predictions
+
+
+# calculating the RMSE of the predictions
+rmse <- function(y, yhat) {
+  sqrt(mean((y - yhat)^2))
+}
+lm_RMSE_subFULL <- rmse(sub_df3_test$`Subways: Total Estimated Ridership`, lm_predictions)
+lm_RMSE_subFULL
+```
+###### Subway
 ```{r}
-#removing temp (continuous) and conditions (similar to icon, icon is better)
-#sub_df3 <-  
- # sub_df %>%
-  #select(-conditions,
-   #      -temp)
-
-#building full model without the variables temperature (continuous) and conditions (DOESN"T WORK WELL)
-#full_model_sub <- lm(`Subways: Total Estimated Ridership` ~ ., data = sub_df3)
-#summary(full_model_sub)
-
-
-
-
-
-
-
 # Removing temperature (split into breaks / categorical), conditions (similar to icon, icon is better), and date (character)
 sub_df2 <-  
   sub_df %>%
@@ -248,13 +291,18 @@ sub_df2 <-
 
 #building full model without the variables temperature (categorical) and conditions
 full_model_sub <- lm(`Subways: Total Estimated Ridership` ~ ., data = sub_df2)
-#summary(full_model_sub)
+summary(full_model_sub)
 
 #perform backwards variable selection
 backward_model_sub <- step(full_model_sub, direction = "backward", scope=formula(full_model_sub))
 summary(backward_model_sub)
+```
 
 
+
+###### Bus
+
+```{r}
 #Doing the same thing with buses
 bus_df2 <-  
   bus_df %>%
@@ -263,7 +311,7 @@ bus_df2 <-
          -Date)
 
 full_model_bus <- lm(`Buses: Total Estimated Ridership` ~ ., data = bus_df2)
-#summary(full_model_bus)
+summary(full_model_bus)
 
 backward_model_bus <- step(full_model_bus, direction = "backward", scope=formula(full_model_bus))
 summary(backward_model_bus)
@@ -332,6 +380,86 @@ df_folds[[1]]$test
 cv_mspe(medv ~ ., df_folds)
 ```
 
+```{r}
+set.seed(42)
+test_ind <- sample(
+  1:nrow(sub_df), 
+  floor( nrow(sub_df)/10 ),
+  replace=FALSE
+)
+
+df_sub_train <- sub_df[-test_ind, ]
+df_sub_test  <- sub_df[test_ind, ]
+
+
+# creating linear regression model for sub ridership
+lm_fit <- lm(`Subways: Total Estimated Ridership` ~  `Day of Week` +`Subways: % of Comparable Pre-Pandemic Day` + temp + snowdepth,  data = df_sub_train)
+
+
+# making predictions based on the model
+lm_predictions <- predict(lm_fit, newdata = df_sub_test)
+lm_predictions
+
+
+# calculating the RMSE of the predictions
+rmse <- function(y, yhat) {
+  sqrt(mean((y - yhat)^2))
+}
+
+lm_RMSE <- rmse(df_sub_test$`Subways: Total Estimated Ridership`, lm_predictions)
+lm_RMSE
+
+
+
+# creating SVM model for subway ridership
+svm_fit <- svm(`Subways: Total Estimated Ridership` ~  `Day of Week` + `Subways: % of Comparable Pre-Pandemic Day` + temp + snowdepth, data = df_sub_train, kernel = 'radial')
+svm_predictions <- predict(svm_fit, newdata = df_sub_test)
+svm_predictions
+svm_RMSE <- rmse(df_sub_test$`Subways: Total Estimated Ridership`, svm_predictions)
+svm_RMSE
+```
+
+```{r}
+set.seed(42)
+test_ind <- sample(
+  1:nrow(bus_df), 
+  floor( nrow(bus_df)/10 ),
+  replace=FALSE
+)
+
+df_bus_train <- bus_df[-test_ind, ]
+df_bus_test  <- bus_df[test_ind, ]
+
+# creating linear regression model for bus ridership
+lm_fit <- lm(`Buses: Total Estimated Ridership` ~  `Day of Week`+`Buses: % of Comparable Pre-Pandemic Day` + temp + precip + windspeed + snowdepth, data = df_bus_train)
+
+
+# making predictions based on the model
+lm_predictions <- predict(lm_fit, newdata = df_bus_test)
+lm_predictions
+
+
+# calculating the RMSE of the predictions
+rmse <- function(y, yhat) {
+  sqrt(mean((y - yhat)^2))
+}
+lm_RMSE_bus <- rmse(df_bus_test$`Buses: Total Estimated Ridership`, lm_predictions)
+lm_RMSE_bus
+
+
+# creating SVM model for subway ridership
+svm_fit <- svm(`Buses: Total Estimated Ridership` ~  `Day of Week`+`Buses: % of Comparable Pre-Pandemic Day` + temp + precip + windspeed + snowdepth, data = df_bus_train, kernel = 'radial')
+svm_predictions <- predict(svm_fit, newdata = df_bus_test)
+svm_predictions
+svm_RMSE_bus <- rmse(df_bus_test$`Buses: Total Estimated Ridership`, svm_predictions)
+
+```
+
+```{r}
+summary_table <- rbind(lm_RMSE, svm_RMSE, lm_RMSE_bus,  
+                       svm_RMSE_bus)
+summary_table
+```
 
 
 
