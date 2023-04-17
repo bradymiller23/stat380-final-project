@@ -297,9 +297,11 @@ We can see all values are below 5 for both subways and buses. This indicates the
 ```{r}
 sub_new <- sub_df %>%
   select(`Subways: Total Estimated Ridership`, `Day of Week`,`Subways: % of Comparable Pre-Pandemic Day`,temp, snowdepth)
+lm_sub <- lm(`Subways: Total Estimated Ridership` ~ ., data = sub_new)
 
 bus_new <- bus_df %>%
   select(`Buses: Total Estimated Ridership`,`Day of Week`,`Buses: % of Comparable Pre-Pandemic Day`, temp, precip, windspeed, snowdepth)
+lm_bus <- lm(`Buses: Total Estimated Ridership` ~ ., data = bus_new)
 ```
 
 
@@ -315,12 +317,11 @@ make_folds_sub <- function(sub_new, k){
   df_folds <- list()
   for (i in 1:k){
     df_folds[[i]] <- list()
-    df_folds[[i]]$train = sub_new[which(folds != i), ]
-    df_folds[[i]]$test = sub_new[which(folds == i), ]
+    df_folds[[i]]$train <- sub_new[which(folds != i), ]
+    df_folds[[i]]$test <- sub_new[which(folds == i), ]
   }
   return(df_folds)
 }
-make_folds_sub(sub_new, 5)
 
 cv_mspe <- function(formula, df_folds){
   kfold_mspe <- c()
@@ -335,7 +336,7 @@ cv_mspe <- function(formula, df_folds){
   return(mean(kfold_mspe))
 }
 
-cv_mspe(lm(`Subways: Total Estimated Ridership` ~ ., data = sub_new), df_folds)
+cv_mspe(`Subways: Total Estimated Ridership` ~ ., make_folds_sub(sub_new, k))
 ```
 
 
