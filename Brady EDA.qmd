@@ -383,10 +383,132 @@ plot(lasso)
 
 lasso_coef <- coef(lasso, s = "lambda.1se")
 selected_vars <- rownames(lasso_coef)[which(abs(lasso_coef) > 0)][-1] # exclude the intercept term
-lasso_coef 
-
+lasso_coef
 lasso_model <- lm(y ~ X[, selected_vars])
 broom::tidy(lasso_model)
 
 ```
 
+
+```{r}
+set.seed(42)
+test_ind <- sample(
+  1:nrow(sub_df), 
+  floor( nrow(sub_df)/10 ),
+  replace=FALSE
+)
+
+df_sub_train <- sub_df[-test_ind, ]
+df_sub_test  <- sub_df[test_ind, ]
+
+# creating linear regression model for sub ridership
+lm_fit <- lm(`Subways: Total Estimated Ridership` ~  `Day of Week` + Date +`Subways: % of Comparable Pre-Pandemic Day` + temp + snowdepth + icon,
+ data = df_sub_train)
+
+# making predictions based on the model
+lm_predictions <- predict(lm_fit, newdata = df_sub_test)
+lm_predictions
+
+# calculating the RMSE of the predictions
+rmse <- function(y, yhat) {
+  sqrt(mean((y - yhat)^2))
+}
+lm_RMSE <- rmse(df_sub_test$`Subways: Total Estimated Ridership`, lm_predictions)
+lm_RMSE
+
+
+
+# creating SVM model for subway ridership
+svm_fit <- svm(`Subways: Total Estimated Ridership` ~  `Day of Week` + Date +`Subways: % of Comparable Pre-Pandemic Day` + temp + snowdepth + icon, data = df_sub_train, kernel = 'radial')
+svm_predictions <- predict(svm_fit, newdata = df_sub_test)
+svm_predictions
+svm_RMSE <- rmse(df_sub_test$`Subways: Total Estimated Ridership`, svm_predictions)
+svm_RMSE
+
+
+```
+
+
+#### Subway ridership
+```{r}
+null_model <- lm(`Buses: Total Estimated Ridership` ~ 1, bus_df)
+full_model <- lm(`Buses: Total Estimated Ridership` ~ ., bus_df)
+
+library(caret)
+selected_model <- step(full_model, direction = "both", scope=formula(full_model))
+
+
+
+forward_model <- step(null_model, direction = "forward", scope=formula(full_model))
+
+backward_model <- step(full_model, direction = "backward", scope=formula(null_model))
+
+
+
+#lasso
+X <- model.matrix(full_model)[, -1]
+head(X)
+
+all_cols <- 1:ncol(X)
+drop_scale <- c(4)
+include_scale <- all_cols[-drop_scale]
+
+for (i in include_scale){ X[, i] <- scale(X[, i]) }
+head(X)
+
+y <- bus_df$`Buses: Total Estimated Ridership`
+
+lasso <- cv.glmnet(X, y, alpha = 1)
+
+plot(lasso)
+
+lasso_coef <- coef(lasso, s = "lambda.1se")
+selected_vars <- rownames(lasso_coef)[which(abs(lasso_coef) > 0)][-1] # exclude the intercept term
+lasso_coef
+lasso_model <- lm(y ~ X[, selected_vars])
+broom::tidy(lasso_model)
+
+
+set.seed(42)
+test_ind <- sample(
+  1:nrow(bus_df), 
+  floor( nrow(bus_df)/10 ),
+  replace=FALSE
+)
+
+df_bus_train <- bus_df[-test_ind, ]
+df_bus_test  <- bus_df[test_ind, ]
+
+# creating linear regression model for bus ridership
+lm_fit <- lm(`Buses: Total Estimated Ridership` ~  `Day of Week` + Date +`Buses: % of Comparable Pre-Pandemic Day` + temp + precip + icon + snowdepth,
+ data = df_bus_train)
+
+# making predictions based on the model
+lm_predictions <- predict(lm_fit, newdata = df_bus_test)
+lm_predictions
+
+# calculating the RMSE of the predictions
+rmse <- function(y, yhat) {
+  sqrt(mean((y - yhat)^2))
+}
+lm_RMSE_bus <- rmse(df_bus_test$`Buses: Total Estimated Ridership`, lm_predictions)
+lm_RMSE_bus
+
+
+
+# creating SVM model for subway ridership
+svm_fit <- svm(`Buses: Total Estimated Ridership` ~  `Day of Week` + Date +`Buses: % of Comparable Pre-Pandemic Day` + temp + precip + icon + snowdepth, data = df_bus_train, kernel = 'radial')
+svm_predictions <- predict(svm_fit, newdata = df_bus_test)
+svm_predictions
+svm_RMSE_bus <- rmse(df_bus_test$`Buses: Total Estimated Ridership`, svm_predictions)
+
+```
+
+
+
+#### Table summarizing RMSE for lm and svm for sub and bus predictions
+```{r}
+summary_table <- rbind(lm_RMSE, svm_RMSE, lm_RMSE_bus,  
+                       svm_RMSE_bus)
+summary_table
+```
