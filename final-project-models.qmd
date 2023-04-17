@@ -203,7 +203,51 @@ vif(full_model_bus2) %>% knitr::kable(caption = "Buses")
 We can see here that the differetn temp variables are heavily influenced by each other. They have vif values above 5 so there is multicollinearity. We will pick temp(cont) or temperature(cat). We will look at temp(cont) for now
 
 
+
+# VARIABLE SELECTION
+
+###### Subway
+```{r}
+# Removing temperature (split into breaks / categorical), conditions (similar to icon, icon is better), and date (character)
+sub_df2 <-  
+  sub_df %>%
+  select(-conditions,
+         -temperature,
+         -Date)
+
+#building full model without the variables temperature (categorical) and conditions
+full_model_sub <- lm(`Subways: Total Estimated Ridership` ~ ., data = sub_df2)
+summary(full_model_sub)
+
+#perform backwards variable selection
+backward_model_sub <- step(full_model_sub, direction = "backward", scope=formula(full_model_sub))
+summary(backward_model_sub)
+```
+
+
+###### Bus
+
+```{r}
+#Doing the same thing with buses
+bus_df2 <-  
+  bus_df %>%
+  select(-conditions,
+         -temperature,
+         -Date)
+
+full_model_bus <- lm(`Buses: Total Estimated Ridership` ~ ., data = bus_df2)
+summary(full_model_bus)
+
+backward_model_bus <- step(full_model_bus, direction = "backward", scope=formula(full_model_bus))
+summary(backward_model_bus)
+```
+
+
+
 ## VIF (iteration 2)
+
+Going through VIF again this time with less covariates as determined by the 
+variable selection
 
 ###### Subways
 ```{r}
@@ -247,79 +291,16 @@ vif(full_model_bus3) %>% knitr::kable(caption = "Buses")
 We can see all values are below 5 for both subways and buses. This indicates there is no multicollinearity.
 
 
-# VARIABLE SELECTION
 
-```r
-# removing temp (continuous) and conditions (similar to icon, icon is better)
-sub_df3 <-  
- sub_df %>%
-  select(-conditions,
-         -temp)
-
-# building full model without the variables temperature (continuous) and conditions (DOESN"T WORK WELL)
-full_model_sub <- lm(`Subways: Total Estimated Ridership` ~ ., data = sub_df3)
-summary(full_model_sub)
-
-
-sub_df3_train <- sub_df3[-test_ind, ]
-sub_df3_test <- sub_df3[test_ind, ]
-
-# creating linear regression model for bus ridership
-lm_fit <- lm(`Subways: Total Estimated Ridership` ~  ., data = sub_df3_train)
-
-
-# making predictions based on the model
-lm_predictions <- predict(lm_fit, newdata = sub_df3_test)
-lm_predictions
-
-
-# calculating the RMSE of the predictions
-rmse <- function(y, yhat) {
-  sqrt(mean((y - yhat)^2))
-}
-lm_RMSE_subFULL <- rmse(sub_df3_test$`Subways: Total Estimated Ridership`, lm_predictions)
-lm_RMSE_subFULL
-```
-###### Subway
-```{r}
-# Removing temperature (split into breaks / categorical), conditions (similar to icon, icon is better), and date (character)
-sub_df2 <-  
-  sub_df %>%
-  select(-conditions,
-         -temperature,
-         -Date)
-
-#building full model without the variables temperature (categorical) and conditions
-full_model_sub <- lm(`Subways: Total Estimated Ridership` ~ ., data = sub_df2)
-summary(full_model_sub)
-
-#perform backwards variable selection
-backward_model_sub <- step(full_model_sub, direction = "backward", scope=formula(full_model_sub))
-summary(backward_model_sub)
-```
-
-
-
-###### Bus
+## Creation of datasets with desired covariates
 
 ```{r}
-#Doing the same thing with buses
-bus_df2 <-  
-  bus_df %>%
-  select(-conditions,
-         -temperature,
-         -Date)
+sub_new <- sub_df %>%
+  select(`Subways: Total Estimated Ridership`, `Day of Week`,`Subways: % of Comparable Pre-Pandemic Day`,temp, snowdepth)
 
-full_model_bus <- lm(`Buses: Total Estimated Ridership` ~ ., data = bus_df2)
-summary(full_model_bus)
-
-backward_model_bus <- step(full_model_bus, direction = "backward", scope=formula(full_model_bus))
-summary(backward_model_bus)
+bus_new <- bus_df %>%
+  select(`Buses: Total Estimated Ridership`,`Day of Week`,`Buses: % of Comparable Pre-Pandemic Day`, temp, precip, windspeed, snowdepth)
 ```
-
-
-
-
 
 
 
@@ -328,18 +309,14 @@ summary(backward_model_bus)
 ```{R}
 k <- 5 
 
+# making folds for sub
 make_folds <- function(sub_df, k){
-  folds <- sample(1:k, nrow(sub_df), replace = T)
-
+  folds <- sample(1:k, nrow(sub_new), replace = T)
   df_folds <- list()
-
   for (i in 1:k){
-    
     df_folds[[i]] <- list()
-    
-    df_folds[[i]]$train = sub_df[which(folds != i), ]
-    
-    df_folds[[i]]$test = sub_df[which(folds == i), ]
+    df_folds[[i]]$train = sub_new[which(folds != i), ]
+    df_folds[[i]]$test = sub_new[which(folds == i), ]
   }
   return(df_folds)
 }
@@ -351,7 +328,6 @@ make_folds <- function(sub_df, k){
 
 cv_mspe <- function(formula, df_folds){
   kfold_mspe <- c()
-  
   for (i in 1:length(df_folds)){
     # change model to fit our project
     model <- lm(formula, df_folds[[i]]$train)
