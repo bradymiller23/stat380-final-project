@@ -13,6 +13,8 @@ library(lubridate)
 library(readxl)
 library(ggplot2)
 library(knitr)
+library(car)
+library(corrplot)
 ```
 
 ##### Reading in the data and doing general data wrangling
@@ -96,11 +98,28 @@ bus_df <-
 
 ```
 
+```{r}
+#Creating temperature variable (cat.)
+bus_df$temperature <- cut(sub_df$temp, 
+                          breaks = c(-Inf, 40, 55, 70, 80, Inf),
+                          labels = c("Cold", "Cool", "Mild", "Warm", "Hot"))
+
+day_order <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+bus_df$`Day of Week` <- factor(bus_df$`Day of Week`, levels = day_order)
+
+
+sub_df$temperature <- cut(sub_df$temp, 
+                          breaks = c(-Inf, 40, 55, 70, 80, Inf),
+                          labels = c("Cold", "Cool", "Mild", "Warm", "Hot"))
+
+sub_df$`Day of Week` <- factor(sub_df$`Day of Week`, levels = day_order)
+```
 
 =======
 ### Creation of corrplots to determine if there is any correlation 
 
 ```{r}
+#Corrplot with variables we think we want to use
 df_busCorr <- bus_df %>%
   select(`Buses: Total Estimated Ridership`, temp, precip, snowdepth, windspeed) %>%
   cor()
@@ -109,7 +128,7 @@ corrplot(df_busCorr, method = 'color', tl.cex = 0.9, tl.col = 'black',
 order = 'hclust', type = 'upper')
 
 
-
+#Corrplot with all numeric variables
 df_busCorr2 <- bus_df %>%
   select(`Buses: Total Estimated Ridership`, tempmin, tempmax, temp, precip, snowdepth, snow, windspeed) %>%
   cor()
@@ -120,6 +139,7 @@ order = 'hclust', type = 'upper')
 
 
 ```{r}
+#Corrplot with variables we think we want to use
 df_subCorr <- sub_df %>%
   select(`Subways: Total Estimated Ridership`, temp, precip, snowdepth, windspeed) %>%
   cor() 
@@ -128,7 +148,7 @@ corrplot(df_subCorr, method = 'color', tl.cex = 0.9, tl.col = 'black',
 order = 'hclust', type = 'upper')
 
 
-
+#Corrplot with all numeric variables
 df_subCorr2 <- sub_df %>%
   select(`Subways: Total Estimated Ridership`, tempmin, tempmax, temp, precip, snowdepth, snow, windspeed) %>%
   cor()
@@ -137,6 +157,121 @@ corrplot(df_subCorr2, method = 'color', tl.cex = 0.9, tl.col = 'black',
 order = 'hclust', type = 'upper')
 
 ```
+
+
+
+
+```{r}
+#VIF
+library(car)
+
+#Removing date (wrong type: character) and conditions (too correlated with icon and would rather use icon)
+vif_sub_df <-  
+  sub_df %>%
+  select(-Date,
+         -conditions)
+
+full_model_sub2 <- lm(`Subways: Total Estimated Ridership` ~ ., data = vif_sub_df)
+
+vif(full_model_sub2) %>% knitr::kable(caption = "Subways")
+
+
+vif_bus_df <-  
+  bus_df %>%
+  select(-Date,
+         -conditions)
+
+full_model_bus2 <- lm(`Buses: Total Estimated Ridership` ~ ., data = vif_bus_df)
+
+vif(full_model_bus2) %>% knitr::kable(caption = "Buses")
+```
+
+We can see here that the differetn temp variables are heavily influenced by each other. They have vif values above 5 so there is multicollinearity. We will pick temp(cont) or temperature(cat). We will look at temp(cont) for now
+
+```{r}
+#Removinf date, conditions, and only leaving temp(cont.)
+vif_sub_df2 <-  
+  sub_df %>%
+  select(-Date,
+         -conditions,
+         -tempmin,
+         -tempmax,
+         -temperature)
+
+full_model_sub3 <- lm(`Subways: Total Estimated Ridership` ~ ., data = vif_sub_df2)
+
+vif(full_model_sub3) %>% knitr::kable(caption = "Subways")
+
+
+
+vif_bus_df2 <-  
+  bus_df %>%
+  select(-Date,
+         -conditions,
+         -tempmin,
+         -tempmax,
+         -temperature)
+
+full_model_bus3 <- lm(`Buses: Total Estimated Ridership` ~ ., data = vif_bus_df2)
+
+vif(full_model_bus3) %>% knitr::kable(caption = "Buses")
+
+```
+
+We can see all values are below 5 for both subways and buses. This indicates there is no multicollinearity.
+
+#VARIABLE SELECTION
+
+```{r}
+#removing temp (continuous) and conditions (similar to icon, icon is better)
+#sub_df3 <-  
+ # sub_df %>%
+  #select(-conditions,
+   #      -temp)
+
+#building full model without the variables temperature (continuous) and conditions (DOESN"T WORK WELL)
+#full_model_sub <- lm(`Subways: Total Estimated Ridership` ~ ., data = sub_df3)
+#summary(full_model_sub)
+
+
+
+
+
+
+
+# Removing temperature (split into breaks / categorical), conditions (similar to icon, icon is better), and date (character)
+sub_df2 <-  
+  sub_df %>%
+  select(-conditions,
+         -temperature,
+         -Date)
+
+#building full model without the variables temperature (categorical) and conditions
+full_model_sub <- lm(`Subways: Total Estimated Ridership` ~ ., data = sub_df2)
+#summary(full_model_sub)
+
+#perform backwards variable selection
+backward_model_sub <- step(full_model_sub, direction = "backward", scope=formula(full_model_sub))
+summary(backward_model_sub)
+
+
+#Doing the same thing with buses
+bus_df2 <-  
+  bus_df %>%
+  select(-conditions,
+         -temperature,
+         -Date)
+
+full_model_bus <- lm(`Buses: Total Estimated Ridership` ~ ., data = bus_df2)
+#summary(full_model_bus)
+
+backward_model_bus <- step(full_model_bus, direction = "backward", scope=formula(full_model_bus))
+summary(backward_model_bus)
+```
+
+
+
+
 
 
 
