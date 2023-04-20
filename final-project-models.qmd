@@ -15,6 +15,7 @@ library(ggplot2)
 library(knitr)
 library(car)
 library(corrplot)
+library(caret)
 ```
 
 ##### Reading in the data and doing general data wrangling
