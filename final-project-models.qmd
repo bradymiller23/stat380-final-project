@@ -12,7 +12,7 @@ library(readr)
 library(lubridate)
 library(readxl) 
 library(ggplot2)
-library(knitr)
+library(knitr) 
 library(car) 
 library(corrplot)
 library(caret)
@@ -473,6 +473,35 @@ summary_table <- rbind(lm_RMSE, svm_RMSE, lm_RMSE_bus,
                        svm_RMSE_bus)
 summary_table
 ```
+
+
+```{r}
+# Set the number of folds for cross-validation
+k <- 10
+
+data <- sub_new
+
+# Define the time series cross-validation method
+# This function generates the training and validation indices for each fold based on time
+tsCV <- function(x, k) {
+  folds <- cut(seq_along(x), breaks = k, labels = FALSE)
+  lapply(unique(folds), function(i) {
+    val_indices <- which(folds == i)
+    train_indices <- which(folds < i)
+    list(train = train_indices, test = val_indices)
+  })
+}
+
+ctrl <- trainControl(method = "cv", number = 5)
+
+# Define the model to use
+model <- train(`Subways: Total Estimated Ridership` ~., data = data, method = "svmRadial", trControl = ctrl)
+
+# Print the cross-validation results
+print(model$results)
+```
+
+
 
 
 
