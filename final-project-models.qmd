@@ -479,7 +479,7 @@ summary_table
 # Set the number of folds for cross-validation
 k <- 10
 
-data <- sub_new
+data <- sub_new 
 
 # Define the time series cross-validation method
 # This function generates the training and validation indices for each fold based on time
@@ -492,15 +492,18 @@ tsCV <- function(x, k) {
   })
 }
 
-ctrl <- trainControl(method = "cv", number = 5)
+data <- tsCV(data, 10)
+
+
+
+ctrl <- trainControl(method = "cv", number = 10)
 
 # Define the model to use
-model <- train(`Subways: Total Estimated Ridership` ~., data = data, method = "svmRadial", trControl = ctrl)
+model <- train(`Subways: Total Estimated Ridership` ~., data = data, method = "lm", trControl = ctrl)
 
 # Print the cross-validation results
 print(model$results)
 ```
-
 
 
 
