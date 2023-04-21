@@ -301,7 +301,7 @@ sub_new <- sub_df %>%
 lm_sub <- lm(`Subways: Total Estimated Ridership` ~ ., data = sub_new)
 
 bus_new <- bus_df %>%
-  select(`Buses: Total Estimated Ridership`,`Day of Week`,`Buses: % of Comparable Pre-Pandemic Day`, temp, precip, windspeed, snowdepth)
+  select(`Buses: Total Estimated Ridership`,`Day of Week`,`Buses: % of Comparable Pre-Pandemic Day`, temp, windspeed, snowdepth)
 lm_bus <- lm(`Buses: Total Estimated Ridership` ~ ., data = bus_new)
 ```
 
@@ -477,29 +477,18 @@ summary_table
 
 ```{r}
 # Set the number of folds for cross-validation
-k <- 10
 
-data <- sub_new 
+folds <- make_folds_sub(sub_new, k = 10)
 
-# Define the time series cross-validation method
-# This function generates the training and validation indices for each fold based on time
-tsCV <- function(x, k) {
-  folds <- cut(seq_along(x), breaks = k, labels = FALSE)
-  lapply(unique(folds), function(i) {
-    val_indices <- which(folds == i)
-    train_indices <- which(folds < i)
-    list(train = train_indices, test = val_indices)
-  })
-}
-
-data <- tsCV(data, 10)
+temp_list <- list(folds[[1]]$train, folds[[2]]$train, folds[[3]]$train, folds[[4]]$train, folds[[5]]$train)
+train_data <- Reduce(function(x, y) merge(x, y, all = TRUE), temp_list)
 
 
 
 ctrl <- trainControl(method = "cv", number = 10)
 
 # Define the model to use
-model <- train(`Subways: Total Estimated Ridership` ~., data = data, method = "lm", trControl = ctrl)
+model <- train(`Subways: Total Estimated Ridership` ~., data = train_data, method = "svmRadial", trControl = ctrl)
 
 # Print the cross-validation results
 print(model$results)
@@ -507,5 +496,36 @@ print(model$results)
 
 
 
+```{r}
+k <- 10
+
+data <- sub_df %>% select(-conditions,
+                          -Date,
+                          -icon,
+                          -temperature)
+
+split_indices <- seq(1, nrow(data), by = floor(nrow(data) / k))
+
+# Perform cross-validation
+for (i in 2:length(split_indices)) {
+  # Split the data into training and testing sets
+  train_indices <- seq(split_indices[i - 1], split_indices[i] - 1)
+  test_indices <- split_indices[i]:min(split_indices[i] + floor(nrow(data) / k) - 1, nrow(data))
+  train_data <- data[train_indices, ]
+  test_data <- data[test_indices, ]
+  
+  # Train the model on the training data
+  model <- train(`Subways: Total Estimated Ridership` ~ ., data = train_data, method = "lm")
+  
+  # Make predictions on the testing data
+  predictions <- predict(model, newdata = test_data)
+  
+  # Compute the accuracy metric(s) for this fold
+  accuracy <- sqrt(mean((test_data$`Subways: Total Estimated Ridership` - predictions) ^ 2))
+  
+  # Print the accuracy metric(s) for this fold
+  print(accuracy)
+}
+```
 
 
