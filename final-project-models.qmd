@@ -491,6 +491,73 @@ model <- train(`Subways: Total Estimated Ridership` ~., data = train_data, metho
 print(model$results)
 ```
 
+```{r}
+train1 <- sub_new[1:233, ]
+test1 <- sub_new[234:292, ]
+model1 <- train(`Subways: Total Estimated Ridership` ~ ., data = train1, method = "svmRadial")
+m1RMSE <- model1$results$RMSE
+
+train2 <- sub_new[1:320, ]
+test2 <- sub_new[320:401, ]
+model2 <- train(`Subways: Total Estimated Ridership` ~ ., data = train2, method = "svmRadial")
+m2RMSE <- model2$results$RMSE
+
+
+train3 <- sub_new[1:408, ]
+test3 <- sub_new[409:511, ]
+model3 <- train(`Subways: Total Estimated Ridership` ~ ., data = train3, method = "svmRadial")
+m3RMSE <- model3$results$RMSE
+
+
+train4 <- sub_new[1:496, ]
+test4 <- sub_new[497:620, ]
+model4 <- train(`Subways: Total Estimated Ridership` ~ ., data = train4, method = "svmRadial")
+m4RMSE <- model3$results$RMSE
+
+
+train5 <- sub_new[1:584, ]
+test5 <- sub_new[585:730, ]
+model5 <- train(`Subways: Total Estimated Ridership` ~ ., data = train5, method = "svmRadial")
+m5RMSE <- model5$results$RMSE
+
+avgRMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
+avgRMSE
+```
+
+
+```{r}
+train1 <- bus_new[1:233, ]
+test1 <- bus_new[234:292, ]
+model1 <- train(`Buses: Total Estimated Ridership` ~ ., data = train1, method = "svmRadial")
+m1RMSE <- model1$results$RMSE
+
+train2 <- bus_new[1:320, ]
+test2 <- bus_new[320:401, ]
+model2 <- train(`Buses: Total Estimated Ridership` ~ ., data = train2, method = "svmRadial")
+m2RMSE <- model2$results$RMSE
+
+
+train3 <- bus_new[1:408, ]
+test3 <- bus_new[409:511, ]
+model3 <- train(`Buses: Total Estimated Ridership` ~ ., data = train3, method = "svmRadial")
+m3RMSE <- model3$results$RMSE
+
+
+train4 <- bus_new[1:496, ]
+test4 <- bus_new[497:620, ]
+model4 <- train(`Buses: Total Estimated Ridership` ~ ., data = train4, method = "svmRadial")
+m4RMSE <- model3$results$RMSE
+
+
+train5 <- bus_new[1:584, ]
+test5 <- bus_new[585:730, ]
+model5 <- train(`Buses: Total Estimated Ridership` ~ ., data = train5, method = "svmRadial")
+m5RMSE <- model5$results$RMSE
+
+avgRMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
+avgRMSE
+```
+
 
 
 ```{r}
