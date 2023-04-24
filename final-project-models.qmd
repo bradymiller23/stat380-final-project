@@ -16,6 +16,7 @@ library(knitr)
 library(car) 
 library(corrplot)
 library(caret)
+library(e1071)
 ```
 
 ##### Reading in the data and doing general data wrangling
@@ -388,10 +389,6 @@ df_folds[[1]]$test
 ```
 
 
-```{R}
-# replace medv with our response
-cv_mspe(medv ~ ., df_folds)
-```
 
 ```{r}
 set.seed(42)
@@ -529,3 +526,148 @@ for (i in 2:length(split_indices)) {
 ```
 
 
+## Including Holidays
+```{r}
+holiday_df <- data.frame(
+  holiday = c("New Year's Day", "Independence Day", "Thanksgiving", "Christmas"),
+  ds = as.Date(c("2021-01-01", "2021-07-04", "2021-11-25", "2021-12-25")),
+  lower_window = 0,
+  upper_window = 1
+)
+
+sub_new <- sub_df %>%
+  select (`Subways: Total Estimated Ridership`, `Day of Week`,`Subways: % of Comparable Pre-Pandemic Day`,temp, snowdepth, Date)
+
+bus_new <- bus_df %>%
+  select(`Buses: Total Estimated Ridership`,`Day of Week`,`Buses: % of Comparable Pre-Pandemic Day`, temp, windspeed, snowdepth, Date)
+
+
+holiday_df %>% head
+
+#Merging the dataset
+sub_df <- sub_new %>% mutate(isholiday = ifelse(Date %in% holiday_df$ds, 1, 0))
+bus_df <- bus_new %>% mutate(isholiday = ifelse(Date %in% holiday_df$ds, 1, 0))
+```
+
+Creating the train/test datasets
+
+```{r}
+# Split the data into training and testing sets
+train_sub_df <- sub_df %>% filter(Date < as.Date("2022-01-01"))
+test_sub_df <- sub_df %>% filter(Date >= as.Date("2022-01-01"))
+
+train_bus_df <- bus_df %>% filter(Date < as.Date("2022-01-01"))
+test_bus_df <- bus_df %>% filter(Date >= as.Date("2022-01-01"))
+```
+
+Preparing the model to use the `prophet` function
+
+```{r}
+# Create a function to prepare the data for the Prophet model
+prepare_data_for_prophet <- function(df, y_column) {
+  df <- df %>%
+    select(Date, y = !!y_column) %>%
+    rename(ds = Date)
+  return(df)
+}
+
+# Prepare the data for the Prophet model
+train_sub_prophet <- prepare_data_for_prophet(train_sub_df, 'Subways: Total Estimated Ridership')
+test_sub_prophet <- prepare_data_for_prophet(test_sub_df, 'Subways: Total Estimated Ridership')
+  
+train_bus_prophet <- prepare_data_for_prophet(train_bus_df, 'Buses: Total Estimated Ridership')
+test_bus_prophet <- prepare_data_for_prophet(test_bus_df, 'Buses: Total Estimated Ridership')
+```
+
+Using the prophet model to forecast ridership
+
+```{r}
+sub_prophet_model <- prophet(df = train_sub_prophet, holidays = holiday_df, yearly.seasonality = TRUE)
+sub_forecast <- predict(sub_prophet_model, test_sub_prophet)
+
+bus_prophet_model <- prophet(df = train_bus_prophet, holidays = holiday_df, yearly.seasonality = TRUE)
+bus_forecast <- predict(bus_prophet_model, test_bus_prophet)
+```
+
+Combining actual and forecasted values for comparison
+
+```{r}
+sub_comparison <- test_sub_prophet %>%
+  left_join(sub_forecast %>% select(ds, yhat), by = c("ds")) %>%
+  rename(actual = y, forecast = yhat)
+
+bus_comparison <- test_bus_prophet %>%
+  left_join(bus_forecast %>% select(ds, yhat), by = c("ds")) %>%
+  rename(actual = y, forecast = yhat)
+```
+
+Calculating MAE, MSE and RMSE
+
+```{r}
+calculate_metrics <- function(actual, forecast){
+  mae <- mean(abs(actual - forecast))
+  mse <- mean((actual - forecast)^2)
+  rmse <- sqrt(mse)
+  
+  return(list(MAE = mae, MSE = mse, RMSE = rmse))
+}
+
+sub_metrics <- calculate_metrics(sub_comparison$actual, sub_comparison$forecast)
+sub_metrics
+```
+
+```{r}
+bus_metrics <- calculate_metrics(bus_comparison$actual, bus_comparison$forecast)
+bus_metrics
+```
+
+### Inferences from ML
+
+Plotting actual vs forecasted values
+
+```{r}
+ggplot(sub_comparison, aes(x = ds)) +
+  geom_line(aes(y = actual, color = "Actual")) +
+  geom_line(aes(y = forecast, color = "Forecast")) +
+  labs(title = "Subway Ridership: Actual vs Forecast",
+       x = "Date",
+       y = "Ridership",
+       color = "Legend") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(bus_comparison, aes(x = ds)) +
+  geom_line(aes(y = actual, color = "Actual")) +
+  geom_line(aes(y = forecast, color = "Forecast")) +
+  labs(title = "Bus Ridership: Actual vs Forecast",
+       x = "Date",
+       y = "Ridership",
+       color = "Legend") +
+  theme_minimal()
+```
+
+Visualizing Residuals
+
+```{r}
+sub_comparison <- sub_comparison %>% mutate(residuals = actual - forecast)
+bus_comparison <- bus_comparison %>% mutate(residuals = actual - forecast)
+
+ggplot(sub_comparison, aes(x = ds, y = residuals)) +
+  geom_point(color = "steelblue") +
+  geom_smooth(se = FALSE, color = "red", linetype = "dashed") +
+  labs(title = "Subway Ridership Residuals",
+       x = "Date",
+       y = "Residuals") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(bus_comparison, aes(x = ds, y = residuals)) +
+  geom_point(color = "steelblue") +
+  geom_smooth(se = FALSE, color = "red", linetype = "dashed") +
+  labs(title = "Bus Ridership Residuals",
+       x = "Date",
+       y = "Residuals") +
+  theme_minimal()
+```
