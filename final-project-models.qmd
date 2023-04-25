@@ -26,7 +26,6 @@ library(prophet)
 ```{r, message = FALSE}
 url1 <- "MTA_Daily_Ridership_Data__Beginning_2020.csv"
 df <- read_csv(url1)
-
 ```
 
 
@@ -98,6 +97,7 @@ bus_df <-
   # joining by the 'date' and 'datetime' variables
   full_join(weather_df, by = c("Date" = "datetime")) %>%
   mutate(Date = as.Date(Date))
+
 
 ```
 
@@ -614,33 +614,32 @@ fullSubrpart_RMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE
 
 ###### Full Bus nnet
 ```{r}
-?train()
 train1 <- bus_df[1:233, ]
 test1 <- bus_df[234:292, ]
-model1 <- train(`Buses: Total Estimated Ridership` ~ ., data = train1, method = "nnet")
+model1 <- train(`Buses: Total Estimated Ridership` ~ ., data = train1, method = "nnet", size = c(ncol(bus_df),64,32,1))
 m1RMSE <- model1$results$RMSE
 
 train2 <- bus_df[1:320, ]
 test2 <- bus_df[320:401, ]
-model2 <- train(`Buses: Total Estimated Ridership` ~ ., data = train2, method = "nnet")
+model2 <- train(`Buses: Total Estimated Ridership` ~ ., data = train2, method = "nnet", size = c(ncol(bus_df),64,32,1))
 m2RMSE <- model2$results$RMSE
 
 
 train3 <- bus_df[1:408, ]
 test3 <- bus_df[409:511, ]
-model3 <- train(`Buses: Total Estimated Ridership` ~ ., data = train3, method = "nnet")
+model3 <- train(`Buses: Total Estimated Ridership` ~ ., data = train3, method = "nnet", size = c(ncol(bus_df),64,32,1))
 m3RMSE <- model3$results$RMSE
 
 
 train4 <- bus_df[1:496, ]
 test4 <- bus_df[497:620, ]
-model4 <- train(`Buses: Total Estimated Ridership` ~ ., data = train4, method = "nnet")
+model4 <- train(`Buses: Total Estimated Ridership` ~ ., data = train4, method = "nnet", size = c(ncol(bus_df),64,32,1))
 m4RMSE <- model3$results$RMSE
 
 
 train5 <- bus_df[1:584, ]
 test5 <- bus_df[585:730, ]
-model5 <- train(`Buses: Total Estimated Ridership` ~ ., data = train5, method = "nnet")
+model5 <- train(`Buses: Total Estimated Ridership` ~ ., data = train5, method = "nnet", size = c(ncol(bus_df),64,32,1))
 m5RMSE <- model5$results$RMSE
 
 fullBusNNet_RMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
@@ -706,6 +705,14 @@ train4 <- bus_new[1:496, ]
 test4 <- bus_new[497:620, ]
 model4 <- train(`Buses: Total Estimated Ridership` ~ ., data = train4, method = "svmRadial")
 m4RMSE <- model3$results$RMSE
+
+
+predictions <- predict(model4, test4)
+pred <- data.frame(
+  pred = c(predictions),
+  truth = c(test4)
+)
+pred
 
 
 train5 <- bus_new[1:584, ]
