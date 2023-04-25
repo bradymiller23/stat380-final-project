@@ -1,0 +1,3944 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod]{scrartcl}
+
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[many]{tcolorbox}}
+\makeatother
+\makeatletter
+\@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}
+\makeatother
+\makeatletter
+\makeatother
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={final project},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{final project}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, interior hidden, borderline west={3pt}{0pt}{shadecolor}, enhanced, boxrule=0pt, breakable, sharp corners]}{\end{tcolorbox}}\fi
+
+\hypertarget{loading-the-libraries}{%
+\subparagraph{Loading the libraries}\label{loading-the-libraries}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(tidyr)}
+\FunctionTok{library}\NormalTok{(readr)}
+\FunctionTok{library}\NormalTok{(lubridate)}
+\FunctionTok{library}\NormalTok{(readxl) }
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(knitr) }
+\FunctionTok{library}\NormalTok{(car) }
+\FunctionTok{library}\NormalTok{(corrplot)}
+\FunctionTok{library}\NormalTok{(caret)}
+\FunctionTok{library}\NormalTok{(e1071)}
+\FunctionTok{library}\NormalTok{(prophet)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{reading-in-the-data-and-doing-general-data-wrangling}{%
+\subparagraph{Reading in the data and doing general data
+wrangling}\label{reading-in-the-data-and-doing-general-data-wrangling}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{url1 }\OtherTok{\textless{}{-}} \StringTok{"MTA\_Daily\_Ridership\_Data\_\_Beginning\_2020.csv"}
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(url1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{url2 }\OtherTok{\textless{}{-}} \StringTok{"weather\_nyc\_2021\_2022.xlsx"}
+\NormalTok{weather\_df }\OtherTok{\textless{}{-}} \FunctionTok{read\_excel}\NormalTok{(url2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{weather\_df }\OtherTok{\textless{}{-}}
+\NormalTok{  weather\_df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\StringTok{\textquotesingle{}datetime\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}tempmax\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}tempmin\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}temp\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}precip\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}snow\textquotesingle{}}\NormalTok{, }
+         \StringTok{\textquotesingle{}snowdepth\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}windspeed\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}conditions\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}icon\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# subways data frame }
+\NormalTok{sub\_df }\OtherTok{\textless{}{-}}
+\NormalTok{  df }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# selecting relevant variables}
+  \FunctionTok{select}\NormalTok{(}\StringTok{\textquotesingle{}Date\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Subways: Total Estimated Ridership\textquotesingle{}}\NormalTok{, }
+         \StringTok{\textquotesingle{}Subways: \% of Comparable Pre{-}Pandemic Day\textquotesingle{}}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  na.omit }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# filtering out any dates in the years 2020 and 2023}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{grepl}\NormalTok{(}\StringTok{"2023$"}\NormalTok{, Date),}
+         \SpecialCharTok{!}\FunctionTok{grepl}\NormalTok{(}\StringTok{"2020$"}\NormalTok{, Date)) }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# mutating date to convert is from a "char" data type}
+  \CommentTok{\# creating a new variable that assigns each date their proper day of the week}
+  \FunctionTok{mutate}\NormalTok{(}\StringTok{"Date"} \OtherTok{=} \FunctionTok{mdy}\NormalTok{(Date),}
+         \StringTok{"Day of Week"} \OtherTok{=} \FunctionTok{weekdays}\NormalTok{(Date)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\StringTok{\textquotesingle{}Day of Week\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Date\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Subways: Total Estimated Ridership\textquotesingle{}}\NormalTok{,}
+         \StringTok{\textquotesingle{}Subways: \% of Comparable Pre{-}Pandemic Day\textquotesingle{}}\NormalTok{)}
+
+
+\CommentTok{\# joining the weather and subway data frames}
+\NormalTok{sub\_df }\OtherTok{\textless{}{-}}
+\NormalTok{  sub\_df }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# joining by the \textquotesingle{}date\textquotesingle{} and \textquotesingle{}datetime\textquotesingle{} variables}
+  \FunctionTok{full\_join}\NormalTok{(weather\_df, }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"Date"} \OtherTok{=} \StringTok{"datetime"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Date =} \FunctionTok{as.Date}\NormalTok{(Date))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# buses data frame}
+\NormalTok{bus\_df }\OtherTok{\textless{}{-}}
+\NormalTok{  df }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# selecting relevant variables}
+  \FunctionTok{select}\NormalTok{(}\StringTok{\textquotesingle{}Date\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Buses: Total Estimated Ridership\textquotesingle{}}\NormalTok{, }
+         \StringTok{\textquotesingle{}Buses: \% of Comparable Pre{-}Pandemic Day\textquotesingle{}}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{na.omit}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# filtering out any dates in the years 2020 and 2023}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{grepl}\NormalTok{(}\StringTok{"2023$"}\NormalTok{, Date),}
+         \SpecialCharTok{!}\FunctionTok{grepl}\NormalTok{(}\StringTok{"2020$"}\NormalTok{, Date)) }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# mutating date to convert is from a "char" data type}
+  \CommentTok{\# creating a new variable that assigns each date their proper day of the week}
+  \FunctionTok{mutate}\NormalTok{(}\StringTok{"Date"} \OtherTok{=} \FunctionTok{mdy}\NormalTok{(Date),}
+         \StringTok{"Day of Week"} \OtherTok{=} \FunctionTok{weekdays}\NormalTok{(Date)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\StringTok{\textquotesingle{}Day of Week\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Date\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Buses: Total Estimated Ridership\textquotesingle{}}\NormalTok{, }
+         \StringTok{\textquotesingle{}Buses: \% of Comparable Pre{-}Pandemic Day\textquotesingle{}}\NormalTok{)}
+
+
+\CommentTok{\# joining the weather and bus data frames}
+\NormalTok{bus\_df }\OtherTok{\textless{}{-}}
+\NormalTok{  bus\_df }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# joining by the \textquotesingle{}date\textquotesingle{} and \textquotesingle{}datetime\textquotesingle{} variables}
+  \FunctionTok{full\_join}\NormalTok{(weather\_df, }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"Date"} \OtherTok{=} \StringTok{"datetime"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Date =} \FunctionTok{as.Date}\NormalTok{(Date))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Creating temperature variable (cat.)}
+\NormalTok{bus\_df}\SpecialCharTok{$}\NormalTok{temperature }\OtherTok{\textless{}{-}} \FunctionTok{cut}\NormalTok{(sub\_df}\SpecialCharTok{$}\NormalTok{temp, }
+                          \AttributeTok{breaks =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\ConstantTok{Inf}\NormalTok{, }\DecValTok{40}\NormalTok{, }\DecValTok{55}\NormalTok{, }\DecValTok{70}\NormalTok{, }\DecValTok{80}\NormalTok{, }\ConstantTok{Inf}\NormalTok{),}
+                          \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Cold"}\NormalTok{, }\StringTok{"Cool"}\NormalTok{, }\StringTok{"Mild"}\NormalTok{, }\StringTok{"Warm"}\NormalTok{, }\StringTok{"Hot"}\NormalTok{))}
+
+\NormalTok{day\_order }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Monday"}\NormalTok{, }\StringTok{"Tuesday"}\NormalTok{, }\StringTok{"Wednesday"}\NormalTok{, }\StringTok{"Thursday"}\NormalTok{, }\StringTok{"Friday"}\NormalTok{, }\StringTok{"Saturday"}\NormalTok{, }\StringTok{"Sunday"}\NormalTok{)}
+\NormalTok{bus\_df}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Day of Week}\StringTok{\textasciigrave{}} \OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(bus\_df}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Day of Week}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{levels =}\NormalTok{ day\_order)}
+
+
+\NormalTok{sub\_df}\SpecialCharTok{$}\NormalTok{temperature }\OtherTok{\textless{}{-}} \FunctionTok{cut}\NormalTok{(sub\_df}\SpecialCharTok{$}\NormalTok{temp, }
+                          \AttributeTok{breaks =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\ConstantTok{Inf}\NormalTok{, }\DecValTok{40}\NormalTok{, }\DecValTok{55}\NormalTok{, }\DecValTok{70}\NormalTok{, }\DecValTok{80}\NormalTok{, }\ConstantTok{Inf}\NormalTok{),}
+                          \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Cold"}\NormalTok{, }\StringTok{"Cool"}\NormalTok{, }\StringTok{"Mild"}\NormalTok{, }\StringTok{"Warm"}\NormalTok{, }\StringTok{"Hot"}\NormalTok{))}
+
+\NormalTok{sub\_df}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Day of Week}\StringTok{\textasciigrave{}} \OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(sub\_df}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Day of Week}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{levels =}\NormalTok{ day\_order)}
+\end{Highlighting}
+\end{Shaded}
+
+======= \#\#\# Creation of corrplots
+
+Correlation plots with full model
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Corrplot with variables we think we want to use}
+\NormalTok{df\_subCorr }\OtherTok{\textless{}{-}}\NormalTok{ sub\_df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}}\NormalTok{, temp, precip, snowdepth, windspeed) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{cor}\NormalTok{() }
+\CommentTok{\# creating corrplot}
+\FunctionTok{corrplot}\NormalTok{(df\_subCorr, }\AttributeTok{method =} \StringTok{\textquotesingle{}color\textquotesingle{}}\NormalTok{, }\AttributeTok{tl.cex =} \FloatTok{0.9}\NormalTok{, }\AttributeTok{tl.col =} \StringTok{\textquotesingle{}black\textquotesingle{}}\NormalTok{,}
+\AttributeTok{order =} \StringTok{\textquotesingle{}hclust\textquotesingle{}}\NormalTok{, }\AttributeTok{type =} \StringTok{\textquotesingle{}upper\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{final-project-models_files/figure-pdf/unnamed-chunk-8-1.pdf}
+
+}
+
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Corrplot with all numeric variables}
+\NormalTok{df\_subCorr2 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}}\NormalTok{, tempmin, tempmax, temp, precip, snowdepth, snow, windspeed) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{cor}\NormalTok{()}
+\CommentTok{\# creating corrplot}
+\FunctionTok{corrplot}\NormalTok{(df\_subCorr2, }\AttributeTok{method =} \StringTok{\textquotesingle{}color\textquotesingle{}}\NormalTok{, }\AttributeTok{tl.cex =} \FloatTok{0.9}\NormalTok{, }\AttributeTok{tl.col =} \StringTok{\textquotesingle{}black\textquotesingle{}}\NormalTok{,}
+\AttributeTok{order =} \StringTok{\textquotesingle{}hclust\textquotesingle{}}\NormalTok{, }\AttributeTok{type =} \StringTok{\textquotesingle{}upper\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{final-project-models_files/figure-pdf/unnamed-chunk-8-2.pdf}
+
+}
+
+\end{figure}
+
+Correlation plots with reduced amount of variables
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Corrplot with variables we think we want to use}
+\NormalTok{df\_busCorr }\OtherTok{\textless{}{-}}\NormalTok{ bus\_df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Buses: Total Estimated Ridership}\StringTok{\textasciigrave{}}\NormalTok{, temp, precip, snowdepth, windspeed) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{cor}\NormalTok{()}
+\CommentTok{\# creating corrplot}
+\FunctionTok{corrplot}\NormalTok{(df\_busCorr, }\AttributeTok{method =} \StringTok{\textquotesingle{}color\textquotesingle{}}\NormalTok{, }\AttributeTok{tl.cex =} \FloatTok{0.9}\NormalTok{, }\AttributeTok{tl.col =} \StringTok{\textquotesingle{}black\textquotesingle{}}\NormalTok{,}
+\AttributeTok{order =} \StringTok{\textquotesingle{}hclust\textquotesingle{}}\NormalTok{, }\AttributeTok{type =} \StringTok{\textquotesingle{}upper\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{final-project-models_files/figure-pdf/unnamed-chunk-9-1.pdf}
+
+}
+
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Corrplot with all numeric variables}
+\NormalTok{df\_busCorr2 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Buses: Total Estimated Ridership}\StringTok{\textasciigrave{}}\NormalTok{, tempmin, tempmax, temp, precip, snowdepth, snow, windspeed) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{cor}\NormalTok{()}
+\CommentTok{\# creating corrplot}
+\FunctionTok{corrplot}\NormalTok{(df\_busCorr2, }\AttributeTok{method =} \StringTok{\textquotesingle{}color\textquotesingle{}}\NormalTok{, }\AttributeTok{tl.cex =} \FloatTok{0.9}\NormalTok{, }\AttributeTok{tl.col =} \StringTok{\textquotesingle{}black\textquotesingle{}}\NormalTok{,}
+\AttributeTok{order =} \StringTok{\textquotesingle{}hclust\textquotesingle{}}\NormalTok{, }\AttributeTok{type =} \StringTok{\textquotesingle{}upper\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{final-project-models_files/figure-pdf/unnamed-chunk-9-2.pdf}
+
+}
+
+\end{figure}
+
+\hypertarget{variance-inflation-factor-iteration-1}{%
+\subsection{Variance Inflation Factor (iteration
+1)}\label{variance-inflation-factor-iteration-1}}
+
+Subways
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#VIF}
+\FunctionTok{library}\NormalTok{(car)}
+
+\CommentTok{\#Removing date (wrong type: character) and conditions (too correlated with icon and would rather use icon)}
+\NormalTok{vif\_sub\_df }\OtherTok{\textless{}{-}}  
+\NormalTok{  sub\_df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{Date,}
+         \SpecialCharTok{{-}}\NormalTok{conditions)}
+
+
+\NormalTok{full\_model\_sub2 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ vif\_sub\_df)}
+
+
+\FunctionTok{vif}\NormalTok{(full\_model\_sub2) }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(}\AttributeTok{caption =} \StringTok{"Subways"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.5946}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1486}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0405}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2162}}@{}}
+\caption{Subways}\tabularnewline
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+GVIF
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Df
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+GVIF\^{}(1/(2*Df))
+\end{minipage} \\
+\midrule()
+\endfirsthead
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+GVIF
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Df
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+GVIF\^{}(1/(2*Df))
+\end{minipage} \\
+\midrule()
+\endhead
+\texttt{Day\ of\ Week} & 1.234096 & 6 & 1.017683 \\
+\texttt{Subways:\ \%\ of\ Comparable\ Pre-Pandemic\ Day} & 1.274632 & 1
+& 1.128996 \\
+tempmax & 98.108933 & 1 & 9.904995 \\
+tempmin & 90.337361 & 1 & 9.504597 \\
+temp & 326.632763 & 1 & 18.072984 \\
+precip & 1.220347 & 1 & 1.104693 \\
+snow & 2.175639 & 1 & 1.475005 \\
+snowdepth & 1.610135 & 1 & 1.268911 \\
+windspeed & 1.203030 & 1 & 1.096827 \\
+icon & 3.255796 & 4 & 1.158996 \\
+temperature & 18.673508 & 4 & 1.441794 \\
+\bottomrule()
+\end{longtable}
+
+Buses
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{vif\_bus\_df }\OtherTok{\textless{}{-}}  
+\NormalTok{  bus\_df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{Date,}
+         \SpecialCharTok{{-}}\NormalTok{conditions)}
+
+\NormalTok{full\_model\_bus2 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Buses: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ vif\_bus\_df)}
+
+\FunctionTok{vif}\NormalTok{(full\_model\_bus2) }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(}\AttributeTok{caption =} \StringTok{"Buses"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.5833}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1528}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0417}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2222}}@{}}
+\caption{Buses}\tabularnewline
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+GVIF
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Df
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+GVIF\^{}(1/(2*Df))
+\end{minipage} \\
+\midrule()
+\endfirsthead
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+GVIF
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Df
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+GVIF\^{}(1/(2*Df))
+\end{minipage} \\
+\midrule()
+\endhead
+\texttt{Day\ of\ Week} & 1.121389 & 6 & 1.009593 \\
+\texttt{Buses:\ \%\ of\ Comparable\ Pre-Pandemic\ Day} & 1.248714 & 1 &
+1.117459 \\
+tempmax & 96.969904 & 1 & 9.847330 \\
+tempmin & 90.313514 & 1 & 9.503342 \\
+temp & 325.206197 & 1 & 18.033474 \\
+precip & 1.224341 & 1 & 1.106499 \\
+snow & 2.184826 & 1 & 1.478116 \\
+snowdepth & 1.607460 & 1 & 1.267856 \\
+windspeed & 1.201331 & 1 & 1.096053 \\
+icon & 3.239809 & 4 & 1.158284 \\
+temperature & 18.849109 & 4 & 1.443482 \\
+\bottomrule()
+\end{longtable}
+
+We can see here that the differetn temp variables are heavily influenced
+by each other. They have vif values above 5 so there is
+multicollinearity. We will pick temp(cont) or temperature(cat). We will
+look at temp(cont) for now
+
+\hypertarget{variable-selection}{%
+\section{VARIABLE SELECTION}\label{variable-selection}}
+
+Subway
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Removing temperature (split into breaks / categorical), conditions (similar to icon, icon is better), and date (character)}
+\NormalTok{sub\_df2 }\OtherTok{\textless{}{-}}  
+\NormalTok{  sub\_df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{conditions,}
+         \SpecialCharTok{{-}}\NormalTok{temperature,}
+         \SpecialCharTok{{-}}\NormalTok{Date)}
+
+\CommentTok{\#building full model without the variables temperature (categorical) and conditions}
+\NormalTok{full\_model\_sub }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ sub\_df2)}
+\FunctionTok{summary}\NormalTok{(full\_model\_sub)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = `Subways: Total Estimated Ridership` ~ ., data = sub_df2)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2168947  -143839    30421   224450   583381 
+
+Coefficients:
+                                            Estimate Std. Error t value
+(Intercept)                                   651664     103277   6.310
+`Day of Week`Tuesday                          266275      51463   5.174
+`Day of Week`Wednesday                        293446      51638   5.683
+`Day of Week`Thursday                         227482      51588   4.410
+`Day of Week`Friday                           141690      51416   2.756
+`Day of Week`Saturday                        -993131      52369 -18.964
+`Day of Week`Sunday                         -1406594      52662 -26.710
+`Subways: % of Comparable Pre-Pandemic Day`  3505615     118132  29.675
+tempmax                                       -12037       7555  -1.593
+tempmin                                        -6068       7844  -0.774
+temp                                           20268      14450   1.403
+precip                                        -38081      74075  -0.514
+snow                                           36163      54420   0.665
+snowdepth                                     -47973      17139  -2.799
+windspeed                                       3664       3550   1.032
+iconcloudy                                    -87102      96670  -0.901
+iconpartly-cloudy-day                          -3349      40821  -0.082
+iconrain                                      -20871      38168  -0.547
+iconsnow                                      -17533     101872  -0.172
+                                            Pr(>|t|)    
+(Intercept)                                 4.91e-10 ***
+`Day of Week`Tuesday                        2.98e-07 ***
+`Day of Week`Wednesday                      1.93e-08 ***
+`Day of Week`Thursday                       1.20e-05 ***
+`Day of Week`Friday                          0.00601 ** 
+`Day of Week`Saturday                        < 2e-16 ***
+`Day of Week`Sunday                          < 2e-16 ***
+`Subways: % of Comparable Pre-Pandemic Day`  < 2e-16 ***
+tempmax                                      0.11156    
+tempmin                                      0.43945    
+temp                                         0.16116    
+precip                                       0.60734    
+snow                                         0.50658    
+snowdepth                                    0.00526 ** 
+windspeed                                    0.30228    
+iconcloudy                                   0.36788    
+iconpartly-cloudy-day                        0.93463    
+iconrain                                     0.58468    
+iconsnow                                     0.86340    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 369300 on 711 degrees of freedom
+Multiple R-squared:  0.7852,    Adjusted R-squared:  0.7797 
+F-statistic: 144.4 on 18 and 711 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#perform backwards variable selection}
+\NormalTok{backward\_model\_sub }\OtherTok{\textless{}{-}} \FunctionTok{step}\NormalTok{(full\_model\_sub, }\AttributeTok{direction =} \StringTok{"backward"}\NormalTok{, }\AttributeTok{scope=}\FunctionTok{formula}\NormalTok{(full\_model\_sub))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Start:  AIC=18734.83
+`Subways: Total Estimated Ridership` ~ `Day of Week` + `Subways: % of Comparable Pre-Pandemic Day` + 
+    tempmax + tempmin + temp + precip + snow + snowdepth + windspeed + 
+    icon
+
+                                              Df  Sum of Sq        RSS   AIC
+- icon                                         4 1.4320e+11 9.7086e+13 18728
+- precip                                       1 3.6036e+10 9.6979e+13 18733
+- snow                                         1 6.0207e+10 9.7003e+13 18733
+- tempmin                                      1 8.1590e+10 9.7025e+13 18733
+- windspeed                                    1 1.4530e+11 9.7088e+13 18734
+<none>                                                      9.6943e+13 18735
+- temp                                         1 2.6825e+11 9.7211e+13 18735
+- tempmax                                      1 3.4608e+11 9.7289e+13 18735
+- snowdepth                                    1 1.0682e+12 9.8011e+13 18741
+- `Subways: % of Comparable Pre-Pandemic Day`  1 1.2007e+14 2.1701e+14 19321
+- `Day of Week`                                6 2.7097e+14 3.6791e+14 19697
+
+Step:  AIC=18727.91
+`Subways: Total Estimated Ridership` ~ `Day of Week` + `Subways: % of Comparable Pre-Pandemic Day` + 
+    tempmax + tempmin + temp + precip + snow + snowdepth + windspeed
+
+                                              Df  Sum of Sq        RSS   AIC
+- precip                                       1 6.6933e+10 9.7153e+13 18726
+- snow                                         1 8.5240e+10 9.7171e+13 18727
+- tempmin                                      1 9.7814e+10 9.7184e+13 18727
+- windspeed                                    1 1.4825e+11 9.7234e+13 18727
+- temp                                         1 2.5749e+11 9.7344e+13 18728
+<none>                                                      9.7086e+13 18728
+- tempmax                                      1 3.0652e+11 9.7393e+13 18728
+- snowdepth                                    1 1.1097e+12 9.8196e+13 18734
+- `Subways: % of Comparable Pre-Pandemic Day`  1 1.2355e+14 2.2063e+14 19325
+- `Day of Week`                                6 2.7274e+14 3.6983e+14 19692
+
+Step:  AIC=18726.41
+`Subways: Total Estimated Ridership` ~ `Day of Week` + `Subways: % of Comparable Pre-Pandemic Day` + 
+    tempmax + tempmin + temp + snow + snowdepth + windspeed
+
+                                              Df  Sum of Sq        RSS   AIC
+- snow                                         1 7.9350e+10 9.7232e+13 18725
+- tempmin                                      1 9.2649e+10 9.7246e+13 18725
+- windspeed                                    1 1.1166e+11 9.7265e+13 18725
+- temp                                         1 2.4064e+11 9.7394e+13 18726
+<none>                                                      9.7153e+13 18726
+- tempmax                                      1 2.8407e+11 9.7437e+13 18727
+- snowdepth                                    1 1.0999e+12 9.8253e+13 18733
+- `Subways: % of Comparable Pre-Pandemic Day`  1 1.2367e+14 2.2082e+14 19324
+- `Day of Week`                                6 2.7295e+14 3.7010e+14 19691
+
+Step:  AIC=18725.01
+`Subways: Total Estimated Ridership` ~ `Day of Week` + `Subways: % of Comparable Pre-Pandemic Day` + 
+    tempmax + tempmin + temp + snowdepth + windspeed
+
+                                              Df  Sum of Sq        RSS   AIC
+- tempmin                                      1 9.5946e+10 9.7328e+13 18724
+- windspeed                                    1 1.2916e+11 9.7362e+13 18724
+- temp                                         1 2.4731e+11 9.7480e+13 18725
+<none>                                                      9.7232e+13 18725
+- tempmax                                      1 2.9389e+11 9.7526e+13 18725
+- snowdepth                                    1 1.0995e+12 9.8332e+13 18731
+- `Subways: % of Comparable Pre-Pandemic Day`  1 1.2382e+14 2.2105e+14 19323
+- `Day of Week`                                6 2.7328e+14 3.7051e+14 19690
+
+Step:  AIC=18723.73
+`Subways: Total Estimated Ridership` ~ `Day of Week` + `Subways: % of Comparable Pre-Pandemic Day` + 
+    tempmax + temp + snowdepth + windspeed
+
+                                              Df  Sum of Sq        RSS   AIC
+- windspeed                                    1 1.5434e+11 9.7483e+13 18723
+- tempmax                                      1 2.1504e+11 9.7543e+13 18723
+<none>                                                      9.7328e+13 18724
+- temp                                         1 3.1572e+11 9.7644e+13 18724
+- snowdepth                                    1 1.1010e+12 9.8429e+13 18730
+- `Subways: % of Comparable Pre-Pandemic Day`  1 1.2472e+14 2.2205e+14 19324
+- `Day of Week`                                6 2.7509e+14 3.7242e+14 19691
+
+Step:  AIC=18722.89
+`Subways: Total Estimated Ridership` ~ `Day of Week` + `Subways: % of Comparable Pre-Pandemic Day` + 
+    tempmax + temp + snowdepth
+
+                                              Df  Sum of Sq        RSS   AIC
+<none>                                                      9.7483e+13 18723
+- tempmax                                      1 2.7101e+11 9.7754e+13 18723
+- temp                                         1 3.6476e+11 9.7847e+13 18724
+- snowdepth                                    1 1.1204e+12 9.8603e+13 18729
+- `Subways: % of Comparable Pre-Pandemic Day`  1 1.2512e+14 2.2260e+14 19324
+- `Day of Week`                                6 2.7527e+14 3.7275e+14 19690
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(backward\_model\_sub)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = `Subways: Total Estimated Ridership` ~ `Day of Week` + 
+    `Subways: % of Comparable Pre-Pandemic Day` + tempmax + temp + 
+    snowdepth, data = sub_df2)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2157778  -144067    29167   222772   573503 
+
+Coefficients:
+                                            Estimate Std. Error t value
+(Intercept)                                   702603      83206   8.444
+`Day of Week`Tuesday                          262790      51087   5.144
+`Day of Week`Wednesday                        289471      51134   5.661
+`Day of Week`Thursday                         226466      51137   4.429
+`Day of Week`Friday                           142447      51042   2.791
+`Day of Week`Saturday                        -995143      52087 -19.106
+`Day of Week`Sunday                         -1406863      52250 -26.925
+`Subways: % of Comparable Pre-Pandemic Day`  3525430     116051  30.378
+tempmax                                        -7057       4991  -1.414
+temp                                            8750       5334   1.640
+snowdepth                                     -41715      14511  -2.875
+                                            Pr(>|t|)    
+(Intercept)                                  < 2e-16 ***
+`Day of Week`Tuesday                        3.47e-07 ***
+`Day of Week`Wednesday                      2.17e-08 ***
+`Day of Week`Thursday                       1.10e-05 ***
+`Day of Week`Friday                          0.00540 ** 
+`Day of Week`Saturday                        < 2e-16 ***
+`Day of Week`Sunday                          < 2e-16 ***
+`Subways: % of Comparable Pre-Pandemic Day`  < 2e-16 ***
+tempmax                                      0.15785    
+temp                                         0.10140    
+snowdepth                                    0.00416 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 368200 on 719 degrees of freedom
+Multiple R-squared:  0.784, Adjusted R-squared:  0.781 
+F-statistic: 260.9 on 10 and 719 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+Bus
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Doing the same thing with buses}
+\NormalTok{bus\_df2 }\OtherTok{\textless{}{-}}  
+\NormalTok{  bus\_df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{conditions,}
+         \SpecialCharTok{{-}}\NormalTok{temperature,}
+         \SpecialCharTok{{-}}\NormalTok{Date)}
+
+\NormalTok{full\_model\_bus }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Buses: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ bus\_df2)}
+\FunctionTok{summary}\NormalTok{(full\_model\_bus)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = `Buses: Total Estimated Ridership` ~ ., data = bus_df2)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-714049  -45112    3428   77574  269922 
+
+Coefficients:
+                                           Estimate Std. Error t value Pr(>|t|)
+(Intercept)                                477510.4    49561.5   9.635  < 2e-16
+`Day of Week`Tuesday                        98823.6    19609.3   5.040 5.92e-07
+`Day of Week`Wednesday                     110190.5    19668.2   5.602 3.02e-08
+`Day of Week`Thursday                       77318.4    19643.3   3.936 9.09e-05
+`Day of Week`Friday                         35032.0    19570.9   1.790  0.07388
+`Day of Week`Saturday                     -396551.8    19572.1 -20.261  < 2e-16
+`Day of Week`Sunday                       -585294.1    19599.2 -29.863  < 2e-16
+`Buses: % of Comparable Pre-Pandemic Day` 1031196.8    64665.1  15.947  < 2e-16
+tempmax                                     -2742.8     2863.0  -0.958  0.33838
+tempmin                                     -2371.9     2988.2  -0.794  0.42762
+temp                                         6971.3     5489.9   1.270  0.20456
+precip                                     -42347.2    28266.3  -1.498  0.13454
+snow                                        -8674.9    20774.2  -0.418  0.67638
+snowdepth                                  -17258.7     6528.4  -2.644  0.00838
+windspeed                                    1081.4     1351.4   0.800  0.42386
+iconcloudy                                 -33752.4    36736.2  -0.919  0.35852
+iconpartly-cloudy-day                        -167.4    15553.0  -0.011  0.99141
+iconrain                                   -14538.0    14532.7  -1.000  0.31747
+iconsnow                                     3031.4    38827.9   0.078  0.93779
+                                             
+(Intercept)                               ***
+`Day of Week`Tuesday                      ***
+`Day of Week`Wednesday                    ***
+`Day of Week`Thursday                     ***
+`Day of Week`Friday                       .  
+`Day of Week`Saturday                     ***
+`Day of Week`Sunday                       ***
+`Buses: % of Comparable Pre-Pandemic Day` ***
+tempmax                                      
+tempmin                                      
+temp                                         
+precip                                       
+snow                                         
+snowdepth                                 ** 
+windspeed                                    
+iconcloudy                                   
+iconpartly-cloudy-day                        
+iconrain                                     
+iconsnow                                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 140700 on 711 degrees of freedom
+Multiple R-squared:  0.8102,    Adjusted R-squared:  0.8054 
+F-statistic: 168.6 on 18 and 711 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{backward\_model\_bus }\OtherTok{\textless{}{-}} \FunctionTok{step}\NormalTok{(full\_model\_bus, }\AttributeTok{direction =} \StringTok{"backward"}\NormalTok{, }\AttributeTok{scope=}\FunctionTok{formula}\NormalTok{(full\_model\_bus))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Start:  AIC=17326.02
+`Buses: Total Estimated Ridership` ~ `Day of Week` + `Buses: % of Comparable Pre-Pandemic Day` + 
+    tempmax + tempmin + temp + precip + snow + snowdepth + windspeed + 
+    icon
+
+                                            Df  Sum of Sq        RSS   AIC
+- icon                                       4 4.0992e+10 1.4114e+13 17320
+- snow                                       1 3.4513e+09 1.4076e+13 17324
+- tempmin                                    1 1.2470e+10 1.4085e+13 17325
+- windspeed                                  1 1.2674e+10 1.4085e+13 17325
+- tempmax                                    1 1.8166e+10 1.4091e+13 17325
+- temp                                       1 3.1916e+10 1.4105e+13 17326
+<none>                                                    1.4073e+13 17326
+- precip                                     1 4.4424e+10 1.4117e+13 17326
+- snowdepth                                  1 1.3833e+11 1.4211e+13 17331
+- `Buses: % of Comparable Pre-Pandemic Day`  1 5.0333e+12 1.9106e+13 17547
+- `Day of Week`                              6 4.7866e+13 6.1939e+13 18396
+
+Step:  AIC=17320.14
+`Buses: Total Estimated Ridership` ~ `Day of Week` + `Buses: % of Comparable Pre-Pandemic Day` + 
+    tempmax + tempmin + temp + precip + snow + snowdepth + windspeed
+
+                                            Df  Sum of Sq        RSS   AIC
+- snow                                       1 1.6313e+09 1.4115e+13 17318
+- windspeed                                  1 1.1071e+10 1.4125e+13 17319
+- tempmax                                    1 1.4327e+10 1.4128e+13 17319
+- tempmin                                    1 1.7199e+10 1.4131e+13 17319
+- temp                                       1 3.1359e+10 1.4145e+13 17320
+<none>                                                    1.4114e+13 17320
+- precip                                     1 7.0496e+10 1.4184e+13 17322
+- snowdepth                                  1 1.3727e+11 1.4251e+13 17325
+- `Buses: % of Comparable Pre-Pandemic Day`  1 5.2084e+12 1.9322e+13 17547
+- `Day of Week`                              6 4.7961e+13 6.2075e+13 18389
+
+Step:  AIC=17318.23
+`Buses: Total Estimated Ridership` ~ `Day of Week` + `Buses: % of Comparable Pre-Pandemic Day` + 
+    tempmax + tempmin + temp + precip + snowdepth + windspeed
+
+                                            Df  Sum of Sq        RSS   AIC
+- windspeed                                  1 1.0538e+10 1.4126e+13 17317
+- tempmax                                    1 1.4067e+10 1.4129e+13 17317
+- tempmin                                    1 1.6990e+10 1.4132e+13 17317
+- temp                                       1 3.1046e+10 1.4146e+13 17318
+<none>                                                    1.4115e+13 17318
+- precip                                     1 7.1171e+10 1.4187e+13 17320
+- snowdepth                                  1 1.9949e+11 1.4315e+13 17327
+- `Buses: % of Comparable Pre-Pandemic Day`  1 5.3169e+12 1.9432e+13 17550
+- `Day of Week`                              6 4.8036e+13 6.2151e+13 18388
+
+Step:  AIC=17316.77
+`Buses: Total Estimated Ridership` ~ `Day of Week` + `Buses: % of Comparable Pre-Pandemic Day` + 
+    tempmax + tempmin + temp + precip + snowdepth
+
+                                            Df  Sum of Sq        RSS   AIC
+- tempmax                                    1 1.8133e+10 1.4144e+13 17316
+- tempmin                                    1 1.9754e+10 1.4146e+13 17316
+- temp                                       1 3.5817e+10 1.4162e+13 17317
+<none>                                                    1.4126e+13 17317
+- precip                                     1 6.2383e+10 1.4188e+13 17318
+- snowdepth                                  1 2.0274e+11 1.4329e+13 17325
+- `Buses: % of Comparable Pre-Pandemic Day`  1 5.3105e+12 1.9436e+13 17548
+- `Day of Week`                              6 4.8254e+13 6.2380e+13 18389
+
+Step:  AIC=17315.71
+`Buses: Total Estimated Ridership` ~ `Day of Week` + `Buses: % of Comparable Pre-Pandemic Day` + 
+    tempmin + temp + precip + snowdepth
+
+                                            Df  Sum of Sq        RSS   AIC
+- tempmin                                    1 3.7978e+09 1.4148e+13 17314
+- temp                                       1 3.0532e+10 1.4175e+13 17315
+<none>                                                    1.4144e+13 17316
+- precip                                     1 5.4802e+10 1.4199e+13 17317
+- snowdepth                                  1 2.0024e+11 1.4344e+13 17324
+- `Buses: % of Comparable Pre-Pandemic Day`  1 5.3667e+12 1.9511e+13 17549
+- `Day of Week`                              6 4.8283e+13 6.2427e+13 18388
+
+Step:  AIC=17313.9
+`Buses: Total Estimated Ridership` ~ `Day of Week` + `Buses: % of Comparable Pre-Pandemic Day` + 
+    temp + precip + snowdepth
+
+                                            Df  Sum of Sq        RSS   AIC
+<none>                                                    1.4148e+13 17314
+- precip                                     1 5.6424e+10 1.4204e+13 17315
+- snowdepth                                  1 2.0205e+11 1.4350e+13 17322
+- temp                                       1 4.6941e+11 1.4617e+13 17336
+- `Buses: % of Comparable Pre-Pandemic Day`  1 5.3727e+12 1.9521e+13 17547
+- `Day of Week`                              6 4.8382e+13 6.2530e+13 18387
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(backward\_model\_bus)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = `Buses: Total Estimated Ridership` ~ `Day of Week` + 
+    `Buses: % of Comparable Pre-Pandemic Day` + temp + precip + 
+    snowdepth, data = bus_df2)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-710071  -43347    4643   74982  257244 
+
+Coefficients:
+                                           Estimate Std. Error t value Pr(>|t|)
+(Intercept)                                482471.2    41892.9  11.517  < 2e-16
+`Day of Week`Tuesday                        99506.1    19457.5   5.114 4.05e-07
+`Day of Week`Wednesday                     110519.1    19478.7   5.674 2.02e-08
+`Day of Week`Thursday                       78729.3    19464.4   4.045 5.80e-05
+`Day of Week`Friday                         36049.4    19420.1   1.856  0.06382
+`Day of Week`Saturday                     -395034.2    19422.1 -20.339  < 2e-16
+`Day of Week`Sunday                       -584938.4    19457.1 -30.063  < 2e-16
+`Buses: % of Comparable Pre-Pandemic Day` 1046885.2    63355.6  16.524  < 2e-16
+temp                                         1613.6      330.4   4.884 1.28e-06
+precip                                     -43598.4    25746.6  -1.693  0.09082
+snowdepth                                  -17884.6     5581.2  -3.204  0.00141
+                                             
+(Intercept)                               ***
+`Day of Week`Tuesday                      ***
+`Day of Week`Wednesday                    ***
+`Day of Week`Thursday                     ***
+`Day of Week`Friday                       .  
+`Day of Week`Saturday                     ***
+`Day of Week`Sunday                       ***
+`Buses: % of Comparable Pre-Pandemic Day` ***
+temp                                      ***
+precip                                    .  
+snowdepth                                 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 140300 on 719 degrees of freedom
+Multiple R-squared:  0.8092,    Adjusted R-squared:  0.8066 
+F-statistic:   305 on 10 and 719 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\hypertarget{vif-iteration-2}{%
+\subsection{VIF (iteration 2)}\label{vif-iteration-2}}
+
+Going through VIF again this time with less covariates as determined by
+the variable selection
+
+Subways
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Removinf date, conditions, and only leaving temp(cont.)}
+\NormalTok{vif\_sub\_df2 }\OtherTok{\textless{}{-}}  
+\NormalTok{  sub\_df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{Date,}
+         \SpecialCharTok{{-}}\NormalTok{conditions,}
+         \SpecialCharTok{{-}}\NormalTok{tempmin,}
+         \SpecialCharTok{{-}}\NormalTok{tempmax,}
+         \SpecialCharTok{{-}}\NormalTok{temperature, }
+         \SpecialCharTok{{-}}\NormalTok{icon,}
+         \SpecialCharTok{{-}}\NormalTok{snow, }
+         \SpecialCharTok{{-}}\NormalTok{precip,}
+         \SpecialCharTok{{-}}\NormalTok{windspeed)}
+
+\NormalTok{full\_model\_sub3 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ vif\_sub\_df2)}
+\FunctionTok{summary}\NormalTok{(full\_model\_sub3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = `Subways: Total Estimated Ridership` ~ ., data = vif_sub_df2)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2154079  -146272    28382   219399   577573 
+
+Coefficients:
+                                              Estimate Std. Error t value
+(Intercept)                                   667368.7    79441.2   8.401
+`Day of Week`Tuesday                          260925.4    51105.6   5.106
+`Day of Week`Wednesday                        287431.2    51148.9   5.620
+`Day of Week`Thursday                         226417.3    51172.7   4.425
+`Day of Week`Friday                           139597.9    51037.6   2.735
+`Day of Week`Saturday                        -998835.4    52057.0 -19.187
+`Day of Week`Sunday                         -1408177.9    52278.2 -26.936
+`Subways: % of Comparable Pre-Pandemic Day`  3542211.6   115522.3  30.663
+temp                                            1306.6      861.6   1.516
+snowdepth                                     -40641.6    14501.4  -2.803
+                                            Pr(>|t|)    
+(Intercept)                                 2.36e-16 ***
+`Day of Week`Tuesday                        4.22e-07 ***
+`Day of Week`Wednesday                      2.74e-08 ***
+`Day of Week`Thursday                       1.12e-05 ***
+`Day of Week`Friday                          0.00639 ** 
+`Day of Week`Saturday                        < 2e-16 ***
+`Day of Week`Sunday                          < 2e-16 ***
+`Subways: % of Comparable Pre-Pandemic Day`  < 2e-16 ***
+temp                                         0.12984    
+snowdepth                                    0.00521 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 368500 on 720 degrees of freedom
+Multiple R-squared:  0.7834,    Adjusted R-squared:  0.7807 
+F-statistic: 289.3 on 9 and 720 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{vif}\NormalTok{(full\_model\_sub3) }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(}\AttributeTok{caption =} \StringTok{"Subways"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.6111}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1250}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0417}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2222}}@{}}
+\caption{Subways}\tabularnewline
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+GVIF
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Df
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+GVIF\^{}(1/(2*Df))
+\end{minipage} \\
+\midrule()
+\endfirsthead
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+GVIF
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Df
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+GVIF\^{}(1/(2*Df))
+\end{minipage} \\
+\midrule()
+\endhead
+\texttt{Day\ of\ Week} & 1.102527 & 6 & 1.008167 \\
+\texttt{Subways:\ \%\ of\ Comparable\ Pre-Pandemic\ Day} & 1.208726 & 1
+& 1.099421 \\
+temp & 1.118419 & 1 & 1.057553 \\
+snowdepth & 1.147487 & 1 & 1.071208 \\
+\bottomrule()
+\end{longtable}
+
+Buses
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{vif\_bus\_df2 }\OtherTok{\textless{}{-}}  
+\NormalTok{  bus\_df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{Date,}
+         \SpecialCharTok{{-}}\NormalTok{conditions,}
+         \SpecialCharTok{{-}}\NormalTok{tempmin,}
+         \SpecialCharTok{{-}}\NormalTok{tempmax,}
+         \SpecialCharTok{{-}}\NormalTok{temperature,}
+         \SpecialCharTok{{-}}\NormalTok{icon,}
+         \SpecialCharTok{{-}}\NormalTok{snow)}
+
+\NormalTok{full\_model\_bus3 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Buses: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ vif\_bus\_df2)}
+\FunctionTok{summary}\NormalTok{(full\_model\_bus3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = `Buses: Total Estimated Ridership` ~ ., data = vif_bus_df2)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-711193  -42844    4808   77797  266197 
+
+Coefficients:
+                                          Estimate Std. Error t value Pr(>|t|)
+(Intercept)                                 464981      46642   9.969  < 2e-16
+`Day of Week`Tuesday                        100012      19470   5.137 3.61e-07
+`Day of Week`Wednesday                      111147      19496   5.701 1.74e-08
+`Day of Week`Thursday                        79777      19507   4.090 4.81e-05
+`Day of Week`Friday                          35975      19424   1.852  0.06442
+`Day of Week`Saturday                      -394591      19433 -20.305  < 2e-16
+`Day of Week`Sunday                        -585757      19484 -30.063  < 2e-16
+`Buses: % of Comparable Pre-Pandemic Day`  1047320      63370  16.527  < 2e-16
+temp                                          1670        337   4.956 9.00e-07
+precip                                      -49282      26598  -1.853  0.06432
+snowdepth                                   -17746       5585  -3.178  0.00155
+windspeed                                     1117       1308   0.854  0.39360
+                                             
+(Intercept)                               ***
+`Day of Week`Tuesday                      ***
+`Day of Week`Wednesday                    ***
+`Day of Week`Thursday                     ***
+`Day of Week`Friday                       .  
+`Day of Week`Saturday                     ***
+`Day of Week`Sunday                       ***
+`Buses: % of Comparable Pre-Pandemic Day` ***
+temp                                      ***
+precip                                    .  
+snowdepth                                 ** 
+windspeed                                    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 140300 on 718 degrees of freedom
+Multiple R-squared:  0.8094,    Adjusted R-squared:  0.8065 
+F-statistic: 277.2 on 11 and 718 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{vif}\NormalTok{(full\_model\_bus3) }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(}\AttributeTok{caption =} \StringTok{"Buses"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.6000}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1286}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0429}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2286}}@{}}
+\caption{Buses}\tabularnewline
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+GVIF
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Df
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+GVIF\^{}(1/(2*Df))
+\end{minipage} \\
+\midrule()
+\endfirsthead
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+GVIF
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Df
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+GVIF\^{}(1/(2*Df))
+\end{minipage} \\
+\midrule()
+\endhead
+\texttt{Day\ of\ Week} & 1.026623 & 6 & 1.002192 \\
+\texttt{Buses:\ \%\ of\ Comparable\ Pre-Pandemic\ Day} & 1.179530 & 1 &
+1.086062 \\
+temp & 1.180434 & 1 & 1.086478 \\
+precip & 1.082566 & 1 & 1.040464 \\
+snowdepth & 1.173801 & 1 & 1.083421 \\
+windspeed & 1.125354 & 1 & 1.060827 \\
+\bottomrule()
+\end{longtable}
+
+We can see all values are below 5 for both subways and buses. This
+indicates there is no multicollinearity.
+
+\hypertarget{creation-of-datasets-with-desired-covariates}{%
+\subsection{Creation of datasets with desired
+covariates}\label{creation-of-datasets-with-desired-covariates}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sub\_new }\OtherTok{\textless{}{-}}\NormalTok{ sub\_df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}}\NormalTok{, }\StringTok{\textasciigrave{}}\AttributeTok{Day of Week}\StringTok{\textasciigrave{}}\NormalTok{,}\StringTok{\textasciigrave{}}\AttributeTok{Subways: \% of Comparable Pre{-}Pandemic Day}\StringTok{\textasciigrave{}}\NormalTok{,temp, snowdepth)}
+\NormalTok{lm\_sub }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ sub\_new)}
+
+\NormalTok{bus\_new }\OtherTok{\textless{}{-}}\NormalTok{ bus\_df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Buses: Total Estimated Ridership}\StringTok{\textasciigrave{}}\NormalTok{,}\StringTok{\textasciigrave{}}\AttributeTok{Day of Week}\StringTok{\textasciigrave{}}\NormalTok{,}\StringTok{\textasciigrave{}}\AttributeTok{Buses: \% of Comparable Pre{-}Pandemic Day}\StringTok{\textasciigrave{}}\NormalTok{, temp, windspeed, snowdepth)}
+\NormalTok{lm\_bus }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Buses: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ bus\_new)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{using-k-fold-cross-validation-to-split-the-data}{%
+\paragraph{Using K-Fold Cross Validation to split the
+data}\label{using-k-fold-cross-validation-to-split-the-data}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{k }\OtherTok{\textless{}{-}} \DecValTok{5} 
+
+\CommentTok{\# making folds for subways}
+\NormalTok{make\_folds\_sub }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(sub\_new, k)\{}
+\NormalTok{  folds }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{k, }\FunctionTok{nrow}\NormalTok{(sub\_new), }\AttributeTok{replace =}\NormalTok{ T)}
+\NormalTok{  df\_folds }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{k)\{}
+\NormalTok{    df\_folds[[i]] }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{()}
+\NormalTok{    df\_folds[[i]]}\SpecialCharTok{$}\NormalTok{train }\OtherTok{\textless{}{-}}\NormalTok{ sub\_new[}\FunctionTok{which}\NormalTok{(folds }\SpecialCharTok{!=}\NormalTok{ i), ]}
+\NormalTok{    df\_folds[[i]]}\SpecialCharTok{$}\NormalTok{test }\OtherTok{\textless{}{-}}\NormalTok{ sub\_new[}\FunctionTok{which}\NormalTok{(folds }\SpecialCharTok{==}\NormalTok{ i), ]}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{(df\_folds)}
+\NormalTok{\}}
+
+
+\NormalTok{cv\_mspe }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(formula, df\_folds)\{}
+\NormalTok{  kfold\_mspe }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(df\_folds))\{}
+    \CommentTok{\# change model to fit our project}
+\NormalTok{    model }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(formula, df\_folds[[i]]}\SpecialCharTok{$}\NormalTok{train)}
+    \CommentTok{\# change model again}
+\NormalTok{    y\_hat }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(model, df\_folds[[i]]}\SpecialCharTok{$}\NormalTok{test)}
+    \CommentTok{\# change the response from \textquotesingle{}medv\textquotesingle{} to our response}
+\NormalTok{    kfold\_mspe[i] }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{((y\_hat }\SpecialCharTok{{-}}\NormalTok{ df\_folds[[i]]}\SpecialCharTok{$}\NormalTok{test}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}}\NormalTok{)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{mean}\NormalTok{(kfold\_mspe))}
+\NormalTok{\}}
+
+\FunctionTok{cv\_mspe}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\FunctionTok{make\_folds\_sub}\NormalTok{(sub\_new, k))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 372189
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# a lot of the following code does not work due to us not having a model as of typing this}
+
+
+\CommentTok{\# making folds for buses}
+\NormalTok{make\_folds\_bus }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(bus\_new, k)\{}
+\NormalTok{  folds }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{k, }\FunctionTok{nrow}\NormalTok{(bus\_new), }\AttributeTok{replace =}\NormalTok{ T)}
+\NormalTok{  df\_folds }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{k)\{}
+\NormalTok{    df\_folds[[i]] }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{()}
+\NormalTok{    df\_folds[[i]]}\SpecialCharTok{$}\NormalTok{train }\OtherTok{=}\NormalTok{ bus\_new[}\FunctionTok{which}\NormalTok{(folds }\SpecialCharTok{!=}\NormalTok{ i), ]}
+\NormalTok{    df\_folds[[i]]}\SpecialCharTok{$}\NormalTok{test }\OtherTok{=}\NormalTok{ bus\_new[}\FunctionTok{which}\NormalTok{(folds }\SpecialCharTok{==}\NormalTok{ i), ]}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{(df\_folds)}
+\NormalTok{\}}
+
+
+\NormalTok{cv\_mspe }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(formula, df\_folds)\{}
+\NormalTok{  kfold\_mspe }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(df\_folds))\{}
+    \CommentTok{\# change model to fit our project}
+\NormalTok{    model }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(formula, df\_folds[[i]]}\SpecialCharTok{$}\NormalTok{train)}
+    \CommentTok{\# change model again}
+\NormalTok{    y\_hat }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(model, df\_folds[[i]]}\SpecialCharTok{$}\NormalTok{test)}
+    \CommentTok{\# change the response from \textquotesingle{}medv\textquotesingle{} to our response}
+\NormalTok{    kfold\_mspe[i] }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{((y\_hat }\SpecialCharTok{{-}}\NormalTok{ df\_folds[[i]]}\SpecialCharTok{$}\NormalTok{test}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}}\NormalTok{)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{mean}\NormalTok{(kfold\_mspe))}
+\NormalTok{\}}
+
+\NormalTok{rmse }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(y, yhat) \{}
+  \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{((y }\SpecialCharTok{{-}}\NormalTok{ yhat)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# calling the make\_folds() function}
+\NormalTok{df\_folds }\OtherTok{\textless{}{-}} \FunctionTok{make\_folds}\NormalTok{(df, }\DecValTok{5}\NormalTok{)}
+
+\CommentTok{\# you can specify the particular fold as well as the training/testing data}
+\CommentTok{\# just change the index from any number between 1 and k}
+\NormalTok{df\_folds[[}\DecValTok{1}\NormalTok{]]}\SpecialCharTok{$}\NormalTok{test}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Set the number of folds for cross{-}validation}
+
+\NormalTok{folds }\OtherTok{\textless{}{-}} \FunctionTok{make\_folds\_sub}\NormalTok{(sub\_new, }\AttributeTok{k =} \DecValTok{10}\NormalTok{)}
+
+\NormalTok{temp\_list }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(folds[[}\DecValTok{1}\NormalTok{]]}\SpecialCharTok{$}\NormalTok{train, folds[[}\DecValTok{2}\NormalTok{]]}\SpecialCharTok{$}\NormalTok{train, folds[[}\DecValTok{3}\NormalTok{]]}\SpecialCharTok{$}\NormalTok{train, folds[[}\DecValTok{4}\NormalTok{]]}\SpecialCharTok{$}\NormalTok{train, folds[[}\DecValTok{5}\NormalTok{]]}\SpecialCharTok{$}\NormalTok{train)}
+\NormalTok{train\_data }\OtherTok{\textless{}{-}} \FunctionTok{Reduce}\NormalTok{(}\ControlFlowTok{function}\NormalTok{(x, y) }\FunctionTok{merge}\NormalTok{(x, y, }\AttributeTok{all =} \ConstantTok{TRUE}\NormalTok{), temp\_list)}
+
+
+
+\NormalTok{ctrl }\OtherTok{\textless{}{-}} \FunctionTok{trainControl}\NormalTok{(}\AttributeTok{method =} \StringTok{"cv"}\NormalTok{, }\AttributeTok{number =} \DecValTok{10}\NormalTok{)}
+
+\CommentTok{\# Define the model to use}
+\NormalTok{model }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{., }\AttributeTok{data =}\NormalTok{ train\_data, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{, }\AttributeTok{trControl =}\NormalTok{ ctrl)}
+
+\CommentTok{\# Print the cross{-}validation results}
+\FunctionTok{print}\NormalTok{(model}\SpecialCharTok{$}\NormalTok{results)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     sigma    C     RMSE  Rsquared      MAE   RMSESD RsquaredSD    MAESD
+1 0.138214 0.25 265542.8 0.8768529 131755.5 97912.00 0.06653457 33001.22
+2 0.138214 0.50 259532.8 0.8821303 125355.2 99086.45 0.06525221 31447.35
+3 0.138214 1.00 255400.5 0.8859978 121986.4 98626.68 0.06431864 30761.30
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train1 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_df[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{233}\NormalTok{, ]}
+\NormalTok{test1 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_df[}\DecValTok{234}\SpecialCharTok{:}\DecValTok{292}\NormalTok{, ]}
+\NormalTok{model1 }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Buses: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train1, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m1RMSE }\OtherTok{\textless{}{-}}\NormalTok{ model1}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{RMSE}
+
+\NormalTok{train2 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_df[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{320}\NormalTok{, ]}
+\NormalTok{test2 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_df[}\DecValTok{320}\SpecialCharTok{:}\DecValTok{401}\NormalTok{, ]}
+\NormalTok{model2 }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Buses: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train2, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m2RMSE }\OtherTok{\textless{}{-}}\NormalTok{ model2}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{RMSE}
+
+
+\NormalTok{train3 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_df[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{408}\NormalTok{, ]}
+\NormalTok{test3 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_df[}\DecValTok{409}\SpecialCharTok{:}\DecValTok{511}\NormalTok{, ]}
+\NormalTok{model3 }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Buses: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train3, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m3RMSE }\OtherTok{\textless{}{-}}\NormalTok{ model3}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{RMSE}
+
+
+\NormalTok{train4 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_df[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{496}\NormalTok{, ]}
+\NormalTok{test4 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_df[}\DecValTok{497}\SpecialCharTok{:}\DecValTok{620}\NormalTok{, ]}
+\NormalTok{model4 }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Buses: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train4, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m4RMSE }\OtherTok{\textless{}{-}}\NormalTok{ model3}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{RMSE}
+
+
+\NormalTok{train5 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_df[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{584}\NormalTok{, ]}
+\NormalTok{test5 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_df[}\DecValTok{585}\SpecialCharTok{:}\DecValTok{730}\NormalTok{, ]}
+\NormalTok{model5 }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Buses: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train5, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m5RMSE }\OtherTok{\textless{}{-}}\NormalTok{ model5}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{RMSE}
+
+\NormalTok{avgRMSE }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(m1RMSE)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{(m2RMSE)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{(m3RMSE)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{(m4RMSE)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{(m5RMSE))}\SpecialCharTok{/}\DecValTok{15}
+\NormalTok{avgRMSE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 327677.8
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train1 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_df[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{233}\NormalTok{, ]}
+\NormalTok{test1 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_df[}\DecValTok{234}\SpecialCharTok{:}\DecValTok{292}\NormalTok{, ]}
+\NormalTok{model1 }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train1, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m1RMSE }\OtherTok{\textless{}{-}}\NormalTok{ model1}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{RMSE}
+
+\NormalTok{train2 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_df[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{320}\NormalTok{, ]}
+\NormalTok{test2 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_df[}\DecValTok{320}\SpecialCharTok{:}\DecValTok{401}\NormalTok{, ]}
+\NormalTok{model2 }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train2, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m2RMSE }\OtherTok{\textless{}{-}}\NormalTok{ model2}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{RMSE}
+
+
+\NormalTok{train3 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_df[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{408}\NormalTok{, ]}
+\NormalTok{test3 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_df[}\DecValTok{409}\SpecialCharTok{:}\DecValTok{511}\NormalTok{, ]}
+\NormalTok{model3 }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train3, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m3RMSE }\OtherTok{\textless{}{-}}\NormalTok{ model3}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{RMSE}
+
+
+\NormalTok{train4 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_df[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{496}\NormalTok{, ]}
+\NormalTok{test4 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_df[}\DecValTok{497}\SpecialCharTok{:}\DecValTok{620}\NormalTok{, ]}
+\NormalTok{model4 }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train4, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m4RMSE }\OtherTok{\textless{}{-}}\NormalTok{ model3}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{RMSE}
+
+
+\NormalTok{train5 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_df[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{584}\NormalTok{, ]}
+\NormalTok{test5 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_df[}\DecValTok{585}\SpecialCharTok{:}\DecValTok{730}\NormalTok{, ]}
+\NormalTok{model5 }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train5, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m5RMSE }\OtherTok{\textless{}{-}}\NormalTok{ model5}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{RMSE}
+
+\NormalTok{avgRMSE }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(m1RMSE)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{(m2RMSE)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{(m3RMSE)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{(m4RMSE)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{(m5RMSE))}\SpecialCharTok{/}\DecValTok{15}
+\NormalTok{avgRMSE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 723398.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train1 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_new[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{233}\NormalTok{, ]}
+\NormalTok{test1 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_new[}\DecValTok{234}\SpecialCharTok{:}\DecValTok{292}\NormalTok{, ]}
+\NormalTok{model1 }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train1, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m1RMSE }\OtherTok{\textless{}{-}}\NormalTok{ model1}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{RMSE}
+
+\NormalTok{train2 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_new[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{320}\NormalTok{, ]}
+\NormalTok{test2 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_new[}\DecValTok{320}\SpecialCharTok{:}\DecValTok{401}\NormalTok{, ]}
+\NormalTok{model2 }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train2, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{)}
+\NormalTok{m2RMSE }\OtherTok{\textless{}{-}}\NormalTok{ model2}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{RMSE}
+
+
+\NormalTok{train3 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_new[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{408}\NormalTok{, ]}
+\NormalTok{test3 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_new[}\DecValTok{409}\SpecialCharTok{:}\DecValTok{511}\NormalTok{, ]}
+\NormalTok{model3 }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train3, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{)}
+\NormalTok{m3RMSE }\OtherTok{\textless{}{-}}\NormalTok{ model3}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{RMSE}
+
+
+\NormalTok{train4 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_new[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{496}\NormalTok{, ]}
+\NormalTok{test4 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_new[}\DecValTok{497}\SpecialCharTok{:}\DecValTok{620}\NormalTok{, ]}
+\NormalTok{model4 }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train4, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{)}
+\NormalTok{m4RMSE }\OtherTok{\textless{}{-}}\NormalTok{ model3}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{RMSE}
+
+
+\NormalTok{train5 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_new[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{584}\NormalTok{, ]}
+\NormalTok{test5 }\OtherTok{\textless{}{-}}\NormalTok{ sub\_new[}\DecValTok{585}\SpecialCharTok{:}\DecValTok{730}\NormalTok{, ]}
+\NormalTok{model5 }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train5, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{)}
+\NormalTok{m5RMSE }\OtherTok{\textless{}{-}}\NormalTok{ model5}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{RMSE}
+
+\NormalTok{avgRMSE }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(m1RMSE)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{(m2RMSE)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{(m3RMSE)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{(m4RMSE)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{(m5RMSE))}\SpecialCharTok{/}\DecValTok{15}
+\NormalTok{avgRMSE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 295687.9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train1 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_new[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{233}\NormalTok{, ]}
+\NormalTok{test1 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_new[}\DecValTok{234}\SpecialCharTok{:}\DecValTok{292}\NormalTok{, ]}
+\NormalTok{model1 }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Buses: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train1, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+
+Warning in .local(x, ...): Variable(s) `' constant. Cannot scale data.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m1RMSE }\OtherTok{\textless{}{-}}\NormalTok{ model1}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{RMSE}
+
+\NormalTok{train2 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_new[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{320}\NormalTok{, ]}
+\NormalTok{test2 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_new[}\DecValTok{320}\SpecialCharTok{:}\DecValTok{401}\NormalTok{, ]}
+\NormalTok{model2 }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Buses: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train2, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{)}
+\NormalTok{m2RMSE }\OtherTok{\textless{}{-}}\NormalTok{ model2}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{RMSE}
+
+
+\NormalTok{train3 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_new[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{408}\NormalTok{, ]}
+\NormalTok{test3 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_new[}\DecValTok{409}\SpecialCharTok{:}\DecValTok{511}\NormalTok{, ]}
+\NormalTok{model3 }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Buses: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train3, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{)}
+\NormalTok{m3RMSE }\OtherTok{\textless{}{-}}\NormalTok{ model3}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{RMSE}
+
+
+\NormalTok{train4 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_new[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{496}\NormalTok{, ]}
+\NormalTok{test4 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_new[}\DecValTok{497}\SpecialCharTok{:}\DecValTok{620}\NormalTok{, ]}
+\NormalTok{model4 }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Buses: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train4, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{)}
+\NormalTok{m4RMSE }\OtherTok{\textless{}{-}}\NormalTok{ model3}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{RMSE}
+
+
+\NormalTok{train5 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_new[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{584}\NormalTok{, ]}
+\NormalTok{test5 }\OtherTok{\textless{}{-}}\NormalTok{ bus\_new[}\DecValTok{585}\SpecialCharTok{:}\DecValTok{730}\NormalTok{, ]}
+\NormalTok{model5 }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Buses: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train5, }\AttributeTok{method =} \StringTok{"svmRadial"}\NormalTok{)}
+\NormalTok{m5RMSE }\OtherTok{\textless{}{-}}\NormalTok{ model5}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{RMSE}
+
+\NormalTok{avgRMSE }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(m1RMSE)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{(m2RMSE)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{(m3RMSE)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{(m4RMSE)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{(m5RMSE))}\SpecialCharTok{/}\DecValTok{15}
+\NormalTok{avgRMSE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 123446.6
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df\_RMSE }\OtherTok{\textless{}{-}}
+  \FunctionTok{data.frame}\NormalTok{(}
+    \AttributeTok{Model =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Full Bus Model\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Variable Selection Bus Model\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Full Subway Model\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Variable Selection Subway Model\textquotesingle{}}\NormalTok{),}
+    \AttributeTok{RMSE =} \FunctionTok{c}\NormalTok{(}\FloatTok{341047.4}\NormalTok{, }\FloatTok{133594.3}\NormalTok{, }\FloatTok{737898.9}\NormalTok{, }\FloatTok{290746.7}\NormalTok{)}
+\NormalTok{  )}
+\NormalTok{df\_RMSE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                            Model     RMSE
+1                  Full Bus Model 341047.4
+2    Variable Selection Bus Model 133594.3
+3               Full Subway Model 737898.9
+4 Variable Selection Subway Model 290746.7
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{k }\OtherTok{\textless{}{-}} \DecValTok{10}
+
+\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ sub\_df }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{conditions,}
+                          \SpecialCharTok{{-}}\NormalTok{Date,}
+                          \SpecialCharTok{{-}}\NormalTok{icon,}
+                          \SpecialCharTok{{-}}\NormalTok{temperature)}
+
+\NormalTok{split\_indices }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(data), }\AttributeTok{by =} \FunctionTok{floor}\NormalTok{(}\FunctionTok{nrow}\NormalTok{(data) }\SpecialCharTok{/}\NormalTok{ k))}
+
+\CommentTok{\# Perform cross{-}validation}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{2}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(split\_indices)) \{}
+  \CommentTok{\# Split the data into training and testing sets}
+\NormalTok{  train\_indices }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(split\_indices[i }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{], split\_indices[i] }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}
+\NormalTok{  test\_indices }\OtherTok{\textless{}{-}}\NormalTok{ split\_indices[i]}\SpecialCharTok{:}\FunctionTok{min}\NormalTok{(split\_indices[i] }\SpecialCharTok{+} \FunctionTok{floor}\NormalTok{(}\FunctionTok{nrow}\NormalTok{(data) }\SpecialCharTok{/}\NormalTok{ k) }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(data))}
+\NormalTok{  train\_data }\OtherTok{\textless{}{-}}\NormalTok{ data[train\_indices, ]}
+\NormalTok{  test\_data }\OtherTok{\textless{}{-}}\NormalTok{ data[test\_indices, ]}
+  
+  \CommentTok{\# Train the model on the training data}
+\NormalTok{  model }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train\_data, }\AttributeTok{method =} \StringTok{"lm"}\NormalTok{)}
+  
+  \CommentTok{\# Make predictions on the testing data}
+\NormalTok{  predictions }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(model, }\AttributeTok{newdata =}\NormalTok{ test\_data)}
+  
+  \CommentTok{\# Compute the accuracy metric(s) for this fold}
+\NormalTok{  accuracy }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{((test\_data}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}} \SpecialCharTok{{-}}\NormalTok{ predictions) }\SpecialCharTok{\^{}} \DecValTok{2}\NormalTok{))}
+  
+  \CommentTok{\# Print the accuracy metric(s) for this fold}
+  \FunctionTok{print}\NormalTok{(accuracy)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+\end{verbatim}
+
+\begin{verbatim}
+[1] 496740.8
+\end{verbatim}
+
+\begin{verbatim}
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+\end{verbatim}
+
+\begin{verbatim}
+[1] 374982.8
+\end{verbatim}
+
+\begin{verbatim}
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+\end{verbatim}
+
+\begin{verbatim}
+[1] 332034.3
+\end{verbatim}
+
+\begin{verbatim}
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+\end{verbatim}
+
+\begin{verbatim}
+[1] 438947.8
+[1] 461855.1
+\end{verbatim}
+
+\begin{verbatim}
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+\end{verbatim}
+
+\begin{verbatim}
+[1] 839692
+\end{verbatim}
+
+\begin{verbatim}
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+\end{verbatim}
+
+\begin{verbatim}
+[1] 381064.6
+\end{verbatim}
+
+\begin{verbatim}
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+\end{verbatim}
+
+\begin{verbatim}
+[1] 187870.6
+\end{verbatim}
+
+\begin{verbatim}
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+\end{verbatim}
+
+\begin{verbatim}
+[1] 294260.8
+\end{verbatim}
+
+\hypertarget{including-holidays}{%
+\subsection{Including Holidays}\label{including-holidays}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{holiday\_df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{holiday =} \FunctionTok{c}\NormalTok{(}\StringTok{"New Year\textquotesingle{}s Day"}\NormalTok{, }\StringTok{"Independence Day"}\NormalTok{, }\StringTok{"Thanksgiving"}\NormalTok{, }\StringTok{"Christmas"}\NormalTok{),}
+  \AttributeTok{ds =} \FunctionTok{as.Date}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"2021{-}01{-}01"}\NormalTok{, }\StringTok{"2021{-}07{-}04"}\NormalTok{, }\StringTok{"2021{-}11{-}25"}\NormalTok{, }\StringTok{"2021{-}12{-}25"}\NormalTok{)),}
+  \AttributeTok{lower\_window =} \DecValTok{0}\NormalTok{,}
+  \AttributeTok{upper\_window =} \DecValTok{1}
+\NormalTok{)}
+
+\NormalTok{sub\_new }\OtherTok{\textless{}{-}}\NormalTok{ sub\_df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{ (}\StringTok{\textasciigrave{}}\AttributeTok{Subways: Total Estimated Ridership}\StringTok{\textasciigrave{}}\NormalTok{, }\StringTok{\textasciigrave{}}\AttributeTok{Day of Week}\StringTok{\textasciigrave{}}\NormalTok{,}\StringTok{\textasciigrave{}}\AttributeTok{Subways: \% of Comparable Pre{-}Pandemic Day}\StringTok{\textasciigrave{}}\NormalTok{,temp, snowdepth, Date)}
+
+\NormalTok{bus\_new }\OtherTok{\textless{}{-}}\NormalTok{ bus\_df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Buses: Total Estimated Ridership}\StringTok{\textasciigrave{}}\NormalTok{,}\StringTok{\textasciigrave{}}\AttributeTok{Day of Week}\StringTok{\textasciigrave{}}\NormalTok{,}\StringTok{\textasciigrave{}}\AttributeTok{Buses: \% of Comparable Pre{-}Pandemic Day}\StringTok{\textasciigrave{}}\NormalTok{, temp, windspeed, snowdepth, Date)}
+
+
+\NormalTok{holiday\_df }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ head}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+           holiday         ds lower_window upper_window
+1   New Year's Day 2021-01-01            0            1
+2 Independence Day 2021-07-04            0            1
+3     Thanksgiving 2021-11-25            0            1
+4        Christmas 2021-12-25            0            1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Merging the dataset}
+\NormalTok{sub\_df }\OtherTok{\textless{}{-}}\NormalTok{ sub\_new }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{isholiday =} \FunctionTok{ifelse}\NormalTok{(Date }\SpecialCharTok{\%in\%}\NormalTok{ holiday\_df}\SpecialCharTok{$}\NormalTok{ds, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+\NormalTok{bus\_df }\OtherTok{\textless{}{-}}\NormalTok{ bus\_new }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{isholiday =} \FunctionTok{ifelse}\NormalTok{(Date }\SpecialCharTok{\%in\%}\NormalTok{ holiday\_df}\SpecialCharTok{$}\NormalTok{ds, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Creating the train/test datasets
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Split the data into training and testing sets}
+\NormalTok{train\_sub\_df }\OtherTok{\textless{}{-}}\NormalTok{ sub\_df }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Date }\SpecialCharTok{\textless{}} \FunctionTok{as.Date}\NormalTok{(}\StringTok{"2022{-}01{-}01"}\NormalTok{))}
+\NormalTok{test\_sub\_df }\OtherTok{\textless{}{-}}\NormalTok{ sub\_df }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Date }\SpecialCharTok{\textgreater{}=} \FunctionTok{as.Date}\NormalTok{(}\StringTok{"2022{-}01{-}01"}\NormalTok{))}
+
+\NormalTok{train\_bus\_df }\OtherTok{\textless{}{-}}\NormalTok{ bus\_df }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Date }\SpecialCharTok{\textless{}} \FunctionTok{as.Date}\NormalTok{(}\StringTok{"2022{-}01{-}01"}\NormalTok{))}
+\NormalTok{test\_bus\_df }\OtherTok{\textless{}{-}}\NormalTok{ bus\_df }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Date }\SpecialCharTok{\textgreater{}=} \FunctionTok{as.Date}\NormalTok{(}\StringTok{"2022{-}01{-}01"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Preparing the model to use the \texttt{prophet} function
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create a function to prepare the data for the Prophet model}
+\NormalTok{prepare\_data\_for\_prophet }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(df, y\_column) \{}
+\NormalTok{  df }\OtherTok{\textless{}{-}}\NormalTok{ df }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{select}\NormalTok{(Date, }\AttributeTok{y =} \SpecialCharTok{!!}\NormalTok{y\_column) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{rename}\NormalTok{(}\AttributeTok{ds =}\NormalTok{ Date)}
+  \FunctionTok{return}\NormalTok{(df)}
+\NormalTok{\}}
+
+\CommentTok{\# Prepare the data for the Prophet model}
+\NormalTok{train\_sub\_prophet }\OtherTok{\textless{}{-}} \FunctionTok{prepare\_data\_for\_prophet}\NormalTok{(train\_sub\_df, }\StringTok{\textquotesingle{}Subways: Total Estimated Ridership\textquotesingle{}}\NormalTok{)}
+\NormalTok{test\_sub\_prophet }\OtherTok{\textless{}{-}} \FunctionTok{prepare\_data\_for\_prophet}\NormalTok{(test\_sub\_df, }\StringTok{\textquotesingle{}Subways: Total Estimated Ridership\textquotesingle{}}\NormalTok{)}
+  
+\NormalTok{train\_bus\_prophet }\OtherTok{\textless{}{-}} \FunctionTok{prepare\_data\_for\_prophet}\NormalTok{(train\_bus\_df, }\StringTok{\textquotesingle{}Buses: Total Estimated Ridership\textquotesingle{}}\NormalTok{)}
+\NormalTok{test\_bus\_prophet }\OtherTok{\textless{}{-}} \FunctionTok{prepare\_data\_for\_prophet}\NormalTok{(test\_bus\_df, }\StringTok{\textquotesingle{}Buses: Total Estimated Ridership\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Using the prophet model to forecast ridership
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sub\_prophet\_model }\OtherTok{\textless{}{-}} \FunctionTok{prophet}\NormalTok{(}\AttributeTok{df =}\NormalTok{ train\_sub\_prophet, }\AttributeTok{holidays =}\NormalTok{ holiday\_df, }\AttributeTok{yearly.seasonality =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Disabling daily seasonality. Run prophet with daily.seasonality=TRUE to override this.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sub\_forecast }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(sub\_prophet\_model, test\_sub\_prophet)}
+
+\NormalTok{bus\_prophet\_model }\OtherTok{\textless{}{-}} \FunctionTok{prophet}\NormalTok{(}\AttributeTok{df =}\NormalTok{ train\_bus\_prophet, }\AttributeTok{holidays =}\NormalTok{ holiday\_df, }\AttributeTok{yearly.seasonality =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Disabling daily seasonality. Run prophet with daily.seasonality=TRUE to override this.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bus\_forecast }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(bus\_prophet\_model, test\_bus\_prophet)}
+\end{Highlighting}
+\end{Shaded}
+
+Combining actual and forecasted values for comparison
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sub\_comparison }\OtherTok{\textless{}{-}}\NormalTok{ test\_sub\_prophet }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{left\_join}\NormalTok{(sub\_forecast }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(ds, yhat), }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"ds"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{rename}\NormalTok{(}\AttributeTok{actual =}\NormalTok{ y, }\AttributeTok{forecast =}\NormalTok{ yhat)}
+
+\NormalTok{bus\_comparison }\OtherTok{\textless{}{-}}\NormalTok{ test\_bus\_prophet }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{left\_join}\NormalTok{(bus\_forecast }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(ds, yhat), }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"ds"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{rename}\NormalTok{(}\AttributeTok{actual =}\NormalTok{ y, }\AttributeTok{forecast =}\NormalTok{ yhat)}
+\end{Highlighting}
+\end{Shaded}
+
+Calculating MAE, MSE and RMSE
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{calculate\_metrics }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(actual, forecast)\{}
+\NormalTok{  mae }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{abs}\NormalTok{(actual }\SpecialCharTok{{-}}\NormalTok{ forecast))}
+\NormalTok{  mse }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{((actual }\SpecialCharTok{{-}}\NormalTok{ forecast)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{  rmse }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(mse)}
+  
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{MAE =}\NormalTok{ mae, }\AttributeTok{MSE =}\NormalTok{ mse, }\AttributeTok{RMSE =}\NormalTok{ rmse))}
+\NormalTok{\}}
+
+\NormalTok{sub\_metrics }\OtherTok{\textless{}{-}} \FunctionTok{calculate\_metrics}\NormalTok{(sub\_comparison}\SpecialCharTok{$}\NormalTok{actual, sub\_comparison}\SpecialCharTok{$}\NormalTok{forecast)}
+\NormalTok{sub\_metrics}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+$MAE
+[1] 846832.1
+
+$MSE
+[1] 866503246341
+
+$RMSE
+[1] 930861.6
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bus\_metrics }\OtherTok{\textless{}{-}} \FunctionTok{calculate\_metrics}\NormalTok{(bus\_comparison}\SpecialCharTok{$}\NormalTok{actual, bus\_comparison}\SpecialCharTok{$}\NormalTok{forecast)}
+\NormalTok{bus\_metrics}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+$MAE
+[1] 426422.9
+
+$MSE
+[1] 203328063945
+
+$RMSE
+[1] 450919.1
+\end{verbatim}
+
+\hypertarget{inferences-from-ml}{%
+\subsubsection{Inferences from ML}\label{inferences-from-ml}}
+
+Plotting actual vs forecasted values
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(sub\_comparison, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ ds)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ actual, }\AttributeTok{color =} \StringTok{"Actual"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ forecast, }\AttributeTok{color =} \StringTok{"Forecast"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Subway Ridership: Actual vs Forecast"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Date"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Ridership"}\NormalTok{,}
+       \AttributeTok{color =} \StringTok{"Legend"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{final-project-models_files/figure-pdf/unnamed-chunk-33-1.pdf}
+
+}
+
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(bus\_comparison, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ ds)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ actual, }\AttributeTok{color =} \StringTok{"Actual"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ forecast, }\AttributeTok{color =} \StringTok{"Forecast"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Bus Ridership: Actual vs Forecast"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Date"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Ridership"}\NormalTok{,}
+       \AttributeTok{color =} \StringTok{"Legend"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{final-project-models_files/figure-pdf/unnamed-chunk-34-1.pdf}
+
+}
+
+\end{figure}
+
+Visualizing Residuals
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sub\_comparison }\OtherTok{\textless{}{-}}\NormalTok{ sub\_comparison }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{residuals =}\NormalTok{ actual }\SpecialCharTok{{-}}\NormalTok{ forecast)}
+\NormalTok{bus\_comparison }\OtherTok{\textless{}{-}}\NormalTok{ bus\_comparison }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{residuals =}\NormalTok{ actual }\SpecialCharTok{{-}}\NormalTok{ forecast)}
+
+\FunctionTok{ggplot}\NormalTok{(sub\_comparison, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ ds, }\AttributeTok{y =}\NormalTok{ residuals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{color =} \StringTok{"steelblue"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Subway Ridership Residuals"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Date"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Residuals"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+`geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+\end{verbatim}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{final-project-models_files/figure-pdf/unnamed-chunk-35-1.pdf}
+
+}
+
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(bus\_comparison, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ ds, }\AttributeTok{y =}\NormalTok{ residuals)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{color =} \StringTok{"steelblue"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Bus Ridership Residuals"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Date"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Residuals"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+`geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+\end{verbatim}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{final-project-models_files/figure-pdf/unnamed-chunk-36-1.pdf}
+
+}
+
+\end{figure}
+
+
+
+\end{document}

@@ -303,7 +303,7 @@ sub_new <- sub_df %>%
 lm_sub <- lm(`Subways: Total Estimated Ridership` ~ ., data = sub_new)
 
 bus_new <- bus_df %>%
-  select(`Buses: Total Estimated Ridership`,`Day of Week`,`Buses: % of Comparable Pre-Pandemic Day`, temp, windspeed, snowdepth)
+  select(`Buses: Total Estimated Ridership`,`Day of Week`,`Buses: % of Comparable Pre-Pandemic Day`, temp, precip, snowdepth)
 lm_bus <- lm(`Buses: Total Estimated Ridership` ~ ., data = bus_new)
 ```
 
@@ -391,7 +391,7 @@ df_folds[[1]]$test
 
 
 
-
+#### Time Series K-fold
 
 ```{r}
 # Set the number of folds for cross-validation
@@ -411,6 +411,8 @@ model <- train(`Subways: Total Estimated Ridership` ~., data = train_data, metho
 # Print the cross-validation results
 print(model$results)
 ```
+
+###### Full Bus SVM
 ```{r}
 
 train1 <- bus_df[1:233, ]
@@ -441,10 +443,10 @@ test5 <- bus_df[585:730, ]
 model5 <- train(`Buses: Total Estimated Ridership` ~ ., data = train5, method = "svmRadial")
 m5RMSE <- model5$results$RMSE
 
-avgRMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
-avgRMSE
+fullBusSVM_RMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
 ```
 
+###### Full Sub SVM
 ```{r}
 train1 <- sub_df[1:233, ]
 test1 <- sub_df[234:292, ]
@@ -474,46 +476,213 @@ test5 <- sub_df[585:730, ]
 model5 <- train(`Subways: Total Estimated Ridership` ~ ., data = train5, method = "svmRadial")
 m5RMSE <- model5$results$RMSE
 
-avgRMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
-avgRMSE
+fullSubSVM_RMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
 ```
 
-
-
-
+###### Full Bus LM
 ```{r}
-train1 <- sub_new[1:233, ]
-test1 <- sub_new[234:292, ]
-model1 <- train(`Subways: Total Estimated Ridership` ~ ., data = train1, method = "svmRadial")
+train1 <- bus_df[1:233, ]
+test1 <- bus_df[234:292, ]
+model1 <- train(`Buses: Total Estimated Ridership` ~ ., data = train1, method = "lm")
 m1RMSE <- model1$results$RMSE
 
-train2 <- sub_new[1:320, ]
-test2 <- sub_new[320:401, ]
-model2 <- train(`Subways: Total Estimated Ridership` ~ ., data = train2, method = "svmRadial")
+train2 <- bus_df[1:320, ]
+test2 <- bus_df[320:401, ]
+model2 <- train(`Buses: Total Estimated Ridership` ~ ., data = train2, method = "lm")
 m2RMSE <- model2$results$RMSE
 
 
-train3 <- sub_new[1:408, ]
-test3 <- sub_new[409:511, ]
-model3 <- train(`Subways: Total Estimated Ridership` ~ ., data = train3, method = "svmRadial")
+train3 <- bus_df[1:408, ]
+test3 <- bus_df[409:511, ]
+model3 <- train(`Buses: Total Estimated Ridership` ~ ., data = train3, method = "lm")
 m3RMSE <- model3$results$RMSE
 
 
-train4 <- sub_new[1:496, ]
-test4 <- sub_new[497:620, ]
-model4 <- train(`Subways: Total Estimated Ridership` ~ ., data = train4, method = "svmRadial")
+train4 <- bus_df[1:496, ]
+test4 <- bus_df[497:620, ]
+model4 <- train(`Buses: Total Estimated Ridership` ~ ., data = train4, method = "lm")
 m4RMSE <- model3$results$RMSE
 
 
-train5 <- sub_new[1:584, ]
-test5 <- sub_new[585:730, ]
-model5 <- train(`Subways: Total Estimated Ridership` ~ ., data = train5, method = "svmRadial")
+train5 <- bus_df[1:584, ]
+test5 <- bus_df[585:730, ]
+model5 <- train(`Buses: Total Estimated Ridership` ~ ., data = train5, method = "lm")
 m5RMSE <- model5$results$RMSE
 
-avgRMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
-avgRMSE
+fullBusLM_RMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
 ```
 
+###### Full Sub LM
+```{r}
+train1 <- sub_df[1:233, ]
+test1 <- sub_df[234:292, ]
+model1 <- train(`Subways: Total Estimated Ridership` ~ ., data = train1, method = "lm")
+m1RMSE <- model1$results$RMSE
+
+train2 <- sub_df[1:320, ]
+test2 <- sub_df[320:401, ]
+model2 <- train(`Subways: Total Estimated Ridership` ~ ., data = train2, method = "lm")
+m2RMSE <- model2$results$RMSE
+
+
+train3 <- sub_df[1:408, ]
+test3 <- sub_df[409:511, ]
+model3 <- train(`Subways: Total Estimated Ridership` ~ ., data = train3, method = "lm")
+m3RMSE <- model3$results$RMSE
+
+
+train4 <- sub_df[1:496, ]
+test4 <- sub_df[497:620, ]
+model4 <- train(`Subways: Total Estimated Ridership` ~ ., data = train4, method = "lm")
+m4RMSE <- model3$results$RMSE
+
+
+train5 <- sub_df[1:584, ]
+test5 <- sub_df[585:730, ]
+model5 <- train(`Subways: Total Estimated Ridership` ~ ., data = train5, method = "lm")
+m5RMSE <- model5$results$RMSE
+
+fullSubLM_RMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
+```
+
+###### Full Bus rpart
+```r
+train1 <- bus_df[1:233, ]
+test1 <- bus_df[234:292, ]
+model1 <- train(`Buses: Total Estimated Ridership` ~ ., data = train1, method = "rpart")
+m1RMSE <- model1$results$RMSE
+
+train2 <- bus_df[1:320, ]
+test2 <- bus_df[320:401, ]
+model2 <- train(`Buses: Total Estimated Ridership` ~ ., data = train2, method = "rpart")
+m2RMSE <- model2$results$RMSE
+
+
+train3 <- bus_df[1:408, ]
+test3 <- bus_df[409:511, ]
+model3 <- train(`Buses: Total Estimated Ridership` ~ ., data = train3, method = "rpart")
+m3RMSE <- model3$results$RMSE
+
+
+train4 <- bus_df[1:496, ]
+test4 <- bus_df[497:620, ]
+model4 <- train(`Buses: Total Estimated Ridership` ~ ., data = train4, method = "rpart")
+m4RMSE <- model3$results$RMSE
+
+
+train5 <- bus_df[1:584, ]
+test5 <- bus_df[585:730, ]
+model5 <- train(`Buses: Total Estimated Ridership` ~ ., data = train5, method = "rpart")
+m5RMSE <- model5$results$RMSE
+
+fullBusrpart_RMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
+```
+
+###### Full Sub rpart
+```r
+train1 <- sub_df[1:233, ]
+test1 <- sub_df[234:292, ]
+model1 <- train(`Subways: Total Estimated Ridership` ~ ., data = train1, method = "rpart")
+m1RMSE <- model1$results$RMSE
+
+train2 <- sub_df[1:320, ]
+test2 <- sub_df[320:401, ]
+model2 <- train(`Subways: Total Estimated Ridership` ~ ., data = train2, method = "rpart")
+m2RMSE <- model2$results$RMSE
+
+
+train3 <- sub_df[1:408, ]
+test3 <- sub_df[409:511, ]
+model3 <- train(`Subways: Total Estimated Ridership` ~ ., data = train3, method = "rpart")
+m3RMSE <- model3$results$RMSE
+
+
+train4 <- sub_df[1:496, ]
+test4 <- sub_df[497:620, ]
+model4 <- train(`Subways: Total Estimated Ridership` ~ ., data = train4, method = "rpart")
+m4RMSE <- model3$results$RMSE
+
+
+train5 <- sub_df[1:584, ]
+test5 <- sub_df[585:730, ]
+model5 <- train(`Subways: Total Estimated Ridership` ~ ., data = train5, method = "rpart")
+m5RMSE <- model5$results$RMSE
+
+fullSubrpart_RMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
+```
+
+
+###### Full Bus nnet
+```{r}
+?train()
+train1 <- bus_df[1:233, ]
+test1 <- bus_df[234:292, ]
+model1 <- train(`Buses: Total Estimated Ridership` ~ ., data = train1, method = "nnet")
+m1RMSE <- model1$results$RMSE
+
+train2 <- bus_df[1:320, ]
+test2 <- bus_df[320:401, ]
+model2 <- train(`Buses: Total Estimated Ridership` ~ ., data = train2, method = "nnet")
+m2RMSE <- model2$results$RMSE
+
+
+train3 <- bus_df[1:408, ]
+test3 <- bus_df[409:511, ]
+model3 <- train(`Buses: Total Estimated Ridership` ~ ., data = train3, method = "nnet")
+m3RMSE <- model3$results$RMSE
+
+
+train4 <- bus_df[1:496, ]
+test4 <- bus_df[497:620, ]
+model4 <- train(`Buses: Total Estimated Ridership` ~ ., data = train4, method = "nnet")
+m4RMSE <- model3$results$RMSE
+
+
+train5 <- bus_df[1:584, ]
+test5 <- bus_df[585:730, ]
+model5 <- train(`Buses: Total Estimated Ridership` ~ ., data = train5, method = "nnet")
+m5RMSE <- model5$results$RMSE
+
+fullBusNNet_RMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
+```
+
+###### Full Sub nnet
+```{r}
+train1 <- sub_df[1:233, ]
+test1 <- sub_df[234:292, ]
+model1 <- train(`Subways: Total Estimated Ridership` ~ ., data = train1, method = "nnet")
+m1RMSE <- model1$results$RMSE
+
+train2 <- sub_df[1:320, ]
+test2 <- sub_df[320:401, ]
+model2 <- train(`Subways: Total Estimated Ridership` ~ ., data = train2, method = "nnet")
+m2RMSE <- model2$results$RMSE
+
+
+train3 <- sub_df[1:408, ]
+test3 <- sub_df[409:511, ]
+model3 <- train(`Subways: Total Estimated Ridership` ~ ., data = train3, method = "nnet")
+m3RMSE <- model3$results$RMSE
+
+
+train4 <- sub_df[1:496, ]
+test4 <- sub_df[497:620, ]
+model4 <- train(`Subways: Total Estimated Ridership` ~ ., data = train4, method = "nnet")
+m4RMSE <- model3$results$RMSE
+
+
+train5 <- sub_df[1:584, ]
+test5 <- sub_df[585:730, ]
+model5 <- train(`Subways: Total Estimated Ridership` ~ ., data = train5, method = "nnet")
+m5RMSE <- model5$results$RMSE
+
+fullSubNNet_RMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
+```
+
+
+
+
+###### Bus new SVM
 
 ```{r}
 train1 <- bus_new[1:233, ]
@@ -544,19 +713,280 @@ test5 <- bus_new[585:730, ]
 model5 <- train(`Buses: Total Estimated Ridership` ~ ., data = train5, method = "svmRadial")
 m5RMSE <- model5$results$RMSE
 
-avgRMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
-avgRMSE
+newBusSVM_RMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
+```
+
+###### Sub new SVM
+
+```{r}
+train1 <- sub_new[1:233, ]
+test1 <- sub_new[234:292, ]
+model1 <- train(`Subways: Total Estimated Ridership` ~ ., data = train1, method = "svmRadial")
+m1RMSE <- model1$results$RMSE
+
+train2 <- sub_new[1:320, ]
+test2 <- sub_new[320:401, ]
+model2 <- train(`Subways: Total Estimated Ridership` ~ ., data = train2, method = "svmRadial")
+m2RMSE <- model2$results$RMSE
+
+
+train3 <- sub_new[1:408, ]
+test3 <- sub_new[409:511, ]
+model3 <- train(`Subways: Total Estimated Ridership` ~ ., data = train3, method = "svmRadial")
+m3RMSE <- model3$results$RMSE
+
+
+train4 <- sub_new[1:496, ]
+test4 <- sub_new[497:620, ]
+model4 <- train(`Subways: Total Estimated Ridership` ~ ., data = train4, method = "svmRadial")
+m4RMSE <- model3$results$RMSE
+
+
+train5 <- sub_new[1:584, ]
+test5 <- sub_new[585:730, ]
+model5 <- train(`Subways: Total Estimated Ridership` ~ ., data = train5, method = "svmRadial")
+m5RMSE <- model5$results$RMSE
+
+newSubSVM_RMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
 ```
 
 
+
+###### Bus new LM
+```{r}
+train1 <- bus_new[1:233, ]
+test1 <- bus_new[234:292, ]
+model1 <- train(`Buses: Total Estimated Ridership` ~ ., data = train1, method = "lm")
+m1RMSE <- model1$results$RMSE
+
+train2 <- bus_new[1:320, ]
+test2 <- bus_new[320:401, ]
+model2 <- train(`Buses: Total Estimated Ridership` ~ ., data = train2, method = "lm")
+m2RMSE <- model2$results$RMSE
+
+
+train3 <- bus_new[1:408, ]
+test3 <- bus_new[409:511, ]
+model3 <- train(`Buses: Total Estimated Ridership` ~ ., data = train3, method = "lm")
+m3RMSE <- model3$results$RMSE
+
+
+train4 <- bus_new[1:496, ]
+test4 <- bus_new[497:620, ]
+model4 <- train(`Buses: Total Estimated Ridership` ~ ., data = train4, method = "lm")
+m4RMSE <- model3$results$RMSE
+
+
+train5 <- bus_new[1:584, ]
+test5 <- bus_new[585:730, ]
+model5 <- train(`Buses: Total Estimated Ridership` ~ ., data = train5, method = "lm")
+m5RMSE <- model5$results$RMSE
+
+newBusLM_RMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
+```
+
+###### Sub new LM
+```{r}
+train1 <- sub_new[1:233, ]
+test1 <- sub_new[234:292, ]
+model1 <- train(`Subways: Total Estimated Ridership` ~ ., data = train1, method = "lm")
+m1RMSE <- model1$results$RMSE
+
+train2 <- sub_new[1:320, ]
+test2 <- sub_new[320:401, ]
+model2 <- train(`Subways: Total Estimated Ridership` ~ ., data = train2, method = "lm")
+m2RMSE <- model2$results$RMSE
+
+
+train3 <- sub_new[1:408, ]
+test3 <- sub_new[409:511, ]
+model3 <- train(`Subways: Total Estimated Ridership` ~ ., data = train3, method = "lm")
+m3RMSE <- model3$results$RMSE
+
+
+train4 <- sub_new[1:496, ]
+test4 <- sub_new[497:620, ]
+model4 <- train(`Subways: Total Estimated Ridership` ~ ., data = train4, method = "lm")
+m4RMSE <- model3$results$RMSE
+
+
+train5 <- sub_new[1:584, ]
+test5 <- sub_new[585:730, ]
+model5 <- train(`Subways: Total Estimated Ridership` ~ ., data = train5, method = "lm")
+m5RMSE <- model5$results$RMSE
+
+newSubLM_RMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
+```
+
+###### Bus new rpart
+```r
+train1 <- bus_new[1:233, ]
+test1 <- bus_new[234:292, ]
+model1 <- train(`Buses: Total Estimated Ridership` ~ ., data = train1, method = "rpart")
+m1RMSE <- model1$results$RMSE
+
+train2 <- bus_new[1:320, ]
+test2 <- bus_new[320:401, ]
+model2 <- train(`Buses: Total Estimated Ridership` ~ ., data = train2, method = "rpart")
+m2RMSE <- model2$results$RMSE
+
+
+train3 <- bus_new[1:408, ]
+test3 <- bus_new[409:511, ]
+model3 <- train(`Buses: Total Estimated Ridership` ~ ., data = train3, method = "rpart")
+m3RMSE <- model3$results$RMSE
+
+
+train4 <- bus_new[1:496, ]
+test4 <- bus_new[497:620, ]
+model4 <- train(`Buses: Total Estimated Ridership` ~ ., data = train4, method = "rpart")
+m4RMSE <- model3$results$RMSE
+
+
+train5 <- bus_new[1:584, ]
+test5 <- bus_new[585:730, ]
+model5 <- train(`Buses: Total Estimated Ridership` ~ ., data = train5, method = "rpart")
+m5RMSE <- model5$results$RMSE
+
+newBusrpart_RMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
+```
+
+###### Sub new rpart
+```r
+train1 <- sub_new[1:233, ]
+test1 <- sub_new[234:292, ]
+model1 <- train(`Subways: Total Estimated Ridership` ~ ., data = train1, method = "rpart")
+m1RMSE <- model1$results$RMSE
+
+train2 <- sub_new[1:320, ]
+test2 <- sub_new[320:401, ]
+model2 <- train(`Subways: Total Estimated Ridership` ~ ., data = train2, method = "rpart")
+m2RMSE <- model2$results$RMSE
+
+
+train3 <- sub_new[1:408, ]
+test3 <- sub_new[409:511, ]
+model3 <- train(`Subways: Total Estimated Ridership` ~ ., data = train3, method = "rpart")
+m3RMSE <- model3$results$RMSE
+
+
+train4 <- sub_new[1:496, ]
+test4 <- sub_new[497:620, ]
+model4 <- train(`Subways: Total Estimated Ridership` ~ ., data = train4, method = "rpart")
+m4RMSE <- model3$results$RMSE
+
+
+train5 <- sub_new[1:584, ]
+test5 <- sub_new[585:730, ]
+model5 <- train(`Subways: Total Estimated Ridership` ~ ., data = train5, method = "rpart")
+m5RMSE <- model5$results$RMSE
+
+newSubrpart_RMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
+```
+
+
+###### Bus new nnet
+```{r}
+train1 <- bus_new[1:233, ]
+test1 <- bus_new[234:292, ]
+model1 <- train(`Buses: Total Estimated Ridership` ~ ., data = train1, method = "nnet")
+m1RMSE <- model1$results$RMSE
+
+train2 <- bus_new[1:320, ]
+test2 <- bus_new[320:401, ]
+model2 <- train(`Buses: Total Estimated Ridership` ~ ., data = train2, method = "nnet")
+m2RMSE <- model2$results$RMSE
+
+
+train3 <- bus_new[1:408, ]
+test3 <- bus_new[409:511, ]
+model3 <- train(`Buses: Total Estimated Ridership` ~ ., data = train3, method = "nnet")
+m3RMSE <- model3$results$RMSE
+
+
+train4 <- bus_new[1:496, ]
+test4 <- bus_new[497:620, ]
+model4 <- train(`Buses: Total Estimated Ridership` ~ ., data = train4, method = "nnet")
+m4RMSE <- model3$results$RMSE
+
+
+train5 <- bus_new[1:584, ]
+test5 <- bus_new[585:730, ]
+model5 <- train(`Buses: Total Estimated Ridership` ~ ., data = train5, method = "nnet")
+m5RMSE <- model5$results$RMSE
+
+newBusNNet_RMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
+```
+
+###### Sub new nnet
+```{r}
+train1 <- sub_new[1:233, ]
+test1 <- sub_new[234:292, ]
+model1 <- train(`Subways: Total Estimated Ridership` ~ ., data = train1, method = "nnet")
+m1RMSE <- model1$results$RMSE
+
+train2 <- sub_new[1:320, ]
+test2 <- sub_new[320:401, ]
+model2 <- train(`Subways: Total Estimated Ridership` ~ ., data = train2, method = "nnet")
+m2RMSE <- model2$results$RMSE
+
+
+train3 <- sub_new[1:408, ]
+test3 <- sub_new[409:511, ]
+model3 <- train(`Subways: Total Estimated Ridership` ~ ., data = train3, method = "nnet")
+m3RMSE <- model3$results$RMSE
+
+
+train4 <- sub_new[1:496, ]
+test4 <- sub_new[497:620, ]
+model4 <- train(`Subways: Total Estimated Ridership` ~ ., data = train4, method = "nnet")
+m4RMSE <- model3$results$RMSE
+
+
+train5 <- sub_new[1:584, ]
+test5 <- sub_new[585:730, ]
+model5 <- train(`Subways: Total Estimated Ridership` ~ ., data = train5, method = "nnet")
+m5RMSE <- model5$results$RMSE
+
+newSubNNet_RMSE <- (sum(m1RMSE)+sum(m2RMSE)+sum(m3RMSE)+sum(m4RMSE)+sum(m5RMSE))/15
+```
+
+
+### RMSE Table
 ```{r}
 df_RMSE <-
   data.frame(
-    Model = c('Full Bus Model', 'Variable Selection Bus Model', 'Full Subway Model', 'Variable Selection Subway Model'),
-    RMSE = c(341047.4, 133594.3, 737898.9, 290746.7)
+    Model = c('Full Bus SVM', 'New Bus SVM',
+              'Full Sub SVM','New Sub SVM',
+              'Full Bus LM','New Bus LM',
+              'Full Sub LM','New Sub LM',
+              #'Full Bus Rpart', 'New Bus Rpart',
+              #'Full Sub Rpart', 'New Sub Rpart',
+              'Full Bus NNet', 'New Bus NNet',
+              'Full Sub NNet', 'New Sub NNet'),
+    RMSE = c(fullBusSVM_RMSE, newBusSVM_RMSE, 
+             fullSubSVM_RMSE, newSubSVM_RMSE,
+             fullBusLM_RMSE, newBusLM_RMSE,
+             fullSubLM_RMSE, newSubLM_RMSE,
+             #fullBusrpart_RMSE, newBusrpart_RMSE,
+             #fullSubrpart_RMSE, newSubrpart_RMSE,
+             fullBusNNet_RMSE, newBusNNet_RMSE,
+             fullSubNNet_RMSE, newSubNNet_RMSE
+             )
   )
 df_RMSE
 ```
+
+
+
+
+
+
+
+
+
+
+
 
 
 ```{r}
